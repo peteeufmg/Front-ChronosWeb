@@ -1,8 +1,6 @@
-# React + Vite
+# Como rodar
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Esse projeto necissita do Node.js e do Yarn instalados para rodar.
 
-Currently, two official plugins are available:
+Apos clonar o projeto, você deve rodar o comando "yarn install" no diretorio correto e em seguida pode rodar "yarn run dev" para iniciar o projeto.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
