@@ -5,7 +5,7 @@ export const DivContainer = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 100px;
+    gap: 20%;
     width: 100vw;
     height: 100vh;
 `;
@@ -29,7 +29,10 @@ export const Title = styled.h1`
     font-weight: 400;
     font-style: normal;
     text-transform: uppercase;
-    font-size: 525%;   
+    font-size: 11vw;   
+    @media screen {
+        
+    }
 `;
 
 export const Text = styled.p`
@@ -40,7 +43,11 @@ export const Text = styled.p`
     font-weight: 400;
     font-style: normal;
     text-transform: uppercase;
-    font-size: 200%;
+    font-size: 3vw;
+
+    @media screen {
+        
+    }
 `;
 
 
