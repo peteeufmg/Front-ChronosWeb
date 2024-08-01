@@ -13,7 +13,7 @@ export const DivContainer = styled.div`
 export const DivTitle = styled.div`
     display: flex;
 `;
-export const DivText = styled.div`
+export const DivLinks = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -42,7 +42,7 @@ export const Title = styled.h1`
     }
 `;
 
-export const Text = styled.p`
+export const Link = styled.a`
     display: flex;
     color: #FFFFFF;
     font-family: "Jura", sans-serif;

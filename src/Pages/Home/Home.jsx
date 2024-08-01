@@ -1,4 +1,4 @@
-import { DivContainer, DivTitle, DivText, Title, Text} from './style';
+import { DivContainer, DivTitle, DivLinks, Title, Link} from './style';
 import React from "react";
 
 function Home() {
@@ -7,10 +7,10 @@ function Home() {
                 <DivTitle>
                     <Title>chronos web</Title>
                 </DivTitle>
-                <DivText>
-                    <Text>Seguidor</Text>
-                    <Text>sumô</Text>
-                </DivText>
+                <DivLinks>
+                    <Link href='#'>Seguidor</Link>
+                    <Link href='#'>sumô</Link>
+                </DivLinks>
             </DivContainer>
     )
 }
