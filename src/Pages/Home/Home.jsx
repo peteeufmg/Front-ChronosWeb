@@ -1,9 +1,16 @@
 import React from "react";
+import "./Home.css"
 
 function Home() {
     return (
     <>
-        <h1>Teste</h1>
+        <div className="container">
+            <h1>CHRONOS WEB</h1>
+            <div className="frame">
+                <a href="#">SEGUIDOR</a>
+                <a href="#">SUMÔ</a>
+            </div>     
+        </div>
     </>
     )
 }
