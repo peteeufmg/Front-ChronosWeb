@@ -5,37 +5,3 @@ body, html{
     font-family: 'Jura';
     margin: 0;
 }
-
-a,h1{
-    color: #FFFFFF;
-    margin: 0;
-}
-
-h1{
-    font-size: 128px;
-    font-weight: 400;
-}
-
-a{
-    font-size:36px;
-    font-weight: 400;
-    text-decoration:none;
-    margin-top: 0.8%;
-    margin-bottom: 0.8%;
-}
-
-.frame{
-    display: flex;
-    flex-direction: column;
-    justify-content: center; 
-    text-align: center; 
-}
-
-.container{
-    display: flex;
-    flex-direction: column;
-    justify-content: center; 
-    text-align: center; 
-    gap: 10%;
-    height: 100vh;
-}
