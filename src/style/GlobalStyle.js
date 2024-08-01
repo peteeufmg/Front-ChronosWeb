@@ -11,7 +11,7 @@ const GlobalStyle = createGlobalStyle`
 
   /* Body styling */
   body, html {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Jura', sans-serif;
     display: flex;
     background-color: #262729;
     color: #333;
