@@ -29,9 +29,16 @@ export const Title = styled.h1`
     font-weight: 400;
     font-style: normal;
     text-transform: uppercase;
-    font-size: 11vw;   
-    @media screen {
-        
+    font-size: 8rem;   
+    
+    @media (max-width: 900px) {
+        font-size: 4.8rem;  
+    }
+    @media (max-width: 550px) {
+        font-size: 3rem; 
+    }
+    @media(max-width: 380px){
+        font-size: 1.5rem;
     }
 `;
 
@@ -43,10 +50,15 @@ export const Text = styled.p`
     font-weight: 400;
     font-style: normal;
     text-transform: uppercase;
-    font-size: 3vw;
-
-    @media screen {
-        
+    font-size: 3rem;
+    @media (max-width: 900px) {
+        font-size: 2.5rem;  
+    }
+    @media (max-width: 550px) {
+        font-size: 2rem; 
+    }
+    @media(max-width: 380px){
+        font-size: 1.0rem;
     }
 `;
 

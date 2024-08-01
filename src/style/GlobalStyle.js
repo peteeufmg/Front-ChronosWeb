@@ -16,6 +16,7 @@ const GlobalStyle = createGlobalStyle`
     background-color: #262729;
     color: #333;
     line-height: 1;
+    font-size: 16px;  /* 1rem = 16px */
   }
 
   /* Anchor styling */
