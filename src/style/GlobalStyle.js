@@ -11,11 +11,17 @@ const GlobalStyle = createGlobalStyle`
 
   /* Body styling */
   body, html {
-    font-family: 'Arial', sans-serif;
-    display: flex;
+    
+    color: #FFFFFF;
+    font-family: "Jura", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    text-transform: uppercase;
     background-color: #262729;
-    color: #333;
+
+    display: flex;
     line-height: 1;
+
     font-size: 16px;  /* 1rem = 16px */
   }
 
@@ -38,7 +44,7 @@ const GlobalStyle = createGlobalStyle`
 
   /* Additional global styles can go here */
   h1, h2, h3, h4, h5, h6 {
-    margin: 0 0 1rem 0;
+    margin: 0 0 0 0;
     font-weight: 600;
   }
 

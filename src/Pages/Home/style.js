@@ -22,10 +22,8 @@ export const DivLinks = styled.div`
 `;
 
 export const Title = styled.h1`
+    
     display: flex;
-    color: #FFFFFF;
-    font-family: "Jura", sans-serif;
-    font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
     text-transform: uppercase;
@@ -44,12 +42,7 @@ export const Title = styled.h1`
 
 export const Link = styled.a`
     display: flex;
-    color: #FFFFFF;
-    font-family: "Jura", sans-serif;
-    font-optical-sizing: auto;
     font-weight: 400;
-    font-style: normal;
-    text-transform: uppercase;
     font-size: 3rem;
     @media (max-width: 900px) {
         font-size: 2.5rem;  
