@@ -11,12 +11,8 @@ const GlobalStyle = createGlobalStyle`
 
   /* Body styling */
   body, html {
-    
-    color: #FFFFFF;
-    font-family: "Jura", sans-serif;
-    font-optical-sizing: auto;
-    font-style: normal;
-    text-transform: uppercase;
+    font-family: 'Jura', sans-serif;
+    display: flex;
     background-color: #262729;
 
     display: flex;

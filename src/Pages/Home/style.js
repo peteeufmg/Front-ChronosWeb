@@ -13,6 +13,7 @@ export const DivContainer = styled.div`
 export const DivTitle = styled.div`
     display: flex;
 `;
+
 export const DivLinks = styled.div`
     display: flex;
     flex-direction: column;
@@ -24,8 +25,9 @@ export const DivLinks = styled.div`
 export const Title = styled.h1`
     
     display: flex;
-    font-weight: 400;
-    font-style: normal;
+    color: #FFFFFF;
+    font-optical-sizing: auto;
+    font-style: bold;
     text-transform: uppercase;
     font-size: 8rem;   
     
@@ -42,8 +44,11 @@ export const Title = styled.h1`
 
 export const Link = styled.a`
     display: flex;
-    font-weight: 400;
+    color: #FFFFFF;
+    font-optical-sizing: auto;
+    text-transform: uppercase;
     font-size: 3rem;
+
     @media (max-width: 900px) {
         font-size: 2.5rem;  
     }
