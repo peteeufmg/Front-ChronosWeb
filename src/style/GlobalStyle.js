@@ -34,6 +34,11 @@ const GlobalStyle = createGlobalStyle`
   button {
     font-family: inherit;
     cursor: pointer;
+    border-style: none;
+  }
+
+  button:active {
+    border-style: none;
   }
 
   /* Additional global styles can go here */
