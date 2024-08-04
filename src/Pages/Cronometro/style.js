@@ -5,6 +5,7 @@ export const DivContainer = styled.div`
     flex-direction: column;
     justify-content: start;
     align-items: center;
+    color: white;
     width: 100vw;
     height: 100vh;
 `;
@@ -12,9 +13,10 @@ export const DivContainer = styled.div`
 export const DivHeader = styled.div`
     display: flex;
     flex-direction: column;
+    justify-content: center;
     gap: 32%;
-    width: 90%;
-    height: 25%;
+    width: 80%;
+    height: 15%;
 `;
 export const DivRow = styled.div`
     display: flex;
@@ -69,19 +71,19 @@ export const DivButton = styled.div`
 export const DivColumn = styled.div`
     display: flex;
     flex-direction: column;
-    border-right: 1px solid yellow;
+    border-right: 2px solid #EDA500;
     width: 80%;
 `;
 export const Dashboard = styled.div`
     display: flex;
     flex-direction: row;
-    width: 90%;
-    height: 75%;
+    width: 80%;
+    height: 60%;
 `;
 export const Display = styled.div`
     display: flex;
     flex-direction: column;
-    height: 20%;
+    height: 25%;
     gap: 5%;
     
 `;
@@ -89,7 +91,7 @@ export const Checkpoint = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    height: 70%;
+    height: 75%;
 `;
 export const Classification = styled.div`
     display: flex;
@@ -103,7 +105,7 @@ export const Nav = styled.nav`
     justify-content: space-between;
     width: 32%;
 `;
-export const Nav1 = styled.nav`
+export const DivRow6 = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: start;

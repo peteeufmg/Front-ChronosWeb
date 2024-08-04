@@ -10,7 +10,7 @@ export const Container = styled.div`
     justify-content: space-between;
 
     padding: .5rem 10% 0 10%;
-
+    
     color: white;
     text-transform: uppercase;
 `;

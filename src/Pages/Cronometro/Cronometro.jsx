@@ -1,19 +1,15 @@
-import {DivContainer, DivHeader,DivButton, Dashboard,Ol,Li, Nav,Nav1, Title, Link, Link1, DivRow, DivRow1, DivRow2, DivRow3,DivRow5,DivRow4, DivColumn, Display, Checkpoint, Classification} from './style';
+import NavBar from '../../Components/NavBar/NavBar';
+import ConnectButton from '../../Components/Buttons/ConnectButton/ConnectButton';
+import {DivContainer, DivHeader,DivButton, Dashboard,Ol,Li, Nav, Title, Link, Link1, DivRow, DivRow1, DivRow2, DivRow3,DivRow5,DivRow4, DivRow6, DivColumn, Display, Checkpoint, Classification} from './style';
 import React from "react";
 
 function Cronometro() {
     return (
         <>
+            <NavBar />
             <DivContainer>
                <DivHeader>
-                    <DivRow1>
-                        <Title>chronos web</Title>
-                        <Nav>
-                            <Link1>Cronômetro</Link1>
-                            <Link1>Equipes</Link1>
-                        </Nav>
-                    </DivRow1>
-                    <Nav1>
+                    <DivRow6>
                         <DivRow2>
                             <DivRow3>
                                 <label htmlFor="">Categoria:</label>
@@ -33,15 +29,14 @@ function Cronometro() {
                             </DivRow3>
                         </DivRow2>
                         <output>tentativas restantes: 2</output>
-                    </Nav1>
+                    </DivRow6>
                </DivHeader>
-            
                <Dashboard>
                     <DivColumn>
                         <Display>
                             <DivRow>
                                 <h3>Tentativa</h3>
-                                <button>Conectar sensores</button>
+                                <ConnectButton>Conectar sensores</ConnectButton>
                             </DivRow>
                             <DivRow>
                                 <h2>Cronômetro: --:--:--</h2>
@@ -84,6 +79,15 @@ function Cronometro() {
                     </DivColumn>
                     <Classification>
                         <h2>Classificação</h2>
+                        <div>
+                                    <ol>
+                                        <li>Checkpoint 1: --:--:---// --:-</li>
+                                        <li>Checkpoint 1: --:--:---// --:-</li>
+                                        <li>Checkpoint 1: --:--:---// --:-</li>
+                                        <li>Checkpoint 1: --:--:---// --:-</li>
+                                        <li>Checkpoint 1: --:--:---// --:-</li>
+                                    </ol>
+                        </div>
                     </Classification>
                </Dashboard>
             </DivContainer>
