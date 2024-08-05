@@ -1,4 +1,4 @@
-import { Container, Frame, Title, List, Item, Team, School, Trace, Description, Text, Actions, View, Edit } from './style';
+import { Container, Frame, Title, List, Item, Team, School, Trace, Line, Description, Text, Actions, View, Edit } from './style';
 import NavBar from '../../Components/NavBar';
 import Button from "../../Components/Button";
 import React from "react";
@@ -33,6 +33,7 @@ function Equipes() {
                   </Edit>
                 </Actions>
               </Item>
+              <Line/>
               <Item>
                 <Description>
                   <Team>
@@ -52,6 +53,7 @@ function Equipes() {
                   </Edit>
                 </Actions>
               </Item>
+              <Line/>
               <Item>
                 <Description>
                   <Team>

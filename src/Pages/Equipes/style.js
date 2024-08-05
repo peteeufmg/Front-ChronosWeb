@@ -19,8 +19,6 @@ export const Frame = styled.div`
 export const Title = styled.div`
     display: flex;
     justify-content: space-between;
-
-    font-size: 1rem;
 `;
 
 export const Text = styled.div`
@@ -32,7 +30,7 @@ export const List = styled.div`
     display: flex;
     flex-direction: column;
 
-    margin: 3% 0 0 0;
+    margin: 2% 0 0 0;
 
     font-size: 1.5rem;
 `;
@@ -42,9 +40,7 @@ export const Item = styled.div`
     flex-direction: horizontal;
 
     justify-content: space-between;
-
-    margin-bottom: 1.5%;
-    border-bottom: 1px solid #eda500;
+    
 `;
 
 export const Description = styled.div`
@@ -68,8 +64,10 @@ export const Trace = styled.p`
     margin-right: 10px;
 `;
 
-
-
+export const Line = styled.div`
+    border-top: 1px solid #eda500;
+    margin-bottom: 1%;
+`;
 
 export const Actions = styled.div`
     display: flex;
