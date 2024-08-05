@@ -26,11 +26,9 @@ export const List = styled.div`
     display: flex;
     flex-direction: column;
 
-    justify-content: space-between;
-
     margin: 3% 0 0 0;
 
-    font-size: 2rem;
+    font-size: 1.5rem;
 `;
 
 export const Description = styled.div`
@@ -49,19 +47,23 @@ export const School = styled.span`
     
 `;
 
-export const Text = styled.h1`
+export const Text = styled.div`
     margin: 0;
+    font-size: 2rem;
 `;
 
-export const Button = styled.button`
-    
-`;
 
 export const Actions = styled.div`
-    
+    display: flex;
+    gap: 3vw;
 `;
 
 export const Item = styled.div`
+    display: flex;
+    flex-direction: horizontal;
+
+    justify-content: space-between;
+
     margin-bottom: 1.5%;
     border-bottom: 1px solid #eda500;
 `;

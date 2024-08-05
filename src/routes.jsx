@@ -7,6 +7,8 @@ import {
 
 import Home from "./Pages/Home";
 import Equipes from "./Pages/Equipes";
+import Button from "./Components/Button";
+import Test from "./Pages/Test";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -15,6 +17,7 @@ const router = createBrowserRouter(
         <Route>
             <Route path="/" element={<Home />} />
             <Route path="Equipes" element={<Equipes />} />
+            <Route path="button" element={<Test />} />
             
         </Route>
     )
