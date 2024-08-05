@@ -6,6 +6,7 @@ import {
 } from "react-router-dom";
 
 import Home from "./Pages/Home";
+import Equipes from "./Pages/Equipes";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -13,6 +14,8 @@ const router = createBrowserRouter(
         // Exemplo: para a página do seguidor colocar -> <Route path="seguidor" element={<[Pagina]/>}/>
         <Route>
             <Route path="/" element={<Home />} />
+            <Route path="Equipes" element={<Equipes />} />
+            
         </Route>
     )
 );
