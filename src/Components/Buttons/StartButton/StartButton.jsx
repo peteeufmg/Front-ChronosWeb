@@ -1,14 +1,14 @@
 import {Div, Button, Img} from './style';
-import Connect from '../../../assets/icons/Connect.svg'
+import Play from '../../../assets/icons/Play.svg'
 
-export default function ConnectButton(){
+export default function StartButton(){
     return(
         <Div>
             <Button> 
                 <div> 
-                    <Img src={Connect} alt="Cadeado de conexão" /> 
+                    <Img src={Play} alt="Cadeado de Iniciar" /> 
                 </div>
-                 Conectar Sensores
+                 Iniciar
             </Button>
         </Div>
     )

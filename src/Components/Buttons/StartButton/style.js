@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const Div = styled.div`
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     width: 40%;
 `;
@@ -13,6 +13,8 @@ export const Button = styled.button`
     border-radius: 5px;
     width: 83%;
     font-size: 1.4rem;
+    font-size: 1.3rem;
+    height: 2.3rem;
     color: #343537;
     font-weight: 700;
     text-transform: uppercase;

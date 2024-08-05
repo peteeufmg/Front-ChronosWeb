@@ -2,26 +2,19 @@ import styled from "styled-components";
 
 export const Div = styled.div`
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
-    width: 40%;
 `;
 export const Button = styled.button`
     display: flex;
     justify-content: space-around;
     align-items: center;
     border-radius: 5px;
-    width: 83%;
-    font-size: 1.4rem;
-    font-size: 1.3rem;
-    height: 2.3rem;
+    padding: 0% 8% 0% 8%;
+    margin: 0% 0% 0% 10%;
+    font-size: 1rem;
     color: #343537;
     font-weight: 700;
     text-transform: uppercase;
     
-`;
-export const Img = styled.img`
-    display: flex;
-    justify-content: center;
-    align-items: center;
 `;
