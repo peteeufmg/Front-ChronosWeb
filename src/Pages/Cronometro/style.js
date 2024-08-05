@@ -16,7 +16,7 @@ export const DivHeader = styled.div`
     flex-direction: column;
     justify-content: center;
     gap: 32%;
-    width: 80%;
+    width: 90%;
     height: 15%;
 `;
 export const DivRow = styled.div`
@@ -37,6 +37,13 @@ export const DivRow2 = styled.div`
     width: 75%;
     justify-content: space-between;
     align-items: center;
+
+    @media (max-width: 650px) {
+    width: 25%;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: baseline;
+    }
 `;
 export const DivRow3 = styled.div`
     display: flex;
@@ -44,6 +51,13 @@ export const DivRow3 = styled.div`
     justify-content: start;
     align-items: center;
     gap: 4%;
+
+    @media (max-width: 650px) {
+        justify-content: space-between;    
+        width: 100%;
+    }
+
+   
 `;
 export const DivRow4 = styled.div`
     display: flex;
@@ -51,6 +65,14 @@ export const DivRow4 = styled.div`
     justify-content: center;
     align-items: center;
     height: 75%;
+
+    @media (max-width: 650px) {
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    }
 `;
 export const DivRow5 = styled.div`
     display: flex;
@@ -58,6 +80,11 @@ export const DivRow5 = styled.div`
     justify-content: space-between;
     width: 50%;
     height: 100%;
+
+    @media (max-width: 650px) {
+    width: 100%;
+
+    }
 `;
 
 export const DivButton = styled.div`
@@ -78,8 +105,9 @@ export const DivColumn = styled.div`
 export const Dashboard = styled.div`
     display: flex;
     flex-direction: row;
-    width: 80%;
+    width: 90%;
     height: 70%;
+    gap: 1%;
 `;
 export const Display = styled.div`
     display: flex;
@@ -99,6 +127,11 @@ export const Classification = styled.div`
     flex-direction: column;
     align-items: center;
     width: 20%;
+    
+    @media (max-width: 650px) {
+    width: 50%;
+
+    }
 `;
 export const Nav = styled.nav`
     display: flex;
@@ -113,6 +146,9 @@ export const DivRow6 = styled.div`
     width: 100%;
     gap: 2rem;
     align-items: center;
+
+    @media (max-width: 650px) {
+    }
 `;
 export const Title = styled.h1`
    font-size: 4rem;
@@ -129,6 +165,10 @@ export const Ol = styled.ol`
     width: 100%;
     gap: 4%;
     font-size: 1.8rem;
+
+    @media (max-width: 650px) {
+    justify-content: space-around;
+    }
 `;
 export const Li = styled.li`
     text-decoration: none;

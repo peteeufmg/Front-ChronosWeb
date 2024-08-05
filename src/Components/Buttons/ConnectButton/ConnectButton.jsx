@@ -3,14 +3,15 @@ import Connect from '../../../assets/icons/Connect.svg'
 
 export default function ConnectButton(){
     return(
-        <Div>
             <Button> 
-                <div> 
+                <Div> 
                     <Img src={Connect} alt="Cadeado de conexão" /> 
-                </div>
-                 Conectar Sensores
+                </Div>
+                <Div>
+                    Conectar Sensores
+                </Div>
+                 
             </Button>
-        </Div>
     )
 }
 

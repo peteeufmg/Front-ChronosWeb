@@ -3,14 +3,14 @@ import Play from '../../../assets/icons/Play.svg'
 
 export default function StartButton(){
     return(
-        <Div>
             <Button> 
-                <div> 
+                <Div> 
                     <Img src={Play} alt="Cadeado de Iniciar" /> 
-                </div>
-                 Iniciar
+                </Div>
+                <Div>
+                    Iniciar
+                </Div>                 
             </Button>
-        </Div>
     )
 }
 

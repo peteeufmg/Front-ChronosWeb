@@ -2,6 +2,7 @@ import NavBar from '../../Components/NavBar/NavBar';
 import {DivContainer, DivHeader,DivButton, Dashboard,Ol,Li, Nav, Title, Link, Link1, DivRow, DivRow1, DivRow2, DivRow3,DivRow5,DivRow4, DivRow6, DivColumn, Display, Checkpoint, Classification, Tentativa} from './style';
 import React from "react";
 import { SelectButton, EditButton, RestartButton, StartButton, ConnectButton, SaveButton } from '../../Components/Buttons';
+import { ClassificationTable } from '../../Components/Tables';
 
 function Cronometro() {
     return (
@@ -12,19 +13,19 @@ function Cronometro() {
                     <DivRow6>
                         <DivRow2>
                             <DivRow3>
-                                <label htmlFor="">Categoria:</label>
+                                <div><label htmlFor="">Categoria:</label></div>
                                 <SelectButton>selecionar</SelectButton>
                             </DivRow3>
                             <DivRow3>
-                                <label htmlFor="">Equipe:</label>
+                                <div><label htmlFor="">Equipe:</label></div>
                                 <SelectButton>selecionar</SelectButton>
                             </DivRow3>
                             <DivRow3>
-                                <label htmlFor="">Etapa:</label>
+                                <div><label htmlFor="">Etapa:</label></div>
                                 <SelectButton>selecionar</SelectButton>
                             </DivRow3>
                             <DivRow3>
-                                <label htmlFor="">Beteria:</label>
+                                <div><label htmlFor="">Beteria:</label></div>
                                 <SelectButton>selecionar</SelectButton>
                             </DivRow3>
                         </DivRow2>
@@ -79,15 +80,7 @@ function Cronometro() {
                     </DivColumn>
                     <Classification>
                         <h2>Classificação</h2>
-                        <div>
-                                    <ol>
-                                        <li>Checkpoint 1: --:--:---// --:-</li>
-                                        <li>Checkpoint 1: --:--:---// --:-</li>
-                                        <li>Checkpoint 1: --:--:---// --:-</li>
-                                        <li>Checkpoint 1: --:--:---// --:-</li>
-                                        <li>Checkpoint 1: --:--:---// --:-</li>
-                                    </ol>
-                        </div>
+                        <ClassificationTable/>
                     </Classification>
                </Dashboard>
             </DivContainer>

@@ -4,6 +4,7 @@ export const Div = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100%;
 `;
 export const Button = styled.button`
     display: flex;

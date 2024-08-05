@@ -19,6 +19,18 @@ const GlobalStyle = createGlobalStyle`
     line-height: 1;
 
     font-size: 16px;  /* 1rem = 16px */
+    @media (max-width: 1200px) {
+        font-size: 13px;  
+    }
+    @media (max-width: 900px) {
+        font-size: 11px;  
+    }
+    @media (max-width: 800px) {
+        font-size: 9px; 
+    }
+    @media(max-width: 600px){
+        font-size: 8px;
+    }
   }
 
   /* Anchor styling */
