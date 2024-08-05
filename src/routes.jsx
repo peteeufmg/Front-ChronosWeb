@@ -16,7 +16,7 @@ const router = createBrowserRouter(
         // Exemplo: para a página do seguidor colocar -> <Route path="seguidor" element={<[Pagina]/>}/>
         <Route>
             <Route path="/" element={<Home />} />
-            <Route path="Equipes" element={<Equipes />} />
+            <Route path="equipes" element={<Equipes />} />
             <Route path="button" element={<Test />} />
             
         </Route>

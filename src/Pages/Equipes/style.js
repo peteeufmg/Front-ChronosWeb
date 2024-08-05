@@ -22,6 +22,12 @@ export const Title = styled.div`
 
     font-size: 1rem;
 `;
+
+export const Text = styled.div`
+    margin: 0;
+    font-size: 2rem;
+`;
+
 export const List = styled.div`
     display: flex;
     flex-direction: column;
@@ -29,6 +35,16 @@ export const List = styled.div`
     margin: 3% 0 0 0;
 
     font-size: 1.5rem;
+`;
+
+export const Item = styled.div`
+    display: flex;
+    flex-direction: horizontal;
+
+    justify-content: space-between;
+
+    margin-bottom: 1.5%;
+    border-bottom: 1px solid #eda500;
 `;
 
 export const Description = styled.div`
@@ -47,10 +63,12 @@ export const School = styled.span`
     
 `;
 
-export const Text = styled.div`
-    margin: 0;
-    font-size: 2rem;
+export const Trace = styled.p`
+    margin-left: 10px;
+    margin-right: 10px;
 `;
+
+
 
 
 export const Actions = styled.div`
@@ -58,14 +76,14 @@ export const Actions = styled.div`
     gap: 3vw;
 `;
 
-export const Item = styled.div`
+export const View = styled.a`
     display: flex;
-    flex-direction: horizontal;
+    gap: 3vw;
+`;
 
-    justify-content: space-between;
-
-    margin-bottom: 1.5%;
-    border-bottom: 1px solid #eda500;
+export const Edit = styled.a`
+    display: flex;
+    gap: 3vw;
 `;
 
 
