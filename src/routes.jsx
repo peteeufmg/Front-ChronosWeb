@@ -6,8 +6,8 @@ import {
 } from "react-router-dom";
 
 import Home from "./Pages/Home";
-import Button from "./Components/Button";
 import Test from "./Pages/Test";
+import Ranking from "./Pages/Ranking";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -15,7 +15,9 @@ const router = createBrowserRouter(
         // Exemplo: para a página do seguidor colocar -> <Route path="seguidor" element={<[Pagina]/>}/>
         <Route>
             <Route path="/" element={<Home />} />
-            <Route path="/button" element={<Test />} />
+            <Route path="/classificacao" element={<Ranking />} />
+
+            <Route path="/test" element={<Test />} />
         </Route>
     )
 );
