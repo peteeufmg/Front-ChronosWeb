@@ -6,7 +6,13 @@ import { ConfigProvider } from 'antd'
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <ConfigProvider theme={{token:{fontFamily: "Jura"}}}>
+    <ConfigProvider 
+      theme={{
+        token: {
+          fontFamily: "Jura",
+        }
+      }}
+    >
       <GlobalStyle/>
       <App />
     </ConfigProvider>
