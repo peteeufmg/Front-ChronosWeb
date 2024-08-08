@@ -1,9 +1,9 @@
 import NavBar from '../../Components/NavBar/NavBar';
 import {DivContainer, DivHeader,DivButton, Dashboard,Ol,Li, Nav, Title, Link, Link1, DivRow, DivRow1, DivRow2, DivRow3,DivRow5,DivRow4, DivRow6, DivColumn, Display, Checkpoint, Classification, Tentativa} from './style';
 import React from "react";
-import { SelectButton, EditButton, RestartButton, StartButton, ConnectButton, SaveButton } from '../../Components/Buttons';
 import { ClassificationTable } from '../../Components/Tables';
-
+import {default as CustomButton} from '../../Components/Button/Button';
+import { Button } from 'antd';
 function Cronometro() {
     return (
         <>
@@ -14,19 +14,19 @@ function Cronometro() {
                         <DivRow2>
                             <DivRow3>
                                 <div><label htmlFor="">Categoria:</label></div>
-                                <SelectButton>selecionar</SelectButton>
+                                <Button type='' htmlType='' size='small'>selecionar</Button>
                             </DivRow3>
                             <DivRow3>
                                 <div><label htmlFor="">Equipe:</label></div>
-                                <SelectButton>selecionar</SelectButton>
+                                <Button type='' htmlType='' size='small'>selecionar</Button>
                             </DivRow3>
                             <DivRow3>
                                 <div><label htmlFor="">Etapa:</label></div>
-                                <SelectButton>selecionar</SelectButton>
+                                <Button type='' htmlType='' size='small'>selecionar</Button>
                             </DivRow3>
                             <DivRow3>
                                 <div><label htmlFor="">Beteria:</label></div>
-                                <SelectButton>selecionar</SelectButton>
+                                <Button type='' htmlType='' size='small'>selecionar</Button>
                             </DivRow3>
                         </DivRow2>
                         <output>tentativas restantes: 2</output>
@@ -37,14 +37,14 @@ function Cronometro() {
                         <Display>
                             <DivRow>
                                 <Tentativa>Tentativa: 2</Tentativa>
-                                <ConnectButton>Conectar sensores</ConnectButton>
+                                <CustomButton type="Connect" text="Conectar Sensores"/>
                             </DivRow>
                             <DivRow>
                                 <h2>Cronômetro: --:--:--</h2>
                             </DivRow>
                             <DivButton>
-                                <StartButton>Iniciar</StartButton>
-                                <RestartButton>Reiniciar</RestartButton>
+                                <CustomButton type="Play" text="Iniciar"/>
+                                <CustomButton type="Restart" text="Reiniciar"/>
                             </DivButton>
                         </Display>
 
@@ -73,8 +73,8 @@ function Cronometro() {
                                 </DivRow5>
                             </DivRow4>
                             <DivButton>
-                                <EditButton>Editar</EditButton>
-                                <SaveButton>Salvar</SaveButton>
+                                <CustomButton type="Edit" text="Editar"/>
+                                <CustomButton type="Salvar" text="Salvar"/>
                             </DivButton>
                         </Checkpoint>
                     </DivColumn>

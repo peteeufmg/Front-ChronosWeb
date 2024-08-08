@@ -15,6 +15,7 @@ const GlobalStyle = createGlobalStyle`
     display: flex;
     background-color: #262729;
     display: flex;
+    color: #FFFFFF;
     line-height: 1;
 
     font-size: 16px;  /* 1rem = 16px */
@@ -47,6 +48,11 @@ const GlobalStyle = createGlobalStyle`
   button {
     font-family: inherit;
     cursor: pointer;
+    border-style: none;
+  }
+
+  button:active {
+    border-style: none;
   }
 
   /* Additional global styles can go here */
