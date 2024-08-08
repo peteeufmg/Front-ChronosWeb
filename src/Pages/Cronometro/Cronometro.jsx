@@ -1,9 +1,10 @@
-import NavBar from '../../Components/NavBar/NavBar';
-import {DivContainer, DivHeader,DivButton, Dashboard,Ol,Li, Nav, Title, Link, Link1, DivRow, DivRow1, DivRow2, DivRow3,DivRow5,DivRow4, DivRow6, DivColumn, Display, Checkpoint, Classification, Tentativa} from './style';
 import React from "react";
+import  Selecionar  from '../../Components/Select';
+import NavBar from '../../Components/NavBar/NavBar';
 import { ClassificationTable } from '../../Components/Tables';
 import {default as CustomButton} from '../../Components/Button/Button';
-import { Button } from 'antd';
+import {DivContainer, DivHeader,DivButton, Dashboard,Ol,Li,DivRow, DivRow2, DivRow3,DivRow5,DivRow4, DivRow6, DivColumn, Display, Checkpoint, Classification, Tentativa} from './style';
+
 function Cronometro() {
     return (
         <>
@@ -14,19 +15,19 @@ function Cronometro() {
                         <DivRow2>
                             <DivRow3>
                                 <div><label htmlFor="">Categoria:</label></div>
-                                <Button type='' htmlType='' size='small'>selecionar</Button>
+                                <Selecionar/>
                             </DivRow3>
                             <DivRow3>
                                 <div><label htmlFor="">Equipe:</label></div>
-                                <Button type='' htmlType='' size='small'>selecionar</Button>
+                                <Selecionar/>
                             </DivRow3>
                             <DivRow3>
                                 <div><label htmlFor="">Etapa:</label></div>
-                                <Button type='' htmlType='' size='small'>selecionar</Button>
+                                <Selecionar/>
                             </DivRow3>
                             <DivRow3>
                                 <div><label htmlFor="">Beteria:</label></div>
-                                <Button type='' htmlType='' size='small'>selecionar</Button>
+                                <Selecionar/>
                             </DivRow3>
                         </DivRow2>
                         <output>tentativas restantes: 2</output>
