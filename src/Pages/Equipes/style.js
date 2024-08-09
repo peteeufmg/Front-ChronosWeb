@@ -1,4 +1,5 @@
 import {styled} from 'styled-components';
+import { Button, List } from 'antd';
 
 export const Container = styled.div`
     display: flex;
@@ -26,62 +27,26 @@ export const Text = styled.div`
     font-size: 2rem;
 `;
 
-export const List = styled.div`
+export const StyledList = styled(List)`
     display: flex;
     flex-direction: column;
-
     margin: 2% 0 0 0;
-
+    color:white; 
     font-size: 1.5rem;
 `;
 
-export const Item = styled.div`
+export const Description = styled(List.Item.Meta)`
     display: flex;
-    flex-direction: horizontal;
-
-    justify-content: space-between;
-    
-`;
-
-export const Description = styled.div`
-    display: flex;
-    flex-direction: horizontal;
-
+    flex-direction: row;
     padding: 0 1.5% 0 1.5%;
-
 `;
 
-export const Team = styled.span`
-
+export const Info = styled.h2`
+    font-family: 'Jura', sans-serif;
+    color:white; 
+    font-weight: 400;
+    font-size: 1.5rem;
 `;
 
-export const School = styled.span`
-    
-`;
-
-export const Trace = styled.p`
-    margin-left: 10px;
-    margin-right: 10px;
-`;
-
-export const Line = styled.div`
-    border-top: 1px solid #eda500;
-    margin-bottom: 1%;
-`;
-
-export const Actions = styled.div`
-    display: flex;
-    gap: 3vw;
-`;
-
-export const View = styled.a`
-    display: flex;
-    gap: 3vw;
-`;
-
-export const Edit = styled.a`
-    display: flex;
-    gap: 3vw;
-`;
 
 
