@@ -1,7 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
 import {DivContainer, DivEquipe, DivRetangulo} from './style';
-import React, { useState } from 'react';
-
 
 
 function Modal() {
@@ -11,10 +9,19 @@ const [dados, setDados] = useState({
   categoria: 'Sequestrar criança',
   escola: 'Vida',
   etapas: 
-    {
-      bateria1: [0, 0], // 5 valores de tempo para a primeira bateria
-      bateria2: [0, 0], // 5 valores de tempo para a segunda bateria
-      bateria3: [0, 0] // 5 valores de tempo para a tereira bateria
+    {// 5 valores de tempo para a primeira bateria
+      bateria1: {
+        tentativa1: [0, 0, 0, 0, 0], // 5 valores de tempo para a primeira bateria
+        tentativa2: [0, 0, 0, 0, 0] 
+      }, 
+      bateria2: {
+        tentativa1: [0, 0, 0, 0, 0], // 5 valores de tempo para a segunda bateria
+        tentativa2: [0, 0, 0, 0, 0]
+      }, 
+      bateria3: {
+        tentativa1: [0, 0, 0, 0, 0], // 5 valores de tempo para a terceira bateria
+        tentativa2: [0, 0, 0, 0, 0] 
+      } 
     }
     // Adicione mais objetos de etapas conforme necessário
 });
@@ -24,7 +31,7 @@ const [dados, setDados] = useState({
       <DivContainer>
         <DivRetangulo>
           <DivEquipe>
-             <h1 className="Equipe">EQUIPE 1</h1>
+             <h1 className="Equipe">{dados.nomeCapitao}</h1>
           </DivEquipe>
         </DivRetangulo>
       </DivContainer>
