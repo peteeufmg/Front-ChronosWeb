@@ -8,6 +8,7 @@ import {
 import Home from "./Pages/Home";
 import Test from "./Pages/Test";
 import Ranking from "./Pages/Ranking";
+import Modal from "./Pages/Modal";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -18,6 +19,7 @@ const router = createBrowserRouter(
             <Route path="/classificacao" element={<Ranking />} />
 
             <Route path="/test" element={<Test />} />
+            <Route path="/modal" element={<Modal />} />
         </Route>
     )
 );
