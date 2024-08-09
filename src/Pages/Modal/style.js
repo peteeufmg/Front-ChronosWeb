@@ -23,17 +23,16 @@ export const DivEquipe = styled.div`
     height:16%;
     margin-top: 10px;
     padding-left:13px;
-    padding-right:13px;    
+    padding-right:13px;  
+    margin-bottom: 0.8rem;  
     font-size: 0.7rem;
     color: #000000;
 `;
-
 export const DivInfo = styled.div`
     display: flex;
     gap: 0.4rem;
     width: 100%;
     height:12%;
-    margin-top: 15px;
     padding-left:13px;
     padding-right:13px;   
     font-size: 0.8rem;
@@ -41,7 +40,8 @@ export const DivInfo = styled.div`
 `;
 export const DivSelections = styled.div`
     display: flex;
-    align-items: center;   
+    align-items: center;
+    text-align: center;  
     Gap: 0.4rem;
     width: 100%;
     height:12%;
@@ -51,17 +51,28 @@ export const DivSelections = styled.div`
     font-size: 0.8rem;
 `;
 export const Button = styled.button`
-
     background-color: #E4E4E4;
 
 `;
-   
+export const DivTentativas = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top:0.3rem;
+    width: 100%;
+    color:#000000;
+    font-size: 1rem;
+    margin-bottom: 0.4rem;
+    
+
+`;
 export const DivRow4 = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: center;
-    align-items: center;
-    height: 75%;
+    padding-left:10px;
+    padding-right:13px;
+    height:80%;
 
     @media (max-width: 650px) {
     flex-direction: column;
@@ -77,6 +88,7 @@ export const DivRow5 = styled.div`
     justify-content: space-between;
     width: 50%;
     height: 100%;
+    padding-left: 7px;
 
     @media (max-width: 650px) {
     width: 100%;
@@ -99,6 +111,9 @@ export const Ol = styled.ol`
 export const Li = styled.li`
     text-decoration: none;
     list-style-type: none;
-    font-size: 1.3rem;
+    font-size: 1rem;
     color: #000000;
+`;
+export const P = styled.p`
+margin-bottom: 0px;
 `;

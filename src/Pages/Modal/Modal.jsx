@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {DivContainer, DivEquipe, DivInfo, DivRetangulo, DivSelections, DivRow4, DivRow5, Ol, Li} from './style';
+import {DivContainer, DivEquipe, DivInfo, DivRetangulo, DivSelections, DivRow4, DivTentativas, DivRow5, Ol, Li} from './style';
 import Button from "../../Components/Button";
 import Selecionar from "../../Components/Select";
 
@@ -34,7 +34,7 @@ const [dados, setDados] = useState({
         <DivRetangulo>
           <DivEquipe>
              <h1>{dados.nomeEquipe}</h1>
-             <Button type = "Close"/>
+             <Button type = "Close" style = {{}}/>
           </DivEquipe>
           <DivInfo>
             <h3>CAPITÃO:</h3><p>{dados.nomeCapitao}</p>
@@ -43,9 +43,12 @@ const [dados, setDados] = useState({
           </DivInfo>
           <DivSelections>
             <h3>ETAPA:</h3><Selecionar/>
-            
             <h3>BATERIA:</h3><Selecionar/>
           </DivSelections>
+          <DivTentativas>
+            <p>TENTATIVA 1</p>
+            <p>TENTATIVA 2</p>
+          </DivTentativas>
           <DivRow4>
             <DivRow5>
               <Ol>
@@ -65,7 +68,26 @@ const [dados, setDados] = useState({
                 <Li>Checkpoint 10: --:--:---</Li>
               </Ol>
             </DivRow5>
-            </DivRow4>
+            <div style={{ width: '2px', height: '90%' , backgroundColor: 'black' }}></div>
+            <DivRow5>
+              <Ol>
+                <Li>Checkpoint 1: --:--:---</Li>
+                <Li>Checkpoint 2: --:--:---</Li>
+                <Li>Checkpoint 3: --:--:---</Li>
+                <Li>Checkpoint 4: --:--:---</Li>
+                <Li>Checkpoint 5: --:--:---</Li>
+              </Ol>
+           </DivRow5>
+           <DivRow5>
+             <Ol>
+               <Li>Checkpoint 6:  --:--:---</Li>
+               <Li>Checkpoint 7:  --:--:---</Li>
+               <Li>Checkpoint 8:  --:--:---</Li>
+               <Li>Checkpoint 9:  --:--:---</Li>
+               <Li>Checkpoint 10: --:--:---</Li>
+             </Ol>
+           </DivRow5>
+          </DivRow4>
         </DivRetangulo>
       </DivContainer>
     )
