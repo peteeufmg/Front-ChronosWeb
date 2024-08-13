@@ -9,6 +9,7 @@ import Home from "./Pages/Home";
 import Equipes from "./Pages/Equipes";
 import Button from "./Components/Button";
 import Test from "./Pages/Test";
+import Ranking from "./Pages/Ranking";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -19,6 +20,9 @@ const router = createBrowserRouter(
             <Route path="equipes" element={<Equipes />} />
             <Route path="button" element={<Test />} />
             
+            <Route path="/classificacao" element={<Ranking />} />
+
+            <Route path="/test" element={<Test />} />
         </Route>
     )
 );
