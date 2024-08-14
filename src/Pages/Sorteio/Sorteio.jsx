@@ -1,4 +1,4 @@
-import { Container, Frame, Info, Title, Text, StyledList, Description, ShuffleContainer} from './style';
+import { Container, Frame, Info, Title, Text, StyledList, Description, ShuffleContainer, SelectContainer} from './style';
 import Selecionar from '../../Components/Select';
 import NavBar from '../../Components/NavBar';
 import {default as CustomButton} from "../../Components/Button";
@@ -19,7 +19,6 @@ function Sorteio() {
       key: '3',
       name: 'Team C',
     },
-    // Adicione mais times conforme necessário
   ];
   const columns = [
     {
@@ -42,12 +41,16 @@ function Sorteio() {
           <NavBar/>
           <Frame>
             <Title>
+              <SelectContainer>
               <Text>Categoria:</Text> 
-              <Selecionar/> 
-
+              <Selecionar/>
+              </SelectContainer>         
+              
+              <SelectContainer>
               <Text>Bateria:</Text> 
               <Selecionar/> 
-
+              </SelectContainer>
+                
               <CustomButton text={"Sortear"}/>
             </Title>
             <ShuffleContainer>

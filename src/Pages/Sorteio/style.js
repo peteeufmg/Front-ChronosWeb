@@ -27,7 +27,12 @@ export const Title = styled.div`
 
     gap: 2.5%;
 `;
+export const SelectContainer = styled.div`
+    display: flex;
+    flex-direction: row;
 
+    gap: 1%;
+`;
 export const ShuffleContainer = styled.div`
     display: flex;
     justify-content: center;
