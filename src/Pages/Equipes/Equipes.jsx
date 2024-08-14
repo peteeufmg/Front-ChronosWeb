@@ -53,12 +53,11 @@ function Equipes() {
                     
                   ]} style = {{  
                     padding: 0,
-                    marginBottom: '1%', 
                     marginTop: 0, 
                     borderBottom: index !== data.length - 1 ? '1px solid #eda500' : 'none'  
                   }} >
                     < Description
-                    title={<Info>{item.team} - {item.school} </Info>}
+                    title={<Info>{item.team} - {item.school} </Info>} 
                     />
                   </List.Item >
                 )}

@@ -8,6 +8,9 @@ export const Container = styled.div`
     width: 100vw;
     height: 100vh;
 
+
+    align-items: center;
+
     color: white;
     text-transform: uppercase;
     gap: 5% ;
@@ -15,11 +18,21 @@ export const Container = styled.div`
 export const Frame = styled.div`
     display: flex;
     flex-direction: column;
+
     padding: .5rem 10% 0 10%;
 `;
 export const Title = styled.div`
     display: flex;
     justify-content: space-between;
+
+    gap: 2.5%;
+`;
+
+export const ShuffleContainer = styled.div`
+    display: flex;
+    justify-content: center;
+
+    margin: 2.5%;
 `;
 
 export const Text = styled.div`
@@ -47,6 +60,7 @@ export const Info = styled.h2`
     color:white; 
     font-weight: 400;
     font-size: 1.5rem;
+    text-align: center;
     margin: 0;
 `;
 
