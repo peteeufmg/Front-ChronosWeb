@@ -21,10 +21,10 @@ export const DivEquipe = styled.div`
     Justify-content: space-between;
     width: 100%;
     height:16%;
-    margin-top: 10px;
+    margin-top: 1.5rem;
     padding-left:13px;
     padding-right:13px;  
-    margin-bottom: 0.8rem;  
+    margin-bottom: 0.5rem;  
     font-size: 0.7rem;
     color: #000000;
 `;
@@ -58,13 +58,11 @@ export const DivTentativas = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    margin-top:0.3rem;
+    margin-top:1rem;
+    margin-bottom:1rem;
     width: 100%;
     color:#000000;
     font-size: 1rem;
-    margin-bottom: 0.4rem;
-    
-
 `;
 export const DivRow4 = styled.div`
     display: flex;
@@ -117,3 +115,4 @@ export const Li = styled.li`
 export const P = styled.p`
 margin-bottom: 0px;
 `;
+
