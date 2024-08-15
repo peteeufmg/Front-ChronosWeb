@@ -1,4 +1,4 @@
-import { Container, Frame, Info, Title, Text, StyledList, Description, ShuffleContainer, SelectContainer} from './style';
+import { Container, Frame, Title, Text, ShuffleContainer, SelectContainer} from './style';
 import Selecionar from '../../Components/Select';
 import NavBar from '../../Components/NavBar';
 import {default as CustomButton} from "../../Components/Button";

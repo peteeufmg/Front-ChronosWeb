@@ -47,29 +47,5 @@ export const Text = styled.div`
     font-size: 2rem;
 `;
 
-export const StyledList = styled(List)`
-    display: flex;
-    flex-direction: column;
-    margin: 1.5% 0 0 0;
-    color:white; 
-    font-size: 1.5rem;
-`;
-
-export const Description = styled(List.Item.Meta)`
-    display: flex;
-    flex-direction: row;
-    padding: 0.7% 1.5% 0.7% 1.5%;
-    margin: 0;
-`;
-
-export const Info = styled.h2`
-    font-family: 'Jura', sans-serif;
-    color:white; 
-    font-weight: 400;
-    font-size: 1.5rem;
-    text-align: center;
-    margin: 0;
-`;
-
 
 
