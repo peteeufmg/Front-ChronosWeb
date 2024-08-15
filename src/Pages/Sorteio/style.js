@@ -19,6 +19,8 @@ export const Frame = styled.div`
     display: flex;
     flex-direction: column;
 
+    gap: 5%;
+
     padding: .5rem 10% 0 10%;
 `;
 export const Title = styled.div`

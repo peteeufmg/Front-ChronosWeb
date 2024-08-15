@@ -3,10 +3,14 @@ import Selecionar from '../../Components/Select';
 import NavBar from '../../Components/NavBar';
 import {default as CustomButton} from "../../Components/Button";
 import { Button, List, Table, Flex } from 'antd';
-import React from "react";
+import React, {useState} from "react";
+
+function shuffleArray(array) {
+  return array.sort(() => Math.random() - 0.5);
+}
 
 function Sorteio() {
-  const dataSource = [
+  const [dataSource, setDataSource] = useState([
     {
       key: '1',
       name: 'Team A',
@@ -19,13 +23,13 @@ function Sorteio() {
       key: '3',
       name: 'Team C',
     },
-  ];
+  ]);
   const columns = [
     {
       title: 'Ordem',
       key: 'order',
       render: (_, __, index) => index + 1,
-      width: 20,
+      width: '25%',
       align: 'center',
     },
     {
@@ -35,6 +39,10 @@ function Sorteio() {
       align: 'center',
     },
   ];
+  const randomizeData = () => {
+    const shuffledData = shuffleArray([...dataSource]);
+    setDataSource(shuffledData);
+  };
     return (
       <>
         <Container>
@@ -51,7 +59,7 @@ function Sorteio() {
               <Selecionar/> 
               </SelectContainer>
                 
-              <CustomButton text={"Sortear"}/>
+              <CustomButton onClick={randomizeData} text={"Sortear"}/>
             </Title>
             <ShuffleContainer>
               <Table dataSource={dataSource} columns={columns} pagination={false} style={{ width: '80%' }} />
