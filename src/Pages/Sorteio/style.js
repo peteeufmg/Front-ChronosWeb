@@ -1,5 +1,5 @@
 import {styled} from 'styled-components';
-import { Button, List } from 'antd';
+import { Button, Table, Select } from 'antd';
 
 export const Container = styled.div`
     display: flex;
@@ -29,6 +29,9 @@ export const Title = styled.div`
 
     gap: 2.5%;
 `;
+export const Selection = styled(Select)`
+    width: 150px;
+`;
 export const SelectContainer = styled.div`
     display: flex;
     flex-direction: row;
@@ -40,6 +43,9 @@ export const ShuffleContainer = styled.div`
     justify-content: center;
 
     margin: 2.5%;
+`;
+export const ShuffleTable = styled(Table)`
+    width: 80%;
 `;
 
 export const Text = styled.div`

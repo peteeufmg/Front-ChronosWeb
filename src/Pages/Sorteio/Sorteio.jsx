@@ -1,8 +1,8 @@
-import { Container, Frame, Title, Text, ShuffleContainer, SelectContainer} from './style';
+import { Container, Frame, Title, Text, ShuffleContainer, ShuffleTable, SelectContainer, Selection} from './style';
 import Selecionar from '../../Components/Select';
 import NavBar from '../../Components/NavBar';
 import {default as CustomButton} from "../../Components/Button";
-import { Button, List, Table, Flex, Select } from 'antd';
+import { Button, List, Table, Flex, Select, ConfigProvider } from 'antd';
 import React, {useState} from "react";
 
 function shuffleArray(array) {
@@ -56,28 +56,22 @@ function Sorteio() {
             <Title>
               <SelectContainer>
               <Text>Categoria:</Text> 
-              <Select
-                showSearch
-                style={{ width: 150 }}
+              <Selection
                 placeholder="Selecionar"
-                optionFilterProp="label"
                 filterSort={(optionA, optionB) =>
                   (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
                 }
               >
                 <Option value="option1">Avançada</Option>
                 <Option value="option2">Mirim</Option>
-              </Select>
+              </Selection>
                 
               </SelectContainer>         
               
               <SelectContainer>
               <Text>Bateria:</Text> 
-              <Select
-                showSearch
-                style={{ width: 150 }}
+              <Selection
                 placeholder="Selecionar"
-                optionFilterProp="label"
                 filterSort={(optionA, optionB) =>
                   (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
                 }
@@ -87,13 +81,13 @@ function Sorteio() {
                       {battery.values}
                 </Option>
                 ))}
-              </Select>
+              </Selection>
               </SelectContainer>
                 
               <CustomButton onClick={randomizeData} text={"Sortear"}/>
             </Title>
             <ShuffleContainer>
-              <Table dataSource={dataSource} columns={columns} pagination={false} style={{ width: '80%' }} />
+              <ShuffleTable dataSource={dataSource} columns={columns} pagination={false} />
             </ShuffleContainer> 
           </Frame>
         </Container>
