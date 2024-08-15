@@ -2,7 +2,7 @@ import { Container, Frame, Title, Text, ShuffleContainer, SelectContainer} from 
 import Selecionar from '../../Components/Select';
 import NavBar from '../../Components/NavBar';
 import {default as CustomButton} from "../../Components/Button";
-import { Button, List, Table, Flex } from 'antd';
+import { Button, List, Table, Flex, Select } from 'antd';
 import React, {useState} from "react";
 
 function shuffleArray(array) {
@@ -43,6 +43,11 @@ function Sorteio() {
     const shuffledData = shuffleArray([...dataSource]);
     setDataSource(shuffledData);
   };
+  const batteries = [
+    { value: 'Bateria 1'},
+    { value: 'Bateria 2'},
+    { value: 'Bateria 3'},
+  ];
     return (
       <>
         <Container>
@@ -51,12 +56,38 @@ function Sorteio() {
             <Title>
               <SelectContainer>
               <Text>Categoria:</Text> 
-              <Selecionar/>
+              <Select
+                showSearch
+                style={{ width: 150 }}
+                placeholder="Selecionar"
+                optionFilterProp="label"
+                filterSort={(optionA, optionB) =>
+                  (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+                }
+              >
+                <Option value="option1">Avançada</Option>
+                <Option value="option2">Mirim</Option>
+              </Select>
+                
               </SelectContainer>         
               
               <SelectContainer>
               <Text>Bateria:</Text> 
-              <Selecionar/> 
+              <Select
+                showSearch
+                style={{ width: 150 }}
+                placeholder="Selecionar"
+                optionFilterProp="label"
+                filterSort={(optionA, optionB) =>
+                  (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+                }
+              >
+                {batteries.map(battery => (
+                  <Option key={battery.value} value={battery.value}>
+                      {battery.values}
+                </Option>
+                ))}
+              </Select>
               </SelectContainer>
                 
               <CustomButton onClick={randomizeData} text={"Sortear"}/>
