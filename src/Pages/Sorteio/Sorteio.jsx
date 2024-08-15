@@ -1,8 +1,7 @@
 import { Container, Frame, Title, Text, ShuffleContainer, ShuffleTable, SelectContainer, Selection} from './style';
-import Selecionar from '../../Components/Select';
 import NavBar from '../../Components/NavBar';
 import {default as CustomButton} from "../../Components/Button";
-import { Button, List, Table, Flex, Select, ConfigProvider } from 'antd';
+import { Table, Select } from 'antd';
 import React, {useState} from "react";
 
 function shuffleArray(array) {
