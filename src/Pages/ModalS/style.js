@@ -15,6 +15,11 @@ export const DivRetangulo = styled.div`
     height: 60vh;
     width:75vw;
     background-color:#E4E4E4;
+    
+    @media (max-width: 500px) {
+    flex-direction: column;
+    }
+
 `;
 export const DivEquipe = styled.div`
     display: flex;
@@ -42,6 +47,12 @@ export const DivInfo = styled.div`
      @media (max-width: 1230px) {
     margin-bottom: 0rem;
     }
+      @media (max-width: 900px) {
+    font-size:0.6rem
+    }
+    @media (max-width: 500px) {
+    flex-direction: column;
+    }
 `;
 export const DivSelections = styled.div`
     display: flex;
@@ -54,14 +65,21 @@ export const DivSelections = styled.div`
     padding-right:13px;
     color: #000000;    
     font-size: 0.9rem;
+      
+    @media (max-width: 500px) {
+    flex-direction: column;
+    }
+
 `;
 
-export const Button = styled.button`
-    background-color: #E4E4E4;
+export const DivButton = styled.div`
+   Display: flex;           
+   justify-content: center;
+   font-size: 0.9rem;
 
 `;
 
-export const DivTentativas = styled.div`
+/*export const DivTentativas = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -137,4 +155,4 @@ export const Li = styled.li`
     margin-bottom: 0.2 rem;
     font-size: 0.9rem;
     }
-`;
+`;*/
