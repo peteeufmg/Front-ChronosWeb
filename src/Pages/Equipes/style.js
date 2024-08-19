@@ -1,5 +1,5 @@
 import {styled} from 'styled-components';
-import { Button, List } from 'antd';
+import { Button, List, Select } from 'antd';
 
 export const Container = styled.div`
     display: flex;
@@ -22,6 +22,12 @@ export const Title = styled.div`
     justify-content: space-between;
 `;
 
+export const TitleContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    gap: 1%;
+`;
+
 export const Text = styled.div`
     margin: 0;
     font-size: 2rem;
@@ -30,9 +36,20 @@ export const Text = styled.div`
 export const StyledList = styled(List)`
     display: flex;
     flex-direction: column;
-    margin: 1.5% 0 0 0;
+    
     color:white; 
     font-size: 1.5rem;
+`;
+
+export const Selection = styled(Select)`
+    width: 150px;
+`;
+
+export const SelectContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    gap: 1%;
+    margin: 1.5% 0 1.5% 0;
 `;
 
 export const Description = styled(List.Item.Meta)`

@@ -2,27 +2,44 @@ import { Container, Frame, Title, Text, ShuffleContainer, ShuffleTable, SelectCo
 import NavBar from '../../Components/NavBar';
 import {default as CustomButton} from "../../Components/Button";
 import { Table, Select } from 'antd';
-import React, {useState} from "react";
+import React from "react";
+import { useState, useEffect } from 'react';
+import api from '../../Services/api';
 
 function shuffleArray(array) {
   return array.sort(() => Math.random() - 0.5);
 }
 
 function Sorteio() {
-  const [dataSource, setDataSource] = useState([
-    {
-      key: '1',
-      name: 'Team A',
-    },
-    {
-      key: '2',
-      name: 'Team B',
-    },
-    {
-      key: '3',
-      name: 'Team C',
-    },
-  ]);
+  const [dataSource, setDataSource] = useState([]);
+  const [selectedValue, setSelectedValue] = useState(null);
+
+  useEffect(() => {
+    if (selectedValue !== null) {
+      if (selectedValue=='Avancada'){
+        const fetchData = async () => {
+          try {
+            const response = await api.get('/equipes', {params: {categoria:1}});
+            setDataSource(response.data); // Atualiza o estado com os dados da resposta
+          } catch (error) {
+            console.error("Erro ao buscar os dados:", error); // Trate o erro
+          }
+        };
+        fetchData();
+      }else if (selectedValue=='Mirim'){
+        const fetchData = async () => {
+          try {
+            const response = await api.get('/equipes', {params: {categoria:2}});
+            setDataSource(response.data); // Atualiza o estado com os dados da resposta
+          } catch (error) {
+            console.error("Erro ao buscar os dados:", error); // Trate o erro
+          }
+        };
+        fetchData();
+      }
+    }
+  }, [selectedValue]);
+
   const columns = [
     {
       title: 'Ordem',
@@ -33,8 +50,8 @@ function Sorteio() {
     },
     {
       title: 'Equipe',
-      dataIndex: 'name',
-      key: 'name',
+      dataIndex: 'nome',
+      key: 'nome',
       align: 'center',
     },
   ];
@@ -60,9 +77,10 @@ function Sorteio() {
                 filterSort={(optionA, optionB) =>
                   (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
                 }
+                onChange={value => setSelectedValue(value)}
               >
-                <Option value="option1">Avançada</Option>
-                <Option value="option2">Mirim</Option>
+                <Option value="Avancada">Avançada</Option>
+                <Option value="Mirim">Mirim</Option>
               </Selection>
                 
               </SelectContainer>         

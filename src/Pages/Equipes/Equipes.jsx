@@ -1,28 +1,65 @@
-import { Container, Frame, Info, Title, Text, StyledList, Description} from './style';
+import { Container, Frame, Info, Title, Text, StyledList, Description, Selection, SelectContainer} from './style';
 import NavBar from '../../Components/NavBar';
 import {default as CustomButton} from "../../Components/Button";
-import { Button, List, Flex } from 'antd';
+import { Button, List, Flex, Select } from 'antd';
 import React from "react";
+import { useState, useEffect } from 'react';
+import api from '../../Services/api';
+
 
 function Equipes() {
-  const data = [
-    {
-      team: 'Equipe 1',
-      school: 'Escola X',
-    },
-    {
-      team: 'Equipe 2',
-      school: 'Escola Y',
-    },
-    {
-      team: 'Equipe 3',
-      school: 'Escola Z',
-    },
-    {
-      team: 'Equipe 4',
-      school: 'Escola W',
-    },
-  ];
+  const [data, setData] = useState([]);
+
+  const [selectedValue, setSelectedValue] = useState(null);
+
+  // Efeito que depende do valor selecionado
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await api.get('/equipes');
+        setData(response.data); // Atualiza o estado com os dados da resposta
+      } catch (error) {
+        console.error("Erro ao buscar os dados:", error); // Trate o erro
+      }
+    };
+    fetchData();
+  }, [])
+
+  useEffect(() => {
+    if (selectedValue !== null) {
+      if (selectedValue=='Avancada'){
+        const fetchData = async () => {
+          try {
+            const response = await api.get('/equipes', {params: {categoria:1}});
+            setData(response.data); // Atualiza o estado com os dados da resposta
+          } catch (error) {
+            console.error("Erro ao buscar os dados:", error); // Trate o erro
+          }
+        };
+        fetchData();
+      }else if (selectedValue=='Mirim'){
+        const fetchData = async () => {
+          try {
+            const response = await api.get('/equipes', {params: {categoria:2}});
+            setData(response.data); // Atualiza o estado com os dados da resposta
+          } catch (error) {
+            console.error("Erro ao buscar os dados:", error); // Trate o erro
+          }
+        };
+        fetchData();
+      }else{
+        const fetchData = async () => {
+          try {
+            const response = await api.get('/equipes');
+            setData(response.data); // Atualiza o estado com os dados da resposta
+          } catch (error) {
+            console.error("Erro ao buscar os dados:", error); // Trate o erro
+          }
+        };
+        fetchData();
+      }
+    }
+  }, [selectedValue]);
 
   
     return (
@@ -35,6 +72,20 @@ function Equipes() {
               <CustomButton type={"Add"} text={"Adicionar"}/>
             </Title>
       
+            <SelectContainer>
+              <Text>Categoria:</Text> 
+              <Selection
+                placeholder="Selecionar"
+                filterSort={(optionA, optionB) =>
+                  (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+                }
+                onChange={value => setSelectedValue(value)}
+              >
+                <Option value="Avancada">Avançada</Option>
+                <Option value="Mirim">Mirim</Option>
+              </Selection>
+            </SelectContainer>
+
               <StyledList
                 itemLayout="horizontal"
                 dataSource={data}
@@ -57,7 +108,7 @@ function Equipes() {
                     borderBottom: index !== data.length - 1 ? '1px solid #eda500' : 'none'  
                   }} >
                     < Description
-                    title={<Info>{item.team} - {item.school} </Info>} 
+                    title={<Info>{item.nome}</Info>} 
                     />
                   </List.Item >
                 )}
