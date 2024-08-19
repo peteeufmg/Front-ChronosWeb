@@ -116,7 +116,7 @@ export const Display = styled.div`
     gap: 10%;
     
 `;
-export const Checkpoint = styled.div`
+export const DivCheckpoint = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-around;

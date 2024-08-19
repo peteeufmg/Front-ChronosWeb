@@ -2,8 +2,10 @@ import React from "react";
 import  Selecionar  from '../../Components/Select';
 import NavBar from '../../Components/NavBar/NavBar';
 import { ClassificationTable } from '../../Components/Tables';
-import {default as CustomButton} from '../../Components/Button/Button';
-import {DivContainer, DivHeader,DivButton, Dashboard,Ol,Li,DivRow, DivRow2, DivRow3,DivRow5,DivRow4, DivRow6, DivColumn, Display, Checkpoint, Classification, Tentativa} from './style';
+import {DivContainer, DivHeader,DivButton, Dashboard,Ol,Li,DivRow, DivRow2, DivRow3,DivRow5,DivRow4, DivRow6, DivColumn, Display, DivCheckpoint, Classification, Tentativa} from './style';
+import Timer from '../../Components/Timer/Timer';
+import Connection from "../../Components/Connection";
+import Checkpoint from "../../Components/Checkpoint/Checkpoint";
 
 function Cronometro() {
     return (
@@ -38,46 +40,21 @@ function Cronometro() {
                         <Display>
                             <DivRow>
                                 <Tentativa>Tentativa: 2</Tentativa>
-                                <CustomButton type="Connect" text="Conectar Sensores"/>
+                                <Connection/>
                             </DivRow>
                             <DivRow>
-                                <h2>Cronômetro: --:--:--</h2>
+                                <Timer />
                             </DivRow>
-                            <DivButton>
-                                <CustomButton type="Play" text="Iniciar"/>
-                                <CustomButton type="Restart" text="Reiniciar"/>
-                            </DivButton>
                         </Display>
-
-                        <Checkpoint>
+                        
+                        <DivCheckpoint>
                             <DivRow>
                                 <h2>Checkpoints:</h2>
                             </DivRow>
                             <DivRow4>
-                                <DivRow5>
-                                    <Ol>
-                                        <Li>Checkpoint 1: --:--:---</Li>
-                                        <Li>Checkpoint 2: --:--:---</Li>
-                                        <Li>Checkpoint 3: --:--:---</Li>
-                                        <Li>Checkpoint 4: --:--:---</Li>
-                                        <Li>Checkpoint 5: --:--:---</Li>
-                                    </Ol>
-                                </DivRow5>
-                                <DivRow5>
-                                    <Ol>
-                                        <Li>Checkpoint 6:  --:--:---</Li>
-                                        <Li>Checkpoint 7:  --:--:---</Li>
-                                        <Li>Checkpoint 8:  --:--:---</Li>
-                                        <Li>Checkpoint 9:  --:--:---</Li>
-                                        <Li>Checkpoint 10: --:--:---</Li>
-                                    </Ol>
-                                </DivRow5>
+                                <Checkpoint/>
                             </DivRow4>
-                            <DivButton>
-                                <CustomButton type="Edit" text="Editar"/>
-                                <CustomButton type="Salvar" text="Salvar"/>
-                            </DivButton>
-                        </Checkpoint>
+                        </DivCheckpoint>
                     </DivColumn>
                     <Classification>
                         <h2>Classificação</h2>

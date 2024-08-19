@@ -14,6 +14,13 @@ export const ButtonContainer = styled.button`
     &:active {
         background-color: grey;
     }
+    &:disabled{
+        background-color: #ccc;
+        color: #666;
+        cursor: not-allowed;
+        border: 2px solid #999;
+        opacity: 0.7;
+    }
 `;
 
 export const ButtonText = styled.div`
