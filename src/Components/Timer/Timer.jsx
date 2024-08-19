@@ -5,21 +5,7 @@ import { default as TimeButton } from '../../Components/Button/Button';
 
 export default function Timer() {
     
-    const { Iniciar, Pausar, Reiniciar, minute, second, millisecond, disabled, setdisabled} = useTimer();
-    const returnMinute = (input) => (input >= 10 ? input : `0${input}`);
-    const returnSecond = (input) => (input >= 10 ? input : `0${input}`);
-    const returnMillisecond = (input) => {
-        if (input < 10){
-            return `00${input}`;
-        }
-        else if(input >= 10 && input <=100){
-            return `0${input}`;
-        }
-        else{
-            return input;
-        }
-    }
-
+    const { Iniciar, Pausar, Reiniciar, minute, second, millisecond, disabled, setdisabled, returnMinute, returnSecond, returnMillisecond} = useTimer();
     return (
         <DivColumn>
             <div>

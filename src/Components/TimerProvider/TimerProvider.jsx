@@ -11,8 +11,25 @@ export function TimerProvider({ children }) {
     const [disabled, setdisabled] = useState(true);
     const stopWatchInterval = useRef(null);
 
+    const returnMinute = (input) => (input >= 10 ? input : `0${input}`);
+    const returnSecond = (input) => (input >= 10 ? input : `0${input}`);
+    const returnMillisecond = (input) => {
+        if (input < 10){
+            return `00${input}`;
+        }
+        else if(input >= 10 && input <=100){
+            return `0${input}`;
+        }
+        else{
+            return input;
+        }
+    }
+
     const Iniciar = () =>{
         if(document.getElementById('activTimer').checked){
+            if(document.getElementById('C0').textContent === "--:--:---")
+          document.getElementById('C0').textContent = `${returnMinute(minute)}:${returnSecond(second)}:${returnMillisecond(millisecond)}`;
+          document.getElementById('0').checked = true;
           Pausar();
           timer();
         }
@@ -61,6 +78,9 @@ export function TimerProvider({ children }) {
         Pausar,
         Reiniciar,
         setdisabled,
+        returnMinute,
+        returnSecond,
+        returnMillisecond,
         disabled,
         hour,
         minute,

@@ -6,23 +6,15 @@ import Edit from '../Edit/Edit'
 
 export default function Checkpoint(){
 
-
-    const { Iniciar, Pausar, Reiniciar, minute, second, millisecond, disabled} = useTimer();
-    const timeList = [{
-        minutos: minute,
-        segundos: second,
-        millisecundos: millisecond
-    }];
-
-
+    const { Iniciar, Pausar, Reiniciar, minute, second, millisecond, disabled,  returnMinute, returnSecond, returnMillisecond} = useTimer();
 
     const check = (e) =>{
         if(e.target.id != 9) {
-            document.getElementById(`C${e.target.id}`).textContent = `${minute}:${second}:${ millisecond}`;
+            document.getElementById(`C${e.target.id}`).textContent = `${returnMinute(minute)}:${returnSecond(second)}:${returnMillisecond(millisecond)}`;
             Iniciar();
         }
         else{
-            document.getElementById(`C${e.target.id}`).textContent = `${minute}:${second}:${ millisecond}`;
+            document.getElementById(`C${e.target.id}`).textContent = `${returnMinute(minute)}:${returnSecond(second)}:${returnMillisecond(millisecond)}`;
             Pausar();
         }
     }
