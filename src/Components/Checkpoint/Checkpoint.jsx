@@ -85,7 +85,6 @@ export default function Checkpoint(){
         </DivRow>
         <DivButton>
             <Edit/>
-            <CustomButton type="Salvar" text="Salvar"/>
         </DivButton>
         </DivC>
     )

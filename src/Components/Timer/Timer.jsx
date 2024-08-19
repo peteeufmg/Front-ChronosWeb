@@ -6,8 +6,20 @@ import { default as TimeButton } from '../../Components/Button/Button';
 export default function Timer() {
     
     const { Iniciar, Pausar, Reiniciar, minute, second, millisecond, disabled, setdisabled} = useTimer();
-    const returnData = (input) => (input >= 10 ? input : `0${input}`);
-    
+    const returnMinute = (input) => (input >= 10 ? input : `0${input}`);
+    const returnSecond = (input) => (input >= 10 ? input : `0${input}`);
+    const returnMillisecond = (input) => {
+        if (input < 10){
+            return `00${input}`;
+        }
+        else if(input >= 10 && input <=100){
+            return `0${input}`;
+        }
+        else{
+            return input;
+        }
+    }
+
     return (
         <DivColumn>
             <div>
@@ -20,9 +32,9 @@ export default function Timer() {
                     <h1>Cronômetro:
                         <span id='completeTime'>
                             {/*<span id="hour"> {returnData(hour)} </span>:*/}
-                            <span id="minute"> {returnData(minute)} </span>:
-                            <span id="second"> {returnData(second)} </span>:
-                            <span id="millisecond"> {returnData(millisecond)} </span>
+                            <span id="minute"> {returnMinute(minute)} </span>:
+                            <span id="second"> {returnSecond(second)} </span>:
+                            <span id="millisecond"> {returnMillisecond(millisecond)} </span>
                         </span>
                     </h1>
                 </div>
