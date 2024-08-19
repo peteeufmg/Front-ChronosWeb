@@ -13,6 +13,9 @@ function shuffleArray(array) {
 function Sorteio() {
   const [dataSource, setDataSource] = useState([]);
   const [selectedValue, setSelectedValue] = useState(null);
+  const [selectedStep, setSelectedStep] = useState(null);
+  const [step, setStep] = useState([]);
+  const [batteries, setBatteries] = useState([]);
 
   useEffect(() => {
     if (selectedValue !== null) {
@@ -40,6 +43,34 @@ function Sorteio() {
     }
   }, [selectedValue]);
 
+  useEffect(() => {
+    if (selectedValue=='Avancada'){
+      setStep([{ value:'Classificatória' },
+        { value:'Repescagem' },
+        { value:'Final' }])
+      if (selectedStep=='Classificatória'){
+        setBatteries([{value:'Bateria 1' },
+          { value:'Bateria 2' },
+          { value:'Bateria 3'}
+        ])
+      }if (selectedStep=='Repescagem'){
+        setBatteries([])
+      }if (selectedStep=='Final'){
+        setBatteries([])
+      }
+    }else if (selectedValue=='Mirim'){
+      setStep([{ value:'Classificatória' },
+        { value:'Final' }])
+      if (selectedStep=='Classificatória'){
+        setBatteries([{value:'Bateria 1' },
+          { value:'Bateria 2' }
+        ])
+      }else if (selectedStep=='Final'){
+        setBatteries([])
+      }
+    }
+  }, [selectedStep, selectedValue])
+
   const columns = [
     {
       title: 'Ordem',
@@ -59,11 +90,6 @@ function Sorteio() {
     const shuffledData = shuffleArray([...dataSource]);
     setDataSource(shuffledData);
   };
-  const batteries = [
-    { value: 'Bateria 1'},
-    { value: 'Bateria 2'},
-    { value: 'Bateria 3'},
-  ];
     return (
       <>
         <Container>
@@ -84,7 +110,22 @@ function Sorteio() {
               </Selection>
                 
               </SelectContainer>         
-              
+              <SelectContainer>
+              <Text>Etapa:</Text> 
+              <Selection
+                placeholder="Selecionar"
+                filterSort={(optionA, optionB) =>
+                  (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+                }
+                onChange={value => setSelectedStep(value)}
+              >
+                {step.map(step => (
+                  <Option key={step.value} value={step.value}>
+                      {step.values}
+                </Option>
+                ))}
+              </Selection>
+              </SelectContainer>
               <SelectContainer>
               <Text>Bateria:</Text> 
               <Selection

@@ -1,0 +1,1 @@
+export {default as ClassificationTable} from './ClassificationTable/ClassificationTable';

@@ -26,7 +26,7 @@ export const Frame = styled.div`
 export const Title = styled.div`
     display: flex;
     justify-content: space-between;
-
+    
     gap: 2.5%;
 `;
 export const Selection = styled(Select)`
@@ -42,10 +42,12 @@ export const ShuffleContainer = styled.div`
     display: flex;
     justify-content: center;
 
-    margin: 2.5%;
+    gap: 1%;
+
+    padding: 2.5%;
 `;
 export const ShuffleTable = styled(Table)`
-    width: 80%;
+    width: 50%;
 `;
 
 export const Text = styled.div`

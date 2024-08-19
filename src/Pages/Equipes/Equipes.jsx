@@ -5,11 +5,14 @@ import { Button, List, Flex, Select } from 'antd';
 import React from "react";
 import { useState, useEffect } from 'react';
 import api from '../../Services/api';
+import Modal from '../Modal';
+
 
 
 function Equipes() {
   const [data, setData] = useState([]);
   const [selectedValue, setSelectedValue] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -59,6 +62,9 @@ function Equipes() {
     }
   }, [selectedValue]);
 
+  const close = () => {
+    setShowModal(false);
+  }
   
     return (
       <>
@@ -90,7 +96,7 @@ function Equipes() {
                 renderItem={(item, index) => (
                   <List.Item actions={[
                     <Flex wrap gap='large'>
-                      <Button type='link' icon={
+                      <Button type='link' onClick={() => {setShowModal(!showModal)}} icon={
                         <svg width="25" height="26" viewBox="0 0 25 26" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M24.66 22.1141L19.7915 17.2464C19.5717 17.0267 19.2739 16.9046 18.9613 16.9046H18.1654C19.5131 15.1812 20.314 13.0134 20.314 10.6553C20.314 5.04545 15.7678 0.5 10.157 0.5C4.54623 0.5 0 5.04545 0 10.6553C0 16.2651 4.54623 20.8105 10.157 20.8105C12.5156 20.8105 14.6837 20.0098 16.4074 18.6623V19.4581C16.4074 19.7706 16.5295 20.0684 16.7493 20.2881L21.6178 25.1558C22.0768 25.6147 22.8191 25.6147 23.2732 25.1558L24.6551 23.7741C25.1141 23.3152 25.1141 22.573 24.66 22.1141ZM10.157 16.9046C6.70459 16.9046 3.90654 14.112 3.90654 10.6553C3.90654 7.20345 6.69971 4.40587 10.157 4.40587C13.6094 4.40587 16.4074 7.19856 16.4074 10.6553C16.4074 14.1071 13.6143 16.9046 10.157 16.9046Z" fill="#EDA500"/></svg>
                       }>
                       </Button>
@@ -112,7 +118,8 @@ function Equipes() {
                 )}
               />
           </Frame>
-        </Container>
+          {showModal && <Modal onClickClose={close}/>}
+       </Container>
       </>
     )
 }
