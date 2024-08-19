@@ -20,9 +20,9 @@ function Sorteio() {
         const fetchData = async () => {
           try {
             const response = await api.get('/equipes', {params: {categoria:1}});
-            setDataSource(response.data); // Atualiza o estado com os dados da resposta
+            setDataSource(response.data); 
           } catch (error) {
-            console.error("Erro ao buscar os dados:", error); // Trate o erro
+            console.error("Erro ao buscar os dados:", error); 
           }
         };
         fetchData();
@@ -30,9 +30,9 @@ function Sorteio() {
         const fetchData = async () => {
           try {
             const response = await api.get('/equipes', {params: {categoria:2}});
-            setDataSource(response.data); // Atualiza o estado com os dados da resposta
+            setDataSource(response.data); 
           } catch (error) {
-            console.error("Erro ao buscar os dados:", error); // Trate o erro
+            console.error("Erro ao buscar os dados:", error); 
           }
         };
         fetchData();

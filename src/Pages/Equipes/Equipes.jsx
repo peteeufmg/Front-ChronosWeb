@@ -9,17 +9,15 @@ import api from '../../Services/api';
 
 function Equipes() {
   const [data, setData] = useState([]);
-
   const [selectedValue, setSelectedValue] = useState(null);
 
-  // Efeito que depende do valor selecionado
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await api.get('/equipes');
-        setData(response.data); // Atualiza o estado com os dados da resposta
+        setData(response.data); 
       } catch (error) {
-        console.error("Erro ao buscar os dados:", error); // Trate o erro
+        console.error("Erro ao buscar os dados:", error); 
       }
     };
     fetchData();
@@ -31,9 +29,9 @@ function Equipes() {
         const fetchData = async () => {
           try {
             const response = await api.get('/equipes', {params: {categoria:1}});
-            setData(response.data); // Atualiza o estado com os dados da resposta
+            setData(response.data);
           } catch (error) {
-            console.error("Erro ao buscar os dados:", error); // Trate o erro
+            console.error("Erro ao buscar os dados:", error); 
           }
         };
         fetchData();
@@ -41,9 +39,9 @@ function Equipes() {
         const fetchData = async () => {
           try {
             const response = await api.get('/equipes', {params: {categoria:2}});
-            setData(response.data); // Atualiza o estado com os dados da resposta
+            setData(response.data);
           } catch (error) {
-            console.error("Erro ao buscar os dados:", error); // Trate o erro
+            console.error("Erro ao buscar os dados:", error);
           }
         };
         fetchData();
@@ -51,9 +49,9 @@ function Equipes() {
         const fetchData = async () => {
           try {
             const response = await api.get('/equipes');
-            setData(response.data); // Atualiza o estado com os dados da resposta
+            setData(response.data);
           } catch (error) {
-            console.error("Erro ao buscar os dados:", error); // Trate o erro
+            console.error("Erro ao buscar os dados:", error);
           }
         };
         fetchData();
