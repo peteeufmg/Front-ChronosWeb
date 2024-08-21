@@ -3,7 +3,7 @@ import Button from '../Button/Button'
 import { useTimer } from '../TimerProvider/TimerProvider';
 export default function Connection(){
 
-    const { Iniciar, Pausar, Reiniciar, hour, minute, second, millisecond, key } = useTimer();
+    const { Iniciar, Pausar, Reiniciar, hour, minute, second, millisecond, key} = useTimer();
 
     // filtro de seleção para portas USB
     const filters = [
