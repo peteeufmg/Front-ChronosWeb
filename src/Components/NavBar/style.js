@@ -9,8 +9,8 @@ export const Container = styled.div`
     align-items: center;
     justify-content: space-between;
 
-    padding: .5rem 10% 0 10%;
-
+    padding: .5rem 5% 0 5%;
+    
     color: white;
     text-transform: uppercase;
 `;
