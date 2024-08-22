@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import {DivContainer, DivEquipe, DivInfo, DivRetangulo, DivSelections, DivRow4, DivTentativas, Ol, Li, DivClassificacoes, DivDireta, DivRow6} from './style';
 import Selecionar from "../../Components/Select";
 
-function ModalEditar() {
+function Modal() {
 
     const [dados, setDados] = useState({
       nomeEquipe: 'Terra do nunca',
