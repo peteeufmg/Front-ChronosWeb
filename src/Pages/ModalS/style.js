@@ -8,6 +8,10 @@ export const DivContainer = styled.div`
     background-color: 38 , 39, 41, 0.3; 
     width: 100vw;
     height: 100vh;
+    @media(max-width:800px) {
+     flex-direction:column;
+    
+    }
 `;
 export const DivRetangulo = styled.div`
     display: flex;
@@ -15,11 +19,12 @@ export const DivRetangulo = styled.div`
     height: 60vh;
     width:75vw;
     background-color:#E4E4E4;
+    overflow: auto;
     
     @media (max-width: 500px) {
+    height:65vh;
     flex-direction: column;
     }
-
 `;
 export const DivEquipe = styled.div`
     display: flex;
@@ -33,6 +38,10 @@ export const DivEquipe = styled.div`
   
     font-size: 0.8rem;
     color: #000000;
+    @media(max-width:600px){
+    height:auto;
+    margin-bottom: 1rem;
+    }
 `;
 export const DivInfo = styled.div`
     display: flex;
@@ -49,9 +58,14 @@ export const DivInfo = styled.div`
     }
       @media (max-width: 900px) {
     font-size:0.6rem
+    justify-content:center;
     }
-    @media (max-width: 500px) {
+    @media (max-width: 600px) {
     flex-direction: column;
+    align-items: center;
+    height: auto;
+    margin-bottom: 0.9rem;
+    gap: 0.5rem;
     }
 `;
 export const DivSelections = styled.div`
@@ -66,8 +80,9 @@ export const DivSelections = styled.div`
     color: #000000;    
     font-size: 0.9rem;
       
-    @media (max-width: 500px) {
+    @media (max-width: 600px) {
     flex-direction: column;
+    height:auto;
     }
 
 `;
@@ -76,6 +91,10 @@ export const DivButton = styled.div`
    Display: flex;           
    justify-content: center;
    font-size: 0.9rem;
+   margin-top:2rem;
+   @media (max-width:600px){
+   margin-top: 1.5rem;
+   }
 
 `;
 

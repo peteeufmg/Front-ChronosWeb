@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import {DivContainer, DivEquipe, DivInfo, DivRetangulo, DivSelections, DivRow4, DivTentativas, Ol, Li, DivClassificacoes, DivDireta, DivRow6, DivButton} from './style';
+import Selecionar from "../../Components/Select";
 
 function ModalEditar() {
 
@@ -26,7 +28,7 @@ function ModalEditar() {
     });
 
     return(
-        <DivContainer>
+      <DivContainer>
         <DivRetangulo>
           <DivEquipe>
              <h1>{dados.nomeEquipe}</h1>
@@ -45,53 +47,69 @@ function ModalEditar() {
             <h3>ETAPA:</h3><Selecionar/>
             <h3>BATERIA:</h3><Selecionar/>
           </DivSelections>
-          <DivTentativas>
-            <h3>TENTATIVA 1</h3>
-            <h3>TENTATIVA 2</h3>
-          </DivTentativas>
-          <DivRow4> 
-            <DivRow5>
-              <Ol>
-                <Li>TEMPO TOTAL</Li>
-                <Li>CHECKPOINT 1: --:--:---</Li>
-                <Li>CHECKPOINT 2: --:--:---</Li>
-                <Li>CHECKPOINT 3: --:--:---</Li>
-                <Li>CHECKPOINT 4: --:--:---</Li>
-                <Li>CHECKPOINT 5: --:--:---</Li>
-              </Ol>
-            </DivRow5>
-            <DivRow5>
-              <Ol>
-                <Li>04:01:789</Li>
-                <Li>CHECKPOINT 6:  --:--:---</Li>
-                <Li>CHECKPOINT 7:  --:--:---</Li>
-                <Li>CHECKPOINT 8:  --:--:---</Li>
-                <Li>CHECKPOINT 9:  --:--:---</Li>
-                <Li>CHECKPOINT 10: --:--:---</Li>
-              </Ol>
-            </DivRow5>
-            <div style={{ width: '2px', height: '90%' , backgroundColor: 'black' }}></div>
-            <DivRow5>
-              <Ol>
-                <Li>TEMPO TOTAL</Li>
-                <Li>CHECKPOINT 1: --:--:---</Li>
-                <Li>CHECKPOINT 2: --:--:---</Li>
-                <Li>CHECKPOINT 3: --:--:---</Li>
-                <Li>CHECKPOINT 4: --:--:---</Li>
-                <Li>CHECKPOINT 5: --:--:---</Li>
-              </Ol>
-           </DivRow5>
-           <DivRow5>
-             <Ol>
-               <Li>04:01:789</Li>
-               <Li>CHECKPOINT 6:  --:--:---</Li>
-               <Li>CHECKPOINT 7:  --:--:---</Li>
-               <Li>CHECKPOINT 8:  --:--:---</Li>
-               <Li>CHECKPOINT 9:  --:--:---</Li>
-               <Li>CHECKPOINT 10: --:--:---</Li>
-             </Ol>
-           </DivRow5>
-          </DivRow4>
+          <DivClassificacoes>
+            <DivDireta> 
+              <DivTentativas>
+                <h3 style ={{ alignItems: 'center', marginBottom: '1rem'}}>TENTATIVA 1</h3>
+              </DivTentativas>
+                <p style ={{ marginBottom: '0.2rem'}}>TEMPO TOTAL: 04:01:789</p>
+              <DivRow4>
+                <DivRow6>
+                  <Ol>
+                    <Li>CHECKPOINT 1: --:--:---</Li>
+                    <Li>CHECKPOINT 2: --:--:---</Li>
+                    <Li>CHECKPOINT 3: --:--:---</Li>
+                    <Li>CHECKPOINT 4: --:--:---</Li>
+                    <Li>CHECKPOINT 5: --:--:---</Li>
+                  </Ol>
+                </DivRow6>
+                <DivRow6>
+                  <Ol>
+                      <Li>CHECKPOINT 6:  --:--:---</Li>
+                      <Li>CHECKPOINT 7:  --:--:---</Li>
+                      <Li>CHECKPOINT 8:  --:--:---</Li>
+                      <Li>CHECKPOINT 9:  --:--:---</Li>
+                      <Li>CHECKPOINT 10: --:--:---</Li>
+                  </Ol>
+                </DivRow6>
+              </DivRow4>
+            </DivDireta>
+            <div style={{ width: '2px', height: '90%' , backgroundColor: 'black', marginTop:'1.5%' }}></div>
+            <DivDireta> 
+              <DivTentativas>
+                <h3 style ={{ alignItems: 'center', marginBottom: '1rem'}}>TENTATIVA 2</h3>
+              </DivTentativas>
+              <p style ={{ marginBottom: '0.2rem'}}>TEMPO TOTAL: 04:01:789</p>
+              <DivRow4>
+                <DivRow6>
+                  <Ol>
+                      <Li>CHECKPOINT 1: --:--:---</Li>
+                      <Li>CHECKPOINT 2: --:--:---</Li>
+                      <Li>CHECKPOINT 3: --:--:---</Li>
+                      <Li>CHECKPOINT 4: --:--:---</Li>
+                      <Li>CHECKPOINT 5: --:--:---</Li>
+                  </Ol>
+                </DivRow6>
+
+                <DivRow6>
+                  <Ol>
+                      <Li>CHECKPOINT 6:  --:--:---</Li>
+                      <Li>CHECKPOINT 7:  --:--:---</Li>
+                      <Li>CHECKPOINT 8:  --:--:---</Li>
+                      <Li>CHECKPOINT 9:  --:--:---</Li>
+                      <Li>CHECKPOINT 10: --:--:---</Li>
+                  </Ol>
+                </DivRow6>
+              </DivRow4>
+            </DivDireta>
+          </DivClassificacoes>
+          <DivButton>
+              <button style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px', backgroundColor: '#FFFFFF', border: 'none', borderRadius: '5px', 'font-size':'1.5rem', gap: '15px', 'font-weight':'semi-bold'}}>
+                <svg width="20" height="20" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20.7218 10.4814L3.53501 0.320687C2.13859 -0.504474 0 0.296274 0 2.33721V22.6538C0 24.4847 1.98722 25.5882 3.53501 24.6703L20.7218 14.5144C22.255 13.6112 22.2598 11.3847 20.7218 10.4814Z" fill="#EDA500"/>
+                </svg>       Editar
+              </button>
+          </DivButton>
         </DivRetangulo>
       </DivContainer>
     )
