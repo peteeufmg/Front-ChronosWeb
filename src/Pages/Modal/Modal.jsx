@@ -1,36 +1,136 @@
-import React, { useState } from "react";
-import {DivContainer, DivEquipe, DivInfo, DivRetangulo, DivSelections, DivRow4, DivTentativas, DivRow5, Ol, Li} from './style';
-import Button from "../../Components/Button";
+import React, { useState, useEffect } from "react";
+import {DivContainer, DivEquipe, DivInfo, DivRetangulo, DivSelections, DivRow4, DivTentativas, Ol, Li, DivClassificacoes, DivDireta, DivRow6, Selection} from './style';
 import Selecionar from "../../Components/Select";
+import { Select } from "antd";
+import api from "../../Services/api";
 
+function Modal({onClickClose, team}) {
 
-function Modal({onClickClose}) {
+    useEffect(() => {
 
-const [dados, setDados] = useState({
-  nomeEquipe: 'Terra do nunca',
-  nomeCapitao: 'Capitão gancho',
-  categoria: 'Sequestrar criança',
-  escola: 'Vida',
-  etapas: 
-    {// 5 valores de tempo para a primeira bateria
-      bateria1: {
-        tentativa1: [0, 0, 0, 0, 0], // 5 valores de tempo para a primeira bateria
-        tentativa2: [0, 0, 0, 0, 0] 
-      }, 
-      bateria2: {
-        tentativa1: [0, 0, 0, 0, 0], // 5 valores de tempo para a segunda bateria
-        tentativa2: [0, 0, 0, 0, 0]
-      }, 
-      bateria3: {
-        tentativa1: [0, 0, 0, 0, 0], // 5 valores de tempo para a terceira bateria
-        tentativa2: [0, 0, 0, 0, 0] 
-      } 
-    }
-    // Adicione mais objetos de etapas conforme necessário
-});
+    }, [])
 
+    const [dados, setDados] = useState({
+      nomeEquipe: team.nome,
+      nomeCapitao: team.capitao,
+      categoria: team.categoria,
+      baterias: 
+        [// 5 valores de tempo para a primeira bateria
+          {
+            tentativa1: [0, 0, 0, 0, 0], // 5 valores de tempo para a primeira bateria
+            tentativa2: [0, 0, 0, 0, 0] 
+          }, 
+          {
+            tentativa1: [0, 0, 0, 0, 0], // 5 valores de tempo para a segunda bateria
+            tentativa2: [0, 0, 0, 0, 0]
+          }, 
+          {
+            tentativa1: [0, 0, 0, 0, 0], // 5 valores de tempo para a terceira bateria
+            tentativa2: [0, 0, 0, 0, 0] 
+          } 
+        ]
+        // Adicione mais objetos de etapas conforme necessário
+    });
+
+    const [selectedStep, setSelectedStep] = useState(null);
+    const [etapa, setEtapa] = useState([]);
+    const [batteries, setBatteries] = useState([]);
+
+    useEffect(() => {
+      if (dados.categoria==1){
+        setEtapa([{ value:'Classificatória' },
+          { value:'Repescagem' },
+          { value:'Final' }]);
+      }else if (dados.categoria==2){
+        setEtapa([{ value:'Classificatória' },
+          { value:'Final' }])
+      }
+      
+    }, [dados])
+    
+    useEffect(() => {
+      if (dados.categoria==1){
+        if (selectedStep=='Classificatória'){
+          setBatteries([{value:'Bateria 1' },
+            { value:'Bateria 2' },
+            { value:'Bateria 3'}
+          ])
+        }if (selectedStep=='Repescagem'){
+          setBatteries([])
+        }if (selectedStep=='Final'){
+          setBatteries([])
+        }
+      }else if (dados.categoria==2){
+        if (selectedStep=='Classificatória'){
+          setBatteries([{value:'Bateria 1' },
+            { value:'Bateria 2' }
+          ])
+        }else if (selectedStep=='Final'){
+          setBatteries([])
+        }
+      }
+    }, [selectedStep])
+    useEffect(() => {
+      if (selectedStep !== null) {
+        if (selectedStep=='Classificatória'){
+          const fetchData = async () => {
+            try {
+              const response = await api.get('/classificatorias', {params: {id:team.id}});
+              console.log(response.bateria[0].tempo_checkpoints1);
+              setDados({
+                nomeEquipe: team.nome,
+                nomeCapitao: team.capitao,
+                categoria: team.categoria,
+                baterias: 
+                  [// 5 valores de tempo para a primeira bateria
+                    {
+                      tentativa1: response.bateria[0].tempo_checkpoints1, // 5 valores de tempo para a primeira bateria
+                      tentativa2: response.bateria[0].tempo_checkpoints2
+                    }, 
+                    {
+                      tentativa1: response.bateria[1].tempo_checkpoints1, // 5 valores de tempo para a segunda bateria
+                      tentativa2: response.bateria[1].tempo_checkpoints2
+                    }, 
+                    {
+                      tentativa1: response.bateria[2].tempo_checkpoints1, // 5 valores de tempo para a terceira bateria
+                      tentativa2: response.bateria[2].tempo_checkpoints2 
+                    } 
+                  ]
+                
+              });
+              console.log(dados);
+              
+            } catch (error) {
+              console.error("Erro ao buscar os dados:", error); 
+            }
+          };
+          fetchData();
+          
+        }else if (selectedStep=='Repescagem'){
+          const fetchData = async () => {
+            try {
+              const response = await api.get('/equipes', {params: {categoria:2}});
+              setDataSource(response.data); 
+            } catch (error) {
+              console.error("Erro ao buscar os dados:", error); 
+            }
+          };
+          fetchData();
+        }else if (selectedStep=='Final'){
+          const fetchData = async () => {
+            try {
+              const response = await api.get('/equipes', {params: {categoria:2}});
+              setDataSource(response.data); 
+            } catch (error) {
+              console.error("Erro ao buscar os dados:", error); 
+            }
+          };
+          fetchData();
+        }
+      }
+    }, [selectedStep]);
     return(
-      <DivContainer>
+        <DivContainer>
         <DivRetangulo>
           <DivEquipe>
              <h1>{dados.nomeEquipe}</h1>
@@ -43,62 +143,96 @@ const [dados, setDados] = useState({
           <DivInfo>
             <h3>CAPITÃO:</h3><p>{dados.nomeCapitao}</p>
             <h3>CATEGORIA:</h3><p>{dados.categoria}</p>
-            <h3>ESCOLA:</h3><p>{dados.escola}</p>
           </DivInfo>
+          
           <DivSelections>
-            <h3>ETAPA:</h3><Selecionar/>
-            <h3>BATERIA:</h3><Selecionar/>
+            <h3>ETAPA:</h3>
+            <Selection
+                placeholder="Selecionar"
+                filterSort={(optionA, optionB) =>
+                  (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+                }
+                onChange={value => setSelectedStep(value)}
+              >
+                {etapa.map(steps => (
+                  <Option key={steps.value} value={steps.value}>
+                      {steps.values}
+                </Option>
+                ))}
+              </Selection>
+            <h3>BATERIA:</h3>
+            <Selection
+                placeholder="Selecionar"
+                filterSort={(optionA, optionB) =>
+                  (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+                }
+              >
+                {batteries.map(battery => (
+                  <Option key={battery.value} value={battery.value}>
+                      {battery.values}
+                  </Option>
+                ))}
+              </Selection>
           </DivSelections>
-          <DivTentativas>
-            <h3>TENTATIVA 1</h3>
-            <h3>TENTATIVA 2</h3>
-          </DivTentativas>
-          <DivRow4> 
-            <DivRow5>
-              <Ol>
-                <Li>TEMPO TOTAL</Li>
+          <DivClassificacoes>
+            <DivDireta> 
+              <DivTentativas>
+                <h3 style ={{ alignItems: 'center', marginBottom: '1rem'}}>TENTATIVA 1</h3>
+              </DivTentativas>
+            <p style ={{ marginBottom: '0.2rem'}}>TEMPO TOTAL: 04:01:789</p>
+            <DivRow4>
+              <DivRow6>
+                <Ol>
+                  <Li>CHECKPOINT 1: {dados.baterias[0].tentativa1[0]}</Li>
+                  <Li>CHECKPOINT 2: {dados.baterias[0].tentativa1[1]}</Li>
+                  <Li>CHECKPOINT 3: {dados.baterias[0].tentativa1[2]}</Li>
+                  <Li>CHECKPOINT 4: {dados.baterias[0].tentativa1[3]}</Li>
+                  <Li>CHECKPOINT 5: {dados.baterias[0].tentativa1[4]}</Li>
+                </Ol>
+               </DivRow6>
+
+            <DivRow6>
+            <Ol>
+                <Li>CHECKPOINT 6:  {dados.baterias[0].tentativa1[5]}</Li>
+                <Li>CHECKPOINT 7:  {dados.baterias[0].tentativa1[6]}</Li>
+                <Li>CHECKPOINT 8:  {dados.baterias[0].tentativa1[7]}</Li>
+                <Li>CHECKPOINT 9:  {dados.baterias[0].tentativa1[8]}</Li>
+                <Li>CHECKPOINT 10: {dados.baterias[0].tentativa1[9]}</Li>
+            </Ol>
+            </DivRow6>
+            </DivRow4>
+            </DivDireta>
+            <div style={{ width: '2px', height: '90%' , backgroundColor: 'black', marginTop:'1.5%' }}></div>
+            <DivDireta> 
+              <DivTentativas>
+                <h3 style ={{ alignItems: 'center', marginBottom: '1rem'}}>TENTATIVA 2</h3>
+              </DivTentativas>
+            <p style ={{ marginBottom: '0.2rem'}}>TEMPO TOTAL: 04:01:789</p>
+            <DivRow4>
+            <DivRow6>
+            <Ol>
                 <Li>CHECKPOINT 1: --:--:---</Li>
                 <Li>CHECKPOINT 2: --:--:---</Li>
                 <Li>CHECKPOINT 3: --:--:---</Li>
                 <Li>CHECKPOINT 4: --:--:---</Li>
                 <Li>CHECKPOINT 5: --:--:---</Li>
-              </Ol>
-            </DivRow5>
-            <DivRow5>
-              <Ol>
-                <Li>04:01:789</Li>
+            </Ol>
+            </DivRow6>
+
+            <DivRow6>
+            <Ol>
                 <Li>CHECKPOINT 6:  --:--:---</Li>
                 <Li>CHECKPOINT 7:  --:--:---</Li>
                 <Li>CHECKPOINT 8:  --:--:---</Li>
                 <Li>CHECKPOINT 9:  --:--:---</Li>
                 <Li>CHECKPOINT 10: --:--:---</Li>
-              </Ol>
-            </DivRow5>
-            <div style={{ width: '2px', height: '90%' , backgroundColor: 'black' }}></div>
-            <DivRow5>
-              <Ol>
-                <Li>TEMPO TOTAL</Li>
-                <Li>CHECKPOINT 1: --:--:---</Li>
-                <Li>CHECKPOINT 2: --:--:---</Li>
-                <Li>CHECKPOINT 3: --:--:---</Li>
-                <Li>CHECKPOINT 4: --:--:---</Li>
-                <Li>CHECKPOINT 5: --:--:---</Li>
-              </Ol>
-           </DivRow5>
-           <DivRow5>
-             <Ol>
-               <Li>04:01:789</Li>
-               <Li>CHECKPOINT 6:  --:--:---</Li>
-               <Li>CHECKPOINT 7:  --:--:---</Li>
-               <Li>CHECKPOINT 8:  --:--:---</Li>
-               <Li>CHECKPOINT 9:  --:--:---</Li>
-               <Li>CHECKPOINT 10: --:--:---</Li>
-             </Ol>
-           </DivRow5>
-          </DivRow4>
+            </Ol>
+            </DivRow6>
+            </DivRow4>
+            </DivDireta>
+          </DivClassificacoes>
         </DivRetangulo>
       </DivContainer>
     )
 }
-
 export default Modal;
