@@ -156,6 +156,10 @@ export const DivRow4 = styled.div`
     //padding-left:10px;
     //padding-right:13px;
 
+    @media (max-width: 880px) {
+    justify-content: space-around;
+    }
+
     @media (max-width: 650px) {
     flex-direction: column;
     text-align: center;
@@ -179,7 +183,7 @@ export const Ol = styled.ol`
     font-size: 1rem;
     color: #000000;
     margin-top: 0.5rem;
-    margin-right: 1rem;
+    
 
     @media (max-width: 1280px){
     margin-right:0;
@@ -202,6 +206,8 @@ export const Li = styled.li`
     font-size: 1.2rem;
     color: #000000;
     margin-bottom: 0.4rem;
+    margin-left:0.1 rem;
+    mar
 
     @media (max-width: 1230px) {
     margin-bottom: 0.3 rem;
