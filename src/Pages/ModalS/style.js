@@ -21,8 +21,8 @@ export const DivRetangulo = styled.div`
     background-color:#E4E4E4;
     overflow: auto;
     
-    @media (max-width: 500px) {
-    height:65vh;
+    @media (max-width: 600px) {
+    height:70vh;
     flex-direction: column;
     }
 `;

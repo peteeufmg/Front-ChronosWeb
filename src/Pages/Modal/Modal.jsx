@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {DivContainer, DivEquipe, DivInfo, DivRetangulo, DivSelections, DivRow4, DivTentativas, Ol, Li, DivClassificacoes, DivDireta, DivRow6} from './style';
+import {DivContainer, DivEquipe, DivInfo, DivRetangulo, DivSelections, DivRow4, DivTentativas, DivTempo,  Ol, Li, DivClassificacoes, DivDireta, DivRow6} from './style';
 import Selecionar from "../../Components/Select";
 
 
@@ -53,7 +53,9 @@ const [dados, setDados] = useState({
               <DivTentativas>
                 <h3 style ={{ alignItems: 'center', marginBottom: '1rem'}}>TENTATIVA 1</h3>
               </DivTentativas>
+              <DivTempo>
                 <p style ={{ marginBottom: '0.2rem'}}>TEMPO TOTAL: 04:01:789</p>
+              </DivTempo>
               <DivRow4>
                 <DivRow6>
                   <Ol>
@@ -80,7 +82,9 @@ const [dados, setDados] = useState({
               <DivTentativas>
                 <h3 style ={{ alignItems: 'center', marginBottom: '1rem'}}>TENTATIVA 2</h3>
               </DivTentativas>
-              <p style ={{ marginBottom: '0.2rem'}}>TEMPO TOTAL: 04:01:789</p>
+              <DivTempo>
+                <p style ={{ marginBottom: '0.2rem'}}>TEMPO TOTAL: 04:01:789</p>
+              </DivTempo>
               <DivRow4>
                 <DivRow6>
                   <Ol>
