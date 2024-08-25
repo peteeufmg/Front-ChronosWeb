@@ -7,7 +7,6 @@ import Connection from "../../Components/Connection";
 import Checkpoint from "../../Components/Checkpoint/Checkpoint";
 import DashboardSelect from "../../Components/DashboardSelect/DashboardSelect";
 
-
 function Cronometro() {
     return (
         <>

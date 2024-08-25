@@ -1,11 +1,13 @@
 import {DivRow2, DivRow3, DivRow6} from './Style';
 import  Selecionar  from '../Select/Select';
 import { useState } from 'react';
-
+import { useData } from '../DataProvider/DataProvider';
 export default function DashboardSelect(){
     
-    const[BateryDisable, setdesableBatery] = useState(false);
+    const {DataTeam, setDataTeam, adicinaequipe} = useData();
 
+    
+    const[BateryDisable, setdesableBatery] = useState(false);
     const categorias = ["SegidorAvancado", "SeguidorMirim", "Sumo"];
     const etapasSeguidor = ["Arrancada", "Classificatoria", "Repescagem", "Final"];
     const etapasSumo = ["Confronto"];
@@ -16,48 +18,6 @@ export default function DashboardSelect(){
         SeguidorMirim: ['EquipeMirim1', 'EquipeMirim2', 'EquipeMirim3'],
         Sumo: ['EquipeSumô1', 'EquipeSumô2', 'EquipeSumô3']
     }
-
-    const DadosDasEquipes = [
-        {
-            nome: 'Equipe',
-            categoriaDaEquipe: 'categoria',
-            numeroDeBaterias: 0,
-
-            numeroDeTentativasPorEtapa: {
-                Arrancada: 0,
-                Classificatoria: 0,
-                Repescagem: 0,
-                Final: 0,
-                Confronto: 0
-            },
-
-            DadosDePontuacao: {
-                TempoNaArrancada: {
-                    tempo: 0,
-                    checkpoint: 0
-                },
-                TempoNaClassificatoria: {
-                    tempo: 0,
-                    checkpoint: 0
-                },
-                TempoNaRepescagem: {
-                    tempo: 0,
-                    checkpoint: 0
-                },
-                TempoFinal: {
-                    tempo: 0,
-                    checkpoint: 0
-                }
-            },
-            DadosDecisivos: {
-                AprovadoNaArrancada: false,
-                AprovadoNaClassificatoria: false,
-                AprovadoNaRepescagem: false,
-                AprovadoFinal: false
-            }
-        }
-    ]
-
     const[equipefiltrada, setequipe] = useState(equipesPorCategoria[categorias[0]]);
     const[equipeAtual, setequipeAtual] = useState(/*equipesPorCategoria[categorias[0]][0]*/);
 
@@ -127,6 +87,7 @@ export default function DashboardSelect(){
     return(
         <DivRow6>
                 <DivRow2>
+                <button onClick={adicinaequipe}>alterar</button>
                     <DivRow3>
                         <div><label htmlFor="">Categoria:</label></div>
                         <Selecionar 
