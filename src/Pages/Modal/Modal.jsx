@@ -17,22 +17,30 @@ function Modal({onClickClose, team}) {
       baterias: 
         [// 5 valores de tempo para a primeira bateria
           {
-            tentativa1: [0, 0, 0, 0, 0], // 5 valores de tempo para a primeira bateria
-            tentativa2: [0, 0, 0, 0, 0] 
+            tempo_checkpoints_1: [0, 0, 0, 0, 0], // 5 valores de tempo para a primeira bateria
+            tempo_checkpoints_2: [0, 0, 0, 0, 0],
+            tempo_total_1: '--:--:---',
+            tempo_total_2: '--:--:---' 
           }, 
           {
-            tentativa1: [0, 0, 0, 0, 0], // 5 valores de tempo para a segunda bateria
-            tentativa2: [0, 0, 0, 0, 0]
+            tempo_checkpoints_1: [0, 0, 0, 0, 0], // 5 valores de tempo para a primeira bateria
+            tempo_checkpoints_2: [0, 0, 0, 0, 0],
+            tempo_total_1: '--:--:---',
+            tempo_total_2: '--:--:---' 
           }, 
           {
-            tentativa1: [0, 0, 0, 0, 0], // 5 valores de tempo para a terceira bateria
-            tentativa2: [0, 0, 0, 0, 0] 
+            tempo_checkpoints_1: [0, 0, 0, 0, 0], // 5 valores de tempo para a primeira bateria
+            tempo_checkpoints_2: [0, 0, 0, 0, 0],
+            tempo_total_1: '--:--:---',
+            tempo_total_2: '--:--:---' 
           } 
         ]
         // Adicione mais objetos de etapas conforme necessário
     });
 
     const [selectedStep, setSelectedStep] = useState(null);
+    const [selectedBattery, setSelectedBattery] = useState(null);
+    const [renderBaterry, setRenderBattery] = useState(dados.baterias[0])
     const [etapa, setEtapa] = useState([]);
     const [batteries, setBatteries] = useState([]);
 
@@ -55,50 +63,66 @@ function Modal({onClickClose, team}) {
             { value:'Bateria 2' },
             { value:'Bateria 3'}
           ])
+          setSelectedBattery(null);
         }if (selectedStep=='Repescagem'){
           setBatteries([])
+          setSelectedBattery(null);
         }if (selectedStep=='Final'){
           setBatteries([])
+          setSelectedBattery(null);
         }
       }else if (dados.categoria==2){
         if (selectedStep=='Classificatória'){
           setBatteries([{value:'Bateria 1' },
             { value:'Bateria 2' }
           ])
+          setSelectedBattery(null);
         }else if (selectedStep=='Final'){
           setBatteries([])
+          setSelectedBattery(null);
         }
       }
     }, [selectedStep])
+    useEffect(() => {
+      if (selectedBattery=='Bateria 1'){
+        setRenderBattery(dados.baterias[0]);
+      }else if (selectedBattery=='Bateria 2'){
+        setRenderBattery(dados.baterias[1]);
+      }else if (selectedBattery=='Bateria 3'){
+        setRenderBattery(dados.baterias[2]);
+      }else if(selectedStep=='Classificatória'){
+        setRenderBattery(dados.baterias[0]);
+      }else{
+        setRenderBattery(dados.baterias[0]);
+      }
+
+    }, [selectedBattery, selectedStep,dados])
     useEffect(() => {
       if (selectedStep !== null) {
         if (selectedStep=='Classificatória'){
           const fetchData = async () => {
             try {
               const response = await api.get('/classificatorias', {params: {id:team.id}});
-              console.log(response.bateria[0].tempo_checkpoints1);
               setDados({
                 nomeEquipe: team.nome,
                 nomeCapitao: team.capitao,
                 categoria: team.categoria,
                 baterias: 
                   [// 5 valores de tempo para a primeira bateria
-                    {
-                      tentativa1: response.bateria[0].tempo_checkpoints1, // 5 valores de tempo para a primeira bateria
-                      tentativa2: response.bateria[0].tempo_checkpoints2
-                    }, 
-                    {
-                      tentativa1: response.bateria[1].tempo_checkpoints1, // 5 valores de tempo para a segunda bateria
-                      tentativa2: response.bateria[1].tempo_checkpoints2
-                    }, 
-                    {
-                      tentativa1: response.bateria[2].tempo_checkpoints1, // 5 valores de tempo para a terceira bateria
-                      tentativa2: response.bateria[2].tempo_checkpoints2 
-                    } 
+                   
+                       // 5 valores de tempo para a primeira bateria
+                    response.data[0].bateria[0]
+                    , 
+                    response.data[0].bateria[1] // 5 valores de tempo para a segunda bateria
+                    , 
+                    
+                    response.data[0].bateria[2]// 5 valores de tempo para a terceira bateria
+                      
+                     
                   ]
                 
               });
-              console.log(dados);
+             
               
             } catch (error) {
               console.error("Erro ao buscar os dados:", error); 
@@ -106,27 +130,143 @@ function Modal({onClickClose, team}) {
           };
           fetchData();
           
+          
         }else if (selectedStep=='Repescagem'){
+          
           const fetchData = async () => {
             try {
-              const response = await api.get('/equipes', {params: {categoria:2}});
-              setDataSource(response.data); 
+              const response = await api.get('/repescagem', {params: {id:team.id}});
+              
+
+              if(response.data){
+                try{
+                  setDados({
+                    nomeEquipe: team.nome,
+                    nomeCapitao: team.capitao,
+                    categoria: team.categoria,
+                    baterias: 
+                      [// 5 valores de tempo para a primeira bateria
+                       
+                           // 5 valores de tempo para a primeira bateria
+                          response.data[0].bateria
+                          
+                         
+                      ]
+                    
+                  });
+                }catch(error){
+                  setDados({
+                    nomeEquipe: team.nome,
+                    nomeCapitao: team.capitao,
+                    categoria: team.categoria,
+                    baterias: 
+                      [// 5 valores de tempo para a primeira bateria
+                        {tempo_checkpoints_1: [0, 0, 0, 0, 0], // 5 valores de tempo para a primeira bateria
+                          tempo_checkpoints_2: [0, 0, 0, 0, 0],
+                          tempo_total_1: '--:--:---',
+                          tempo_total_2:'--:--:---' },
+                          {tempo_checkpoints_1: [0, 0, 0, 0, 0], // 5 valores de tempo para a primeira bateria
+                            tempo_checkpoints_2: [0, 0, 0, 0, 0],
+                            tempo_total_1: '--:--:---',
+                            tempo_total_2: '--:--:---' },
+                            {tempo_checkpoints_1: [0, 0, 0, 0, 0], // 5 valores de tempo para a primeira bateria
+                              tempo_checkpoints_2: [0, 0, 0, 0, 0],
+                              tempo_total_1: '--:--:---',
+                              tempo_total_2:'--:--:---' }
+                         
+                      ]
+                    
+                  });
+                }
+                
+              }else{ 
+                console.log('haha')
+              }
+              
             } catch (error) {
               console.error("Erro ao buscar os dados:", error); 
             }
-          };
+          
+          
+          }
           fetchData();
         }else if (selectedStep=='Final'){
           const fetchData = async () => {
             try {
-              const response = await api.get('/equipes', {params: {categoria:2}});
-              setDataSource(response.data); 
+              
+              const response = await api.get('/finais', {params: {id:team.id}});
+              if(response.data){
+                try{
+                  setDados({
+                    nomeEquipe: team.nome,
+                    nomeCapitao: team.capitao,
+                    categoria: team.categoria,
+                    baterias: 
+                      [// 5 valores de tempo para a primeira bateria
+                       
+                           // 5 valores de tempo para a primeira bateria
+                          response.data[0].bateria
+                          
+                         
+                      ]
+                    
+                  });
+                }catch(error){
+                  setDados({
+                    nomeEquipe: team.nome,
+                    nomeCapitao: team.capitao,
+                    categoria: team.categoria,
+                    baterias: 
+                      [// 5 valores de tempo para a primeira bateria
+                        {tempo_checkpoints_1: [0, 0, 0, 0, 0], // 5 valores de tempo para a primeira bateria
+                          tempo_checkpoints_2: [0, 0, 0, 0, 0],
+                          tempo_total_1: '--:--:---',
+                          tempo_total_2:'--:--:---' },
+                          {tempo_checkpoints_1: [0, 0, 0, 0, 0], // 5 valores de tempo para a primeira bateria
+                            tempo_checkpoints_2: [0, 0, 0, 0, 0],
+                            tempo_total_1: '--:--:---',
+                            tempo_total_2: '--:--:---' },
+                            {tempo_checkpoints_1: [0, 0, 0, 0, 0], // 5 valores de tempo para a primeira bateria
+                              tempo_checkpoints_2: [0, 0, 0, 0, 0],
+                              tempo_total_1: '--:--:---',
+                              tempo_total_2:'--:--:---' }
+                         
+                      ]
+                    
+                  });
+                }
+              }else{
+                setDados({
+                  nomeEquipe: team.nome,
+                  nomeCapitao: team.capitao,
+                  categoria: team.categoria,
+                  baterias: 
+                    [// 5 valores de tempo para a primeira bateria
+                      {tempo_checkpoints_1: [0, 0, 0, 0, 0], // 5 valores de tempo para a primeira bateria
+                      tempo_checkpoints_2: [0, 0, 0, 0, 0],
+                      tempo_total_1: [],
+                      tempo_total_2: [] },
+                      {tempo_checkpoints_1: [0, 0, 0, 0, 0], // 5 valores de tempo para a primeira bateria
+                        tempo_checkpoints_2: [0, 0, 0, 0, 0],
+                        tempo_total_1: [],
+                        tempo_total_2: [] },
+                        {tempo_checkpoints_1: [0, 0, 0, 0, 0], // 5 valores de tempo para a primeira bateria
+                          tempo_checkpoints_2: [0, 0, 0, 0, 0],
+                          tempo_total_1: [],
+                          tempo_total_2: [] },
+                       
+                    ]
+                  
+                });
+              }
+              
             } catch (error) {
               console.error("Erro ao buscar os dados:", error); 
             }
-          };
-          fetchData();
+          
         }
+        fetchData();
+      }
       }
     }, [selectedStep]);
     return(
@@ -152,6 +292,7 @@ function Modal({onClickClose, team}) {
                 filterSort={(optionA, optionB) =>
                   (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
                 }
+                value={selectedStep}
                 onChange={value => setSelectedStep(value)}
               >
                 {etapa.map(steps => (
@@ -166,6 +307,8 @@ function Modal({onClickClose, team}) {
                 filterSort={(optionA, optionB) =>
                   (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
                 }
+                value={selectedBattery}
+                onChange={value => setSelectedBattery(value)}
               >
                 {batteries.map(battery => (
                   <Option key={battery.value} value={battery.value}>
@@ -179,25 +322,25 @@ function Modal({onClickClose, team}) {
               <DivTentativas>
                 <h3 style ={{ alignItems: 'center', marginBottom: '1rem'}}>TENTATIVA 1</h3>
               </DivTentativas>
-            <p style ={{ marginBottom: '0.2rem'}}>TEMPO TOTAL: 04:01:789</p>
+            <p style ={{ marginBottom: '0.2rem'}}>TEMPO TOTAL: {renderBaterry.tempo_total_1 || '--:--:---'}</p>
             <DivRow4>
               <DivRow6>
                 <Ol>
-                  <Li>CHECKPOINT 1: {dados.baterias[0].tentativa1[0]}</Li>
-                  <Li>CHECKPOINT 2: {dados.baterias[0].tentativa1[1]}</Li>
-                  <Li>CHECKPOINT 3: {dados.baterias[0].tentativa1[2]}</Li>
-                  <Li>CHECKPOINT 4: {dados.baterias[0].tentativa1[3]}</Li>
-                  <Li>CHECKPOINT 5: {dados.baterias[0].tentativa1[4]}</Li>
+                  <Li>CHECKPOINT 1: {renderBaterry.tempo_checkpoints_1[0] || '--:--:---'} </Li>
+                  <Li>CHECKPOINT 2: {renderBaterry.tempo_checkpoints_1[1] || '--:--:---'}</Li>
+                  <Li>CHECKPOINT 3: {renderBaterry.tempo_checkpoints_1[2] || '--:--:---'}</Li>
+                  <Li>CHECKPOINT 4: {renderBaterry.tempo_checkpoints_1[3] || '--:--:---'}</Li>
+                  <Li>CHECKPOINT 5: {renderBaterry.tempo_checkpoints_1[4] || '--:--:---'}</Li>
                 </Ol>
                </DivRow6>
 
             <DivRow6>
             <Ol>
-                <Li>CHECKPOINT 6:  {dados.baterias[0].tentativa1[5]}</Li>
-                <Li>CHECKPOINT 7:  {dados.baterias[0].tentativa1[6]}</Li>
-                <Li>CHECKPOINT 8:  {dados.baterias[0].tentativa1[7]}</Li>
-                <Li>CHECKPOINT 9:  {dados.baterias[0].tentativa1[8]}</Li>
-                <Li>CHECKPOINT 10: {dados.baterias[0].tentativa1[9]}</Li>
+                <Li>CHECKPOINT 6:  {renderBaterry.tempo_checkpoints_1[5] || '--:--:---'}</Li>
+                <Li>CHECKPOINT 7:  {renderBaterry.tempo_checkpoints_1[6] || '--:--:---'}</Li>
+                <Li>CHECKPOINT 8:  {renderBaterry.tempo_checkpoints_1[7] || '--:--:---'}</Li>
+                <Li>CHECKPOINT 9:  {renderBaterry.tempo_checkpoints_1[8] || '--:--:---'}</Li>
+                <Li>CHECKPOINT 10: {renderBaterry.tempo_checkpoints_1[9] || '--:--:---'}</Li>
             </Ol>
             </DivRow6>
             </DivRow4>
@@ -207,25 +350,25 @@ function Modal({onClickClose, team}) {
               <DivTentativas>
                 <h3 style ={{ alignItems: 'center', marginBottom: '1rem'}}>TENTATIVA 2</h3>
               </DivTentativas>
-            <p style ={{ marginBottom: '0.2rem'}}>TEMPO TOTAL: 04:01:789</p>
+            <p style ={{ marginBottom: '0.2rem'}}>TEMPO TOTAL: {renderBaterry.tempo_total_2 || '--:--:---'}</p>
             <DivRow4>
             <DivRow6>
             <Ol>
-                <Li>CHECKPOINT 1: --:--:---</Li>
-                <Li>CHECKPOINT 2: --:--:---</Li>
-                <Li>CHECKPOINT 3: --:--:---</Li>
-                <Li>CHECKPOINT 4: --:--:---</Li>
-                <Li>CHECKPOINT 5: --:--:---</Li>
+                <Li>CHECKPOINT 1: {renderBaterry.tempo_checkpoints_2[0] || '--:--:---'}</Li>
+                <Li>CHECKPOINT 2: {renderBaterry.tempo_checkpoints_2[1] || '--:--:---'}</Li>
+                <Li>CHECKPOINT 3: {renderBaterry.tempo_checkpoints_2[2] || '--:--:---'}</Li>
+                <Li>CHECKPOINT 4: {renderBaterry.tempo_checkpoints_2[3] || '--:--:---'}</Li>
+                <Li>CHECKPOINT 5: {renderBaterry.tempo_checkpoints_2[4] || '--:--:---'}</Li>
             </Ol>
             </DivRow6>
 
             <DivRow6>
             <Ol>
-                <Li>CHECKPOINT 6:  --:--:---</Li>
-                <Li>CHECKPOINT 7:  --:--:---</Li>
-                <Li>CHECKPOINT 8:  --:--:---</Li>
-                <Li>CHECKPOINT 9:  --:--:---</Li>
-                <Li>CHECKPOINT 10: --:--:---</Li>
+                <Li>CHECKPOINT 6:  {renderBaterry.tempo_checkpoints_2[5] || '--:--:---'}</Li>
+                <Li>CHECKPOINT 7:  {renderBaterry.tempo_checkpoints_2[6] || '--:--:---'}</Li>
+                <Li>CHECKPOINT 8:  {renderBaterry.tempo_checkpoints_2[7] || '--:--:---'}</Li>
+                <Li>CHECKPOINT 9:  {renderBaterry.tempo_checkpoints_2[8] || '--:--:---'}</Li>
+                <Li>CHECKPOINT 10: {renderBaterry.tempo_checkpoints_2[9] || '--:--:---'}</Li>
             </Ol>
             </DivRow6>
             </DivRow4>

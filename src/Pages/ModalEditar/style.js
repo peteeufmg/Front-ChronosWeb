@@ -1,5 +1,5 @@
 import styled from "styled-components";
-
+import { Input, Select } from "antd";
 
 export const DivContainer = styled.div`
     position: fixed;
@@ -60,7 +60,9 @@ export const DivSelections = styled.div`
     color: #000000;    
     font-size: 0.9rem;
 `;
-
+export const Selection = styled(Select)`
+    width: 150px;
+`;
 export const Button = styled.button`
     background-color: #E4E4E4;
 
@@ -174,6 +176,30 @@ export const Li = styled.li`
     font-size: 0.9rem;
     }
 `;
+
+export const EditInput = styled.input`
+    border: none;            /* Remove a borda */
+    box-shadow: none;        /* Remove a sombra */
+    background-color: transparent;  /* Define o fundo como transparente */
+    color: inherit;   /* Faz a cor do texto herdar a cor do texto normal */
+    font-family: inherit;
+    font-size: inherit;      /* Faz o tamanho da fonte herdar o tamanho do texto normal */
+    padding: 0;              /* Remove o padding */
+    margin: 0;               /* Remove a margem */
+    outline: none;       /* Remove o contorno do foco */
+    width: 22px;
+    height: 19px;
+    &:hover, &:focus {
+        border: none;        /* Garante que a borda não apareça ao passar o mouse ou ao focar */
+        box-shadow: none;    /* Garante que a sombra não apareça ao passar o mouse ou ao focar */
+        background-color: transparent; /* Garante que o fundo permaneça transparente */
+    }
+    font-size: 1.2rem;
+    @media (max-width: 1150px) {
+    font-size: 0.9rem;
+    }
+`;
+
 export const DivButton = styled.div`
    Display: flex;           
    justify-content: center;
