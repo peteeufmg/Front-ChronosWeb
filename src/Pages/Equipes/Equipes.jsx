@@ -8,8 +8,6 @@ import api from '../../Services/api';
 import Modal from '../Modal';
 import ModalEditar from '../ModalEditar/ModalEditar';
 
-
-
 function Equipes() {
   const [data, setData] = useState([]);
   const [selectedValue, setSelectedValue] = useState(null);

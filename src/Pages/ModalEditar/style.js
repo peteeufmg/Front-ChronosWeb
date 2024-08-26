@@ -177,6 +177,8 @@ export const Li = styled.li`
     }
 `;
 
+
+
 export const EditInput = styled.input`
     border: none;            /* Remove a borda */
     box-shadow: none;        /* Remove a sombra */
