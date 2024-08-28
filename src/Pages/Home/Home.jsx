@@ -8,8 +8,9 @@ function Home() {
                     <Title>chronos web</Title>
                 </DivTitle>
                 <DivLinks>
-                    <Link href='#'>Seguidor</Link>
-                    <Link href='#'>sumô</Link>
+                    <Link href='/classifcacao'>Classificação</Link>
+                    <Link href='/equipes'>Equipes</Link>
+                    <Link href='/sorteio'>Sorteios</Link>
                 </DivLinks>
             </DivContainer>
     )
