@@ -4,6 +4,12 @@ const TimerContext = createContext();
 
 export function TimerProvider({ children }) {
 
+    const [equipeAtual, setEquipeAtual] = useState();
+    const [listaDeEquipes, setListaDeEquipes] = useState([]);
+    const [index, setIndex] = useState(1);
+
+    const[classificacoes, setClassificacoes] = useState()
+
     const [hour, setHour] = useState(0);
     const [minute, setMinute] = useState(0);
     const [second, setSecond] = useState(0);
@@ -74,18 +80,13 @@ export function TimerProvider({ children }) {
         }, 1);
     }    
     const value = {
-        Iniciar,
-        Pausar,
-        Reiniciar,
-        setdisabled,
-        returnMinute,
-        returnSecond,
-        returnMillisecond,
+        Iniciar, Pausar, Reiniciar, setdisabled, returnMinute, returnSecond, returnMillisecond,
+        setEquipeAtual, setListaDeEquipes, setIndex,
+        setClassificacoes,
+        classificacoes,
+        equipeAtual, listaDeEquipes, index,
         disabled,
-        hour,
-        minute,
-        second,
-        millisecond
+        hour, minute, second, millisecond
         };
 
     return (

@@ -1,13 +1,14 @@
 import {DivRow, DivRow1,DivRow2,DivButton, Ol, Li, DivC} from './Style';
 import {default as CustomButton} from '../../Components/Button/Button';
+import { useState, useEffect } from 'react';
 import { useTimer } from '../TimerProvider/TimerProvider';
 import Edit from '../Edit/Edit'
-
+import axios from 'axios';
 
 export default function Checkpoint(){
-
-    const { Iniciar, Pausar, Reiniciar, minute, second, millisecond, disabled,  returnMinute, returnSecond, returnMillisecond} = useTimer();
-
+    
+    const { Iniciar, Pausar, Reiniciar, minute, second, millisecond, disabled,  returnMinute, returnSecond, returnMillisecond, equipeAtual, listaDeEquipes, index, setClassificacoes} = useTimer();
+    const[IdEnvidado, SetIdEnviado] = useState('oi');
     const check = (e) =>{
         if(e.target.id != 9) {
             document.getElementById(`C${e.target.id}`).textContent = `${returnMinute(minute)}:${returnSecond(second)}:${returnMillisecond(millisecond)}`;
@@ -18,10 +19,59 @@ export default function Checkpoint(){
             Pausar();
         }
     }
+      
+    
+    useEffect(() => {
+         const fetchEquipes = async () => {
+             try {
+                 const response = await fetch('http://localhost:8000/classificatorias', {
+                     method: 'GET',
+                     headers: {
+                         'Content-Type': 'application/json',
+                     },
+                 });
+                 if (response.ok) {
+                     const data = await response.json();
+                     SetIdEnviado(data); // Update the list of teams
+                 } else {
+                     console.error('Erro ao buscar equipes');
+                 }
+             } catch (error) {
+                 console.error('Erro ao buscar equipes:', error);
+             }
+         };
+         fetchEquipes();
+     }, []); // Run only once when the component is mounted
+    
+     
+     useEffect(() => {
+        const fetchEquipes = async (id) => {
+            const data = {
+                id_equipe: id,
+                apresentacao: 0,
+                criatividade: 0,
+                robustez: 0,
+                total: 0,
+                bateria: []
+            };
+            
+            // Verifica se o ID já foi enviado
+            if (IdEnvidado.some(idenviado => idenviado.id_equipe === id)) {
+                console.log(`Id ${id} já foi enviado`);
+                return;
+            }
+            try {
+                const response = await axios.post('http://localhost:8000/classificatorias', data);
+                console.log('Dados enviados com sucesso:', response.data);
+            } catch (error) {
+                console.error('Erro ao enviar dados:', error);
+            }
+        };
 
-    const Editar = () =>{
-        
-    }
+        listaDeEquipes.forEach((equipe) => {
+            fetchEquipes(equipe._id);
+        });
+    }, [listaDeEquipes]);
 
     return (
         <DivC>

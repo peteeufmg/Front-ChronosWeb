@@ -37,7 +37,6 @@ function Cronometro() {
                         </DivCheckpoint>
                     </DivColumn>
                     <Classification>
-                        <h2>Classificação</h2>
                         <ClassificationTable/>
                     </Classification>
                </Dashboard>
