@@ -34,6 +34,10 @@ export const DivEquipe = styled.div`
   
     font-size:1rem;
     color: #000000;
+    @media(max-width:600px){
+    height:auto;
+    margin-bottom: 1rem;
+    }
 `;
 export const DivInfo = styled.div`
     display: flex;
@@ -81,6 +85,7 @@ export const DivClassificacoes = styled.div`
 
     @media(max-width:800px){
     flex-direction: column;
+    height:auto;
     }
 `;
 export const DivDireta = styled.div`

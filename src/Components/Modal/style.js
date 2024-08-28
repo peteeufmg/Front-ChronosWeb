@@ -2,9 +2,6 @@ import styled from "styled-components";
 import { Select } from "antd";
 
 export const DivContainer = styled.div`
-    position: fixed;
-    top: 0;
-    left: 0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -19,24 +16,40 @@ export const DivRetangulo = styled.div`
     flex-direction: column;
     
     height: 65vh;
+    
+    height: 65vh;
     width:75vw;
     background-color:#E4E4E4;
+    overflow: auto;
 `;
 export const DivEquipe = styled.div`
     display: flex;
     Justify-content: space-between;
     width: 100%;
     height:10%;
+    height:10%;
     margin-top: 1.2rem;
     margin-bottom: 0.1rem; 
     padding-left: 1rem;
     padding-right: 1rem;  
+    padding-left: 1rem;
+    padding-right: 1rem;  
   
     font-size:1rem;
+    font-size:1rem;
     color: #000000;
+
+    @media(max-width:550px){
+    font-size:0.8rem;
+    }
+
+    @media(max-width:375px){
+    font-size:0.7rem;
+    }
 `;
 export const DivInfo = styled.div`
     display: flex;
+
     gap: 0.4rem;
     width: 100%;
     margin: 0.4rem;
@@ -46,6 +59,16 @@ export const DivInfo = styled.div`
 
      @media (max-width: 1230px) {
     margin-bottom: 0rem;
+    }
+    @media (max-width: 650px) {
+    font-size: 0.7rem;
+    }
+    @media (max-width: 500px) {
+    flex-direction: column;
+    align-items: center;
+    height: auto;
+    margin-bottom: 0.9rem;
+    gap: 0.5rem;
     }
 `;
 export const DivSelections = styled.div`
@@ -93,15 +116,31 @@ export const DivTentativas = styled.div`
     flex-direction: row;
     justify-content: space-around;
     width: 100%;
-
     color:#000000;
     font-size: 1rem;
-
-    @media (max-width: 1230px) {
+    
+    @media (max-width: 1150px) {
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
-
     font-size: 0.8rem;
+    }
+
+    @media(max-width:880px){
+    margin-bottom:0.1rem;
+    }
+`;
+export const DivTempo = styled.div`
+    display;flex;
+    flex-direction: row;
+    
+    @media(max-width:880px){
+    text-align: center;
+    }
+    @media (max-width: 650px) {
+    font-size: 1.3rem;
+    }
+    @media (max-width: 500px) {
+    font-size: 0.9rem;
     }
 `;
 
@@ -109,6 +148,7 @@ export const DivRow4 = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: center;
+    width: 100%;
     width: 100%;
     height:80%;
 
@@ -118,7 +158,6 @@ export const DivRow4 = styled.div`
 
     @media (max-width: 650px) {
     flex-direction: column;
-    justify-content: space-between;
     text-align: center;
     width: 100%;
     height: 100%;
@@ -135,13 +174,7 @@ export const DivRow5 = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    width: 50%;
-    height: 100%;
-    margin-left: 0.7rem;
 
-    @media (max-width: 650px) {
-    width: 100%;
-    }
 `;
 
 export const Ol = styled.ol`
@@ -162,8 +195,11 @@ export const Ol = styled.ol`
 export const Li = styled.li`
     display: flex;
     width: 100%;
+    display: flex;
+    width: 100%;
     text-decoration: none;
     list-style-type: none;
+    font-size: 1.2rem;
     font-size: 1.2rem;
     color: #000000;
     margin-bottom: 0.4rem;
@@ -175,4 +211,17 @@ export const Li = styled.li`
     margin-bottom: 0.2 rem;
     font-size: 0.9rem;
     }
+    @media (max-width: 650px) {
+    font-size: 1.3rem;
+    }
+    @media (max-width: 500px) {
+    font-size: 0.9rem;
+    }
+`;
+export const DivButton = styled.div`
+   Display: flex;           
+   justify-content: center;
+   font-size: 0.9rem;
+   margin-top: 0.2rem;
+   margin-bottom: 0.6rem;
 `;
