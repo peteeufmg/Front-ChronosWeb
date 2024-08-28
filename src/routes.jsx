@@ -11,9 +11,6 @@ import Button from "./Components/Button";
 import Test from "./Pages/Test";
 import Ranking from "./Pages/Ranking";
 import Sorteio from "./Pages/Sorteio";
-import Modal from "./Pages/Modal";
-import ModalS from "./Pages/ModalS";
-import ModalEditar from "./Pages/ModalEditar";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -28,9 +25,6 @@ const router = createBrowserRouter(
             <Route path="/sorteio" element={<Sorteio />} />
 
             <Route path="/test" element={<Test />} />
-            <Route path="/modal" element={<Modal />} />
-            <Route path="/modals" element={<ModalS />} />
-            <Route path="/modaled" element={<ModalEditar />} />
         </Route>
     )
 );

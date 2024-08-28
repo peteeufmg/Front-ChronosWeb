@@ -59,7 +59,7 @@ export const Description = styled(List.Item.Meta)`
     margin: 0;
 `;
 
-export const Info = styled.h2`
+export const Info = styled.p`
     font-family: 'Jura', sans-serif;
     color:white; 
     font-weight: 400;
