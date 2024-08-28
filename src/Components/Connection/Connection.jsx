@@ -28,13 +28,14 @@ export default function Connection(){
       // Listen to data coming from the serial device.
       while (true) {
         const { value, done } = await reader.read();
+        console.log(value);
         if (done) {
           // Allow the serial port to be closed later.
           reader.releaseLock();
           break;
         }
         // value is a string.
-        const NumberValue = parseInt(value);
+        const NumberValue = parseInt(value.replace("S",""));
         switch(NumberValue){
           case 0:
             checkpoint(NumberValue);
@@ -55,6 +56,7 @@ export default function Connection(){
             break;
           default:
             console.log('Este evento não foi definido');
+            console.log(NumberValue);
             break;
         }
       }
