@@ -1,21 +1,40 @@
-import React, { createContext, useContext, useState, useRef } from 'react';
+import React, { createContext, useContext, useState, useRef, useEffect} from 'react';
 
 const TimerContext = createContext();
 
 export function TimerProvider({ children }) {
 
     const [equipeAtual, setEquipeAtual] = useState();
+    
     const [listaDeEquipes, setListaDeEquipes] = useState([]);
     const [index, setIndex] = useState(1);
 
     const[classificacoes, setClassificacoes] = useState()
-
     const [hour, setHour] = useState(0);
     const [minute, setMinute] = useState(0);
     const [second, setSecond] = useState(0);
     const [millisecond, setMillisec] = useState(0);
     const [disabled, setdisabled] = useState(true);
     const stopWatchInterval = useRef(null);
+
+    const minuteRef = useRef(minute);
+    const secondRef = useRef(second);
+    const millisecondRef = useRef(millisecond);
+    const disabledRef = useRef(disabled);
+
+    const refIndex = useRef([]);
+
+
+    useEffect(() => {
+        minuteRef.current = minute;
+        secondRef.current = second;
+        millisecondRef.current = millisecond;
+        
+    }, [minute, second, millisecond, disabled]);
+
+    useEffect(()=>{
+        disabledRef.current = disabled;
+    }, [disabled])
 
     const returnMinute = (input) => (input >= 10 ? input : `0${input}`);
     const returnSecond = (input) => (input >= 10 ? input : `0${input}`);
@@ -32,14 +51,16 @@ export function TimerProvider({ children }) {
     }
 
     const Iniciar = () =>{
-        if(document.getElementById('activTimer').checked){
-            if(document.getElementById('C0').textContent === "--:--:---")
-          document.getElementById('C0').textContent = `${returnMinute(minute)}:${returnSecond(second)}:${returnMillisecond(millisecond)}`;
-          document.getElementById('0').checked = true;
-          Pausar();
-          timer();
+        if(disabledRef.current === false){//case o timer esteja desbloqueado
+            if(document.getElementById('C0').textContent === "--:--:---"){
+                document.getElementById('C0').textContent = `${returnMinute(minute)}:${returnSecond(second)}:${returnMillisecond(millisecond)}`;
+                document.getElementById('0').checked = true;
+                document.getElementById('0').disabled = true;
+                document.getElementById('1').disabled = false;
+            }
+            Pausar();
+            timer();
         }
-          
     }
 
     const Pausar = () => {
@@ -50,10 +71,18 @@ export function TimerProvider({ children }) {
 
     const Reiniciar = () => {
         Pausar();
+        const index = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+        index.forEach((check)=>{
+            document.getElementById(`C${check}`).textContent = "--:--:---";
+            document.getElementById(check).checked = false;
+            document.getElementById(check).disabled = true;
+        })
+        document.getElementById(0).disabled = false;
         setHour(0);
         setMinute(0);
         setSecond(0);
         setMillisec(0);
+        refIndex.current = [];
     }
 
     const timer = (startTime = new Date().getTime()) => {
@@ -68,24 +97,46 @@ export function TimerProvider({ children }) {
                 setSecond(prev => prev + 1);
             }
 
-            if (second === 60) {
+            if (secondRef.current === 60) {
                 setSecond(0);
                 setMinute(prev => prev + 1);
             }
-
-            if (minute === 60) {
+            if (minuteRef.current === 60) {
                 setMinute(0);
                 setHour(prev => prev + 1);
             }
         }, 1);
     }    
+
+    const check = (e) => {
+        refIndex.current.push(parseInt(e.target.id));
+        console.log(refIndex.current);
+        document.getElementById(`C${e.target.id}`).textContent = `${returnMinute(minute)}:${returnSecond(second)}:${returnMillisecond(millisecond)}`;
+        const CountId = parseInt(e.target.id);
+        document.getElementById(CountId).disabled = true;
+
+        if(e.target.id == 0) {
+            document.getElementById(CountId+1).disabled = false;
+            Iniciar();
+        }
+        else if (e.target.id != 9){
+            document.getElementById(CountId+1).disabled = false;
+        }
+        else{
+            Pausar();
+        }
+    }
     const value = {
         Iniciar, Pausar, Reiniciar, setdisabled, returnMinute, returnSecond, returnMillisecond,
         setEquipeAtual, setListaDeEquipes, setIndex,
         setClassificacoes,
+        check,
+        refIndex,
+        minuteRef, secondRef, millisecondRef,
         classificacoes,
         equipeAtual, listaDeEquipes, index,
         disabled,
+        disabledRef,
         hour, minute, second, millisecond
         };
 

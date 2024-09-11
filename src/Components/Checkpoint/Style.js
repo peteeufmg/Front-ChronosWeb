@@ -56,3 +56,24 @@ export const DivButton = styled.div`
     gap: 2%;
     width: 50%;
 `;
+export const DivSumo = styled.div`
+    display: block;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    background-color: black;
+    text-align: center;
+    width: 45vw;
+    height: 45vw;
+    max-width: 350px;
+    max-height: 350px;
+    border-radius: 50%;
+    border: 5px solid yellow;
+`;
+export const Div = styled.div`
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    width: 100%;
+`;

@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useTimer } from '../TimerProvider/TimerProvider';
 export default function DashboardSelect() {
 
-    const { equipeAtual, categoriaAtual, setEquipeAtual, listaDeEquipes, setListaDeEquipes, setIndex, index} = useTimer();
+    const { equipeAtual, setEquipeAtual, listaDeEquipes, setListaDeEquipes, setIndex, index} = useTimer();
     
     const [listaDeEquipesPorCategoria, setListaDeEquipesPorCategoria] = useState([]);
 

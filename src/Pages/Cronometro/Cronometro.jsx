@@ -26,12 +26,8 @@ function Cronometro() {
                                 <Timer />
                             </DivRow>
                         </Display>
-                        
-                        <DivCheckpoint>
-                            <DivRow>
-                                <h2>Checkpoints:</h2>
-                            </DivRow>
-                            <DivRow4>
+                        <DivCheckpoint name="containerBase">
+                            <DivRow4 name="containerfilho">
                                 <Checkpoint/>
                             </DivRow4>
                         </DivCheckpoint>

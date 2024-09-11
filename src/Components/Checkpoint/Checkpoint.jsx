@@ -1,26 +1,42 @@
-import {DivRow, DivRow1,DivRow2,DivButton, Ol, Li, DivC} from './Style';
+import {DivRow, DivRow1,DivRow2,DivButton, Ol, Li, DivC, Div, DivSumo} from './Style';
 import {default as CustomButton} from '../../Components/Button/Button';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useTimer } from '../TimerProvider/TimerProvider';
 import Edit from '../Edit/Edit'
 import axios from 'axios';
 
 export default function Checkpoint(){
+    const [mostrarComponenteA, setMostrarComponenteA] = useState(true);
+    const {index} = useTimer();
+    useEffect(()=>{ //Opera conforme a categoria
+        index === 3? setMostrarComponenteA(false) : setMostrarComponenteA(true);
+    }, [index])
     
-    const { Iniciar, Pausar, Reiniciar, minute, second, millisecond, disabled,  returnMinute, returnSecond, returnMillisecond, equipeAtual, listaDeEquipes, index, setClassificacoes} = useTimer();
-    const[IdEnvidado, SetIdEnviado] = useState('oi');
-    const check = (e) =>{
-        if(e.target.id != 9) {
-            document.getElementById(`C${e.target.id}`).textContent = `${returnMinute(minute)}:${returnSecond(second)}:${returnMillisecond(millisecond)}`;
-            Iniciar();
-        }
-        else{
-            document.getElementById(`C${e.target.id}`).textContent = `${returnMinute(minute)}:${returnSecond(second)}:${returnMillisecond(millisecond)}`;
-            Pausar();
-        }
-    }
-      
-    
+    return (
+    <Div name="ContainerCategorias">
+        <Div style={{ display: mostrarComponenteA ? 'flex' : 'none' }}>
+          <Seguidor />
+        </Div>
+        <Div style={{ display: !mostrarComponenteA ? 'flex' : 'none' }} name="ContainerSumo">
+          <Sumo />
+        </Div>
+    </Div>
+    )
+}
+
+function Sumo(){
+    return(
+        <DivSumo name="DivSumo">
+            Oi
+        </DivSumo>
+    )
+}
+
+function Seguidor(){
+    const {disabled, listaDeEquipes, check} = useTimer();
+    const indexCheckpoint = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+    const[IdEnvidado, SetIdEnviado] = useState('');
+
     useEffect(() => {
          const fetchEquipes = async () => {
              try {
@@ -42,8 +58,7 @@ export default function Checkpoint(){
          };
          fetchEquipes();
      }, []); // Run only once when the component is mounted
-    
-     
+
      useEffect(() => {
         const fetchEquipes = async (id) => {
             const data = {
@@ -54,7 +69,6 @@ export default function Checkpoint(){
                 total: 0,
                 bateria: []
             };
-            
             // Verifica se o ID já foi enviado
             if (IdEnvidado.some(idenviado => idenviado.id_equipe === id)) {
                 console.log(`Id ${id} já foi enviado`);
@@ -72,30 +86,65 @@ export default function Checkpoint(){
             fetchEquipes(equipe._id);
         });
     }, [listaDeEquipes]);
+    
+    useEffect(()=>{
+        indexCheckpoint.forEach((e)=>{
+            document.getElementById(e).disabled = true;
+        })
+    }, [])
+    const[index, setIndex] = useState(null);
+    const[valor, setvalor] = useState(true);
+    useEffect(()=>{
+        if(valor){ // Lógica de execução para primeira renderização
+            console.log(valor);
+            setvalor(false);
+        }
+        else{ // Lógica dos checkpoints 
+            if(indexCheckpoint.every((e)=> document.getElementById(e).disabled === true) && document.getElementById("0").checked === false){//se todos estiverem bloqueados
+                //&& document.getElementById("C0").textContent === "--:--:---"
+                document.getElementById("0").disabled = false;
+                setIndex("0");
+                console.log("valor inicial");
+            }
+            else{//se houver algum desbloqueado
+                const indexOn = indexCheckpoint.find((e) => document.getElementById(e).disabled === false) //faz uma busca no elemento desbloqueado
 
-    return (
+                if(indexCheckpoint.some((e)=> e === indexOn)){// se encontrou algum
+                    document.getElementById(indexOn).disabled = true;
+                    setIndex(indexOn);
+                }
+                else{
+                    document.getElementById(index).disabled = false;
+                }
+            }
+        }
+    }, [disabled])
+    return(
         <DivC>
+            <DivRow>
+                <h2>Checkpoints:</h2>
+            </DivRow>
         <DivRow>
             <DivRow1>
                 <Ol>
                     <DivRow2>
-                        <input disabled = {disabled} type="checkbox"  onClick={check} name="" id="0" />
+                        <input type="checkbox"  onClick={check} name="" id="0" />
                         <Li>Checkpoint 0:<span id="C0">--:--:---</span></Li>
                     </DivRow2>
                     <DivRow2>
-                        <input disabled = {disabled} type="checkbox" onClick={check} name="" id="1" />
+                        <input type="checkbox" onClick={check} name="" id="1" />
                         <Li>Checkpoint 1:<span id="C1">--:--:---</span></Li>
                     </DivRow2>
                     <DivRow2>
-                        <input disabled = {disabled} type="checkbox" onClick={check} name="" id="2" />
+                        <input type="checkbox" onClick={check} name="" id="2" />
                         <Li>Checkpoint 2:<span id="C2">--:--:---</span></Li>
                     </DivRow2>
                     <DivRow2>
-                        <input disabled = {disabled} type="checkbox" onClick={check} name="" id="3" />
+                        <input type="checkbox" onClick={check} name="" id="3" />
                         <Li>Checkpoint 3:<span id="C3">--:--:---</span></Li>
                     </DivRow2>
                     <DivRow2>
-                        <input disabled = {disabled} type="checkbox" onClick={check} name="" id="4" />
+                        <input type="checkbox" onClick={check} name="" id="4" />
                         <Li>Checkpoint 4:<span id="C4">--:--:---</span></Li>
                     </DivRow2>
                 </Ol>
@@ -103,23 +152,23 @@ export default function Checkpoint(){
             <DivRow1>
                 <Ol>
                     <DivRow2>
-                        <input disabled = {disabled} type="checkbox" onClick={check} name="" id="5" />
+                        <input type="checkbox" onClick={check} name="" id="5" />
                         <Li>Checkpoint 5:<span id="C5">--:--:---</span></Li>
                     </DivRow2>
                     <DivRow2>
-                        <input disabled = {disabled} type="checkbox" onClick={check} name="" id="6" />
+                        <input type="checkbox" onClick={check} name="" id="6" />
                         <Li>Checkpoint 6:<span id="C6">--:--:---</span></Li>
                     </DivRow2>
                     <DivRow2>
-                        <input disabled = {disabled} type="checkbox" onClick={check} name="" id="7" />
+                        <input type="checkbox" onClick={check} name="" id="7" />
                         <Li>Checkpoint 7:<span id="C7">--:--:---</span></Li>
                     </DivRow2>
                     <DivRow2>
-                        <input disabled = {disabled} type="checkbox" onClick={check} name="" id="8" />
+                        <input type="checkbox" onClick={check} name="" id="8" />
                         <Li>Checkpoint 8:<span id="C8">--:--:---</span></Li>
                     </DivRow2>
                     <DivRow2>
-                        <input disabled = {disabled} type="checkbox" onClick={check} name="" id="9" />
+                        <input type="checkbox" onClick={check} name="" id="9" />
                         <Li>Checkpoint 9:<span id="C9">--:--:---</span></Li>
                     </DivRow2>
                 </Ol>

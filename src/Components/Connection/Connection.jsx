@@ -1,10 +1,10 @@
 import {} from './Style'
 import Button from '../Button/Button'
 import { useTimer } from '../TimerProvider/TimerProvider';
+import { useEffect } from 'react';
 export default function Connection(){
 
-    const { Iniciar, Pausar, Reiniciar, hour, minute, second, millisecond, key} = useTimer();
-
+    const { Iniciar, Pausar, Reiniciar, returnMinute, returnSecond, returnMillisecond, minuteRef, secondRef, millisecondRef,disabledRef, refIndex} = useTimer();
     // filtro de seleção para portas USB
     const filters = [
     { usbVendorId: 0x2341, usbProductId: 0x0043 },
@@ -20,7 +20,8 @@ export default function Connection(){
     
       // Abrir a porta com uma configuração padrão
       await port.open({ baudRate: 9600 });
-    
+      
+
       const textDecoder = new TextDecoderStream();
       const readableStreamClosed = port.readable.pipeTo(textDecoder.writable);
       const reader = textDecoder.readable.getReader();
@@ -28,7 +29,6 @@ export default function Connection(){
       // Listen to data coming from the serial device.
       while (true) {
         const { value, done } = await reader.read();
-        console.log(value);
         if (done) {
           // Allow the serial port to be closed later.
           reader.releaseLock();
@@ -36,29 +36,48 @@ export default function Connection(){
         }
         // value is a string.
         const NumberValue = parseInt(value.replace("S",""));
-        switch(NumberValue){
-          case 0:
-            checkpoint(NumberValue);
-            Iniciar();
-            break;
-          case 1:
-            checkpoint(NumberValue);
-            break;
-          case 2:
-            checkpoint(NumberValue);
-            break;
-          case 3:
-            checkpoint(NumberValue);
-            break;
-          case 4:
-             checkpoint(NumberValue);
-             Pausar();
-            break;
-          default:
-            console.log('Este evento não foi definido');
-            console.log(NumberValue);
-            break;
+        if(disabledRef.current === false){ // Executa o chechpoint apenas se o timer estiver liberado
+          switch(NumberValue){
+            case 0:
+              checkpoint(NumberValue);
+              Iniciar();
+              console.log("check0");
+              break;
+            case 1:
+              checkpoint(NumberValue);
+              break;
+            case 2:
+              checkpoint(NumberValue);
+              break;
+            case 3:
+              checkpoint(NumberValue);
+              break;
+            case 4:
+              checkpoint(NumberValue);
+              Pausar();
+              break;
+            case 5:
+              checkpoint(NumberValue);
+              break;
+            case 6:
+              checkpoint(NumberValue);
+              break;
+            case 7:
+              checkpoint(NumberValue);
+              break;
+            case 8:
+              checkpoint(NumberValue);
+              break;
+            case 9:
+               checkpoint(NumberValue);
+               Pausar();
+              break;
+            default:
+              console.log('Este evento não foi definido');
+              break;
+          }
         }
+        else{} 
       }
       // Fechar a porta após a obtenção das informações
       await port.close();
@@ -67,29 +86,40 @@ export default function Connection(){
    async function checkpoint(numeroDaPlaca){
         const UnrepetedNumber = noRepete(numeroDaPlaca);
         if(UnrepetedNumber != null){
-          document.getElementById(`C${UnrepetedNumber}`).textContent = document.getElementById('completeTime').textContent;
+          check(UnrepetedNumber);
         }
         else{
+          console.log("Unrepeted");
           return false;
         }
     }
-    const array = [];
+    
+
     const noRepete = (numeroDaPlaca) =>{
-      if(array.includes(numeroDaPlaca)){
+      if(refIndex.current.includes(numeroDaPlaca)){
         console.log('já existe');
         return null;
       }
       else{
-        array.push(numeroDaPlaca);
+        refIndex.current.push(numeroDaPlaca);
         console.log('adicionado');
         return numeroDaPlaca;
       } 
     }
 
-
+    const check = (e) =>{
+      const CountId = parseInt(e);
+      if(CountId !== 9){
+          document.getElementById(CountId+1).disabled = false;
+      };
+      document.getElementById(`C${CountId}`).textContent = `${returnMinute(minuteRef.current)}:${returnSecond(secondRef.current)}:${returnMillisecond(millisecondRef.current)}`;   
+      document.getElementById(`${CountId}`).checked = true;   
+      document.getElementById(`${CountId}`).disabled = true;  
+      console.log(document.getElementById("Restart"))
+  }
     return (
         <>
-        <Button onClick={connect} type="Connect" text="Conectar Sensores"/>
+          <Button onClick={connect} type="Connect" text="Conectar Sensores"/>
         </>
     )
 }

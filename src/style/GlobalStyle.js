@@ -13,9 +13,9 @@ const GlobalStyle = createGlobalStyle`
   body, html {
     font-family: 'Jura', sans-serif;
     display: flex;
-    background-color: #262729;
+    background-color: white !important;
     display: flex;
-    color: #FFFFFF;
+    color: black;
     line-height: 1;
 
     font-size: 16px;  /* 1rem = 16px */
