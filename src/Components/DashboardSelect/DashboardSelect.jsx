@@ -8,24 +8,19 @@ export default function DashboardSelect() {
     
     const [listaDeEquipesPorCategoria, setListaDeEquipesPorCategoria] = useState([]);
 
-   
-
     const [etapas, setEtapas] = useState([
-        { label: "Arrancada", value: 1 },
-        { label: "Classificatoria", value: 2 },
-        { label: "Repescagem", value: 3 },
-        { label: "Final", value: 4 }
+        { label: "Classificatoria", value: 1 },
+        { label: "Repescagem", value: 2 },
+        { label: "Final", value: 3 }
     ]);
     const [baterias, setBaterias] = useState([
         { label: "Bateria 1", value: 1 },
         { label: "Bateria 2", value: 2 },
-        { label: "Bateria 3", value: 3 },
-        { label: "Bateira 4", value: 4 }
+        { label: "Bateria 3", value: 3 }
     ]);
     const [categorias, setCategorias] = useState([
-        { label: "SeguidorAvancado", value: 1 },
-        { label: "SeguidorMirim", value: 2 },
-        { label: "Sumo", value: 3 }
+        { label: "Avancado", value: 1 },
+        { label: "Mirim", value: 2 },
     ]);
 
     // Fetching data once on component mount
