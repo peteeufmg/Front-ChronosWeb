@@ -47,7 +47,7 @@ export default function Edit() {
             onSelect={(value)=>{input(value)}}
           />
           <Button type="Edit" text="Editar" onClick = {()=>{editar()}}/>
-          <Button type="Salvar" text="Salvar"/>
+          <Button type="Salvar" text="Salvar" onClick = {()=>{salvar()}}/>
       </>
   );
 }

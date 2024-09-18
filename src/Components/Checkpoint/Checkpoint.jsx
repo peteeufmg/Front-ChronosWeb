@@ -6,33 +6,7 @@ import Edit from '../Edit/Edit'
 import axios from 'axios';
 
 export default function Checkpoint(){
-    const [mostrarComponenteA, setMostrarComponenteA] = useState(true);
-    const {index} = useTimer();
-    useEffect(()=>{ //Opera conforme a categoria
-        index === 3? setMostrarComponenteA(false) : setMostrarComponenteA(true);
-    }, [index])
     
-    return (
-    <Div name="ContainerCategorias">
-        <Div style={{ display: mostrarComponenteA ? 'flex' : 'none' }}>
-          <Seguidor />
-        </Div>
-        <Div style={{ display: !mostrarComponenteA ? 'flex' : 'none' }} name="ContainerSumo">
-          <Sumo />
-        </Div>
-    </Div>
-    )
-}
-
-function Sumo(){
-    return(
-        <DivSumo name="DivSumo">
-            Oi
-        </DivSumo>
-    )
-}
-
-function Seguidor(){
     const {disabled, listaDeEquipes, check} = useTimer();
     const indexCheckpoint = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
     const[IdEnvidado, SetIdEnviado] = useState('');
