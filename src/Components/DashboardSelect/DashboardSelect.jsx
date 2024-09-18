@@ -5,23 +5,54 @@ import { useTimer } from '../TimerProvider/TimerProvider';
 export default function DashboardSelect() {
 
     const { equipeAtual, setEquipeAtual, listaDeEquipes, setListaDeEquipes, setIndex, index} = useTimer();
-    
+
     const [listaDeEquipesPorCategoria, setListaDeEquipesPorCategoria] = useState([]);
 
-    const [etapas, setEtapas] = useState([
-        { label: "Classificatoria", value: 1 },
-        { label: "Repescagem", value: 2 },
-        { label: "Final", value: 3 }
-    ]);
-    const [baterias, setBaterias] = useState([
-        { label: "Bateria 1", value: 1 },
-        { label: "Bateria 2", value: 2 },
-        { label: "Bateria 3", value: 3 }
-    ]);
+    const [categoriaAtual, setCategoriaAtual] = useState();
+    const [etapaAtual, setEtapaAtual] = useState();
+    const [etapas, setEtapas] = useState([]);
+    const [baterias, setBaterias] = useState([]);
     const [categorias, setCategorias] = useState([
         { label: "Avancado", value: 1 },
         { label: "Mirim", value: 2 },
     ]);
+    
+    useEffect(() => {
+        if(categoriaAtual == 1){ // se for Avancado
+            setEtapas([
+            { label: "Classificatoria", value: 1 },
+            { label: "Repescagem", value: 2 },
+            { label: "Final", value: 3 }]);
+
+            if (etapaAtual== 1){ //Classificatoria
+              setBaterias([
+                { label: "Bateria 1", value: 1 },
+                { label: "Bateria 2", value: 2 },
+                { label: "Bateria 3", value: 3 }
+              ])
+            }if (etapaAtual == 2){ // Repescagem
+              setBaterias([])
+              //setSelectedHeat([]);
+            }if (etapaAtual == 3){ // Final
+              setBaterias([])
+              //setSelectedHeat([]);
+            }
+        }else if (categoriaAtual == 2){ //Se for Mirim
+            setEtapas([
+                { label: "Classificatoria", value: 1 },
+                { label: "Final", value: 3 }])
+            if (etapaAtual == 1){ //Classificatoria
+              setBaterias([
+                { label: "Bateria 1", value: 1 },
+                { label: "Bateria 2", value: 2 },
+              ])
+            }else if (etapaAtual == 3){ //Final
+              setBaterias([]);
+              //setSelectedHeat([]);
+            }
+        }
+        //setSentToBack(false);
+      }, [etapas, baterias, categorias, categoriaAtual])
 
     // Fetching data once on component mount
     useEffect(() => {
@@ -64,7 +95,7 @@ export default function DashboardSelect() {
                 <DivRow3>
                     <div><label htmlFor="">Categoria:</label></div>
                     <Selecionar
-                        onSelect={value => setIndex(value)}
+                        onSelect={value => {setCategoriaAtual(value); setIndex(value)}}
                         options={categorias}
                     />
                 </DivRow3>
@@ -78,7 +109,8 @@ export default function DashboardSelect() {
                 </DivRow3>
                 <DivRow3>
                     <div><label htmlFor="">Etapa:</label></div>
-                    <Selecionar 
+                    <Selecionar
+                    onSelect = {value => setEtapaAtual(value)} 
                         options={etapas}/>
                 </DivRow3>
                 <DivRow3>
