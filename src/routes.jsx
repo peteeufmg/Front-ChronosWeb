@@ -11,6 +11,7 @@ import Button from "./Components/Button";
 import Test from "./Pages/Test";
 import Ranking from "./Pages/Ranking";
 import Sorteio from "./Pages/Sorteio";
+import Sumo from "./Pages/Sumo/Sumo";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -23,6 +24,8 @@ const router = createBrowserRouter(
             
             <Route path="/classificacao" element={<Ranking />} />
             <Route path="/sorteio" element={<Sorteio />} />
+
+            <Route path="/sumo" element={<Sumo />} />
 
             <Route path="/test" element={<Test />} />
         </Route>
