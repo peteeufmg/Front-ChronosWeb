@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import NavBar from '../../Components/NavBar/NavBar';
 import { ClassificationTable } from '../../Components/Tables';
 import {DivContainer, DivHeader, Dashboard,DivRow,DivRow4, DivColumn, Display, DivCheckpoint, Classification, Tentativa} from './style';
@@ -6,20 +6,24 @@ import Timer from '../../Components/Timer/Timer';
 import Connection from "../../Components/Connection";
 import Checkpoint from "../../Components/Checkpoint/Checkpoint";
 import DashboardSelect from "../../Components/DashboardSelect/DashboardSelect";
+import updateClassificatorias from "../../Components/updateClassificatorias/updateClassificatorias";
+import { useTimer } from "../../Components/TimerProvider/TimerProvider";
 
 function Cronometro() {
+    const {tentativasFeitas, etapaAtual} = useTimer();
+    updateClassificatorias();
     return (
         <>
             <NavBar />
             <DivContainer>
                <DivHeader>
-                    <DashboardSelect/>     
+                    <DashboardSelect/>
                </DivHeader>
                <Dashboard>
                     <DivColumn>
                         <Display>
                             <DivRow>
-                                <Tentativa>Tentativa: 2</Tentativa>
+                                <Tentativa>Tentativa: {tentativasFeitas}</Tentativa>
                                 <Connection/>
                             </DivRow>
                             <DivRow>

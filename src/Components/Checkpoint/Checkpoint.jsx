@@ -7,11 +7,11 @@ import axios from 'axios';
 
 export default function Checkpoint(){
     
-    const {disabled, listaDeEquipes, check} = useTimer();
+    const {disabled, check, refListaDeEquipes, listaDeEquipes} = useTimer();
     const indexCheckpoint = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
     const[IdEnvidado, SetIdEnviado] = useState('');
 
-    useEffect(() => {
+    useEffect(() => { // colhe os dados de classificatórias existentes e salva em IdEnvidado
          const fetchEquipes = async () => {
              try {
                  const response = await fetch('http://localhost:8000/classificatorias', {
@@ -33,34 +33,42 @@ export default function Checkpoint(){
          fetchEquipes();
      }, []); // Run only once when the component is mounted
 
-     useEffect(() => {
-        const fetchEquipes = async (id) => {
-            const data = {
-                id_equipe: id,
-                apresentacao: 0,
-                criatividade: 0,
-                robustez: 0,
-                total: 0,
-                bateria: []
+     useEffect(() => { //filtra os Id's enviados e salva os que ainda não foram no banco de dados
+            const fetchEquipes = async (id) => {
+                const data = {
+                    id_equipe: id,
+                    apresentacao: 0,
+                    criatividade: 0,
+                    robustez: 0,
+                    total: 0,
+                    bateria: []
+                };
+                // Verifica se o ID já foi enviado
+                if (IdEnvidado.some(idenviado => idenviado.id_equipe === id)) {
+                    console.log(`Id ${id} para classificatórias já foi enviado`);
+                    return;
+                }
+                try {
+                    const response = await axios.post('http://localhost:8000/classificatorias', data);
+                    console.log('Dados enviados com sucesso:', response.data);
+                } catch (error) {
+                    console.error('Erro ao enviar dados:', error);
+                }
             };
-            // Verifica se o ID já foi enviado
-            if (IdEnvidado.some(idenviado => idenviado.id_equipe === id)) {
-                console.log(`Id ${id} já foi enviado`);
-                return;
-            }
-            try {
-                const response = await axios.post('http://localhost:8000/classificatorias', data);
-                console.log('Dados enviados com sucesso:', response.data);
-            } catch (error) {
-                console.error('Erro ao enviar dados:', error);
-            }
-        };
 
-        listaDeEquipes.forEach((equipe) => {
-            fetchEquipes(equipe._id);
-        });
+            try{
+                refListaDeEquipes.current.forEach((equipe) => {
+                    fetchEquipes(equipe._id);
+                });
+            }
+            catch(e){
+                console.error('Erro ao ler dados:', e);
+            }
+            
     }, [listaDeEquipes]);
     
+    
+    //configuração para habilitação dos checkpoints
     useEffect(()=>{
         indexCheckpoint.forEach((e)=>{
             document.getElementById(e).disabled = true;

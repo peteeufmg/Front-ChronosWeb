@@ -1,6 +1,6 @@
 import { Select } from 'antd'
 
-export default function Selecionar({options, onSelect, onChange, value, defaultValue, disabled}) {
+export default function Selecionar({options, onSelect, onChange, value, onClick, defaultValue, disabled}) {
     return(
         <>
         <Select
@@ -11,6 +11,7 @@ export default function Selecionar({options, onSelect, onChange, value, defaultV
             options={options}
             onSelect={onSelect}
             onChange={onChange}
+            onClick={onClick}
             value={value}
             defaultValue={defaultValue}
             disabled={disabled}

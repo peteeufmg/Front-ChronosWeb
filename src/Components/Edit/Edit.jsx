@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import  Button  from '../Button/Button'
 import { Divider, Select, Space } from 'antd';
+import { useTimer } from '../TimerProvider/TimerProvider';
 
 
 export default function Edit() {
+  const {save, setSave} = useTimer();
 
   const [items, setItems] = useState(['Checkpoint0', 'Checkpoint1', 'Checkpoint2','Checkpoint3','Checkpoint4','Checkpoint5','Checkpoint6','Checkpoint7', 'Checkpoint8', 'Checkpoint9',]);
   let index;
@@ -18,7 +20,7 @@ export default function Edit() {
     inp.value = dados;
     span.replaceWith(inp);
   }
-  const salvar = () =>{
+  const salvar = (e) =>{
     items.forEach(item =>{
         const dados = document.getElementById(`C${item.slice(10)}`).value;
         const input = document.getElementById(`C${item.slice(10)}`);
@@ -30,6 +32,7 @@ export default function Edit() {
             input.replaceWith(span);
         }
     });
+    setSave(e);
   }
   return (
       <>
@@ -47,7 +50,7 @@ export default function Edit() {
             onSelect={(value)=>{input(value)}}
           />
           <Button type="Edit" text="Editar" onClick = {()=>{editar()}}/>
-          <Button type="Salvar" text="Salvar" onClick = {()=>{salvar()}}/>
+          <Button type="Salvar" text="Salvar" onClick = {(e)=>{salvar(e)}}/>
       </>
   );
 }

@@ -5,17 +5,34 @@ const TimerContext = createContext();
 export function TimerProvider({ children }) {
 
     const [equipeAtual, setEquipeAtual] = useState();
-    
+    const [etapaAtual, setEtapaAtual] = useState();
+    const [categoriaAtual, setCategoriaAtual] = useState();
+    const [bateriaAtual, setBateriaAtual] = useState();
+
+    const [tentativasFeitas, setTentativasFeitas] = useState(0);
+
     const [listaDeEquipes, setListaDeEquipes] = useState([]);
+    const refListaDeEquipes = useRef();
+    useEffect(()=>{
+        refListaDeEquipes.current = listaDeEquipes
+    }, [listaDeEquipes])
+
     const [index, setIndex] = useState(1);
 
     const[classificacoes, setClassificacoes] = useState()
+
     const [hour, setHour] = useState(0);
     const [minute, setMinute] = useState(0);
     const [second, setSecond] = useState(0);
     const [millisecond, setMillisec] = useState(0);
     const [disabled, setdisabled] = useState(true);
     const stopWatchInterval = useRef(null);
+
+    const [save, setSave] = useState(null);
+    const saveRef = useRef(save);
+    useEffect(()=>{
+        saveRef.current = save;
+    }, [save])
 
     const minuteRef = useRef(minute);
     const secondRef = useRef(second);
@@ -29,7 +46,7 @@ export function TimerProvider({ children }) {
         minuteRef.current = minute;
         secondRef.current = second;
         millisecondRef.current = millisecond;
-        
+
     }, [minute, second, millisecond, disabled]);
 
     useEffect(()=>{
@@ -128,13 +145,19 @@ export function TimerProvider({ children }) {
     }
     const value = {
         Iniciar, Pausar, Reiniciar, setdisabled, returnMinute, returnSecond, returnMillisecond,
-        setEquipeAtual, setListaDeEquipes, setIndex,
+        setListaDeEquipes, setIndex,
         setClassificacoes,
-        check,
+        setEtapaAtual, setEquipeAtual, setCategoriaAtual, setBateriaAtual,
+        setSave,
+        check, setTentativasFeitas,
+        refListaDeEquipes,
+        tentativasFeitas,
+        etapaAtual, equipeAtual, categoriaAtual, bateriaAtual,
         refIndex,
+        save,saveRef,
         minuteRef, secondRef, millisecondRef,
-        classificacoes,
-        equipeAtual, listaDeEquipes, index,
+        classificacoes, 
+        listaDeEquipes, index,
         disabled,
         disabledRef,
         hour, minute, second, millisecond

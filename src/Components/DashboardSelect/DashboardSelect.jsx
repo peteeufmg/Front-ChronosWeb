@@ -1,30 +1,32 @@
 import { DivRow2, DivRow3, DivRow6 } from './Style';
 import Selecionar from '../Select/Select';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useTimer } from '../TimerProvider/TimerProvider';
 export default function DashboardSelect() {
 
-    const { equipeAtual, setEquipeAtual, listaDeEquipes, setListaDeEquipes, setIndex, index} = useTimer();
+    const { equipeAtual, setEquipeAtual, listaDeEquipes, 
+            setListaDeEquipes, setIndex, index, categoriaAtual, 
+            setCategoriaAtual, etapaAtual, setEtapaAtual, bateriaAtual, 
+            setBateriaAtual, setTentativasFeitas} = useTimer();
 
     const [listaDeEquipesPorCategoria, setListaDeEquipesPorCategoria] = useState([]);
-
-    const [categoriaAtual, setCategoriaAtual] = useState();
-    const [etapaAtual, setEtapaAtual] = useState();
     const [etapas, setEtapas] = useState([]);
     const [baterias, setBaterias] = useState([]);
     const [categorias, setCategorias] = useState([
         { label: "Avancado", value: 1 },
         { label: "Mirim", value: 2 },
     ]);
-    
-    useEffect(() => {
+
+    useEffect(() => {  
+
         if(categoriaAtual == 1){ // se for Avancado
             setEtapas([
+            { label: "Arrancada", value: 0 },
             { label: "Classificatoria", value: 1 },
             { label: "Repescagem", value: 2 },
             { label: "Final", value: 3 }]);
 
-            if (etapaAtual== 1){ //Classificatoria
+            if (etapaAtual == 1){ //Classificatoria
               setBaterias([
                 { label: "Bateria 1", value: 1 },
                 { label: "Bateria 2", value: 2 },
@@ -37,8 +39,10 @@ export default function DashboardSelect() {
               setBaterias([])
               //setSelectedHeat([]);
             }
+
         }else if (categoriaAtual == 2){ //Se for Mirim
             setEtapas([
+                { label: "Arrancada", value: 0 },
                 { label: "Classificatoria", value: 1 },
                 { label: "Final", value: 3 }])
             if (etapaAtual == 1){ //Classificatoria
@@ -52,7 +56,17 @@ export default function DashboardSelect() {
             }
         }
         //setSentToBack(false);
-      }, [etapas, baterias, categorias, categoriaAtual])
+      }, [etapaAtual, categoriaAtual])
+      
+      const[value, setValue] = useState(null);
+      const refValue = useRef(null);
+      useEffect(()=>{
+        refValue.current = value;
+        setEquipeAtual(null);
+        setBateriaAtual(null);
+        setEtapaAtual(null);
+        setTentativasFeitas(0);
+      }, [value])
 
     // Fetching data once on component mount
     useEffect(() => {
@@ -95,6 +109,7 @@ export default function DashboardSelect() {
                 <DivRow3>
                     <div><label htmlFor="">Categoria:</label></div>
                     <Selecionar
+                        onChange={value => {setValue(value)}}
                         onSelect={value => {setCategoriaAtual(value); setIndex(value)}}
                         options={categorias}
                     />
@@ -102,7 +117,7 @@ export default function DashboardSelect() {
                 <DivRow3>
                     <div><label htmlFor="">Equipe:</label></div>
                     <Selecionar
-                        valorequipe={equipeAtual}
+                        value={equipeAtual}
                         onSelect={e => setEquipeAtual(e)}
                         options={listaDeEquipesPorCategoria}
                     />
@@ -110,16 +125,19 @@ export default function DashboardSelect() {
                 <DivRow3>
                     <div><label htmlFor="">Etapa:</label></div>
                     <Selecionar
-                    onSelect = {value => setEtapaAtual(value)} 
+                        value={etapaAtual}
+                        onSelect = {value => setEtapaAtual(value)} 
                         options={etapas}/>
                 </DivRow3>
                 <DivRow3>
                     <div><label htmlFor="">Bateria:</label></div>
                     <Selecionar 
+                        value={bateriaAtual}
+                        onSelect={e => setBateriaAtual(e)}
                         options={baterias}/>
                 </DivRow3>
             </DivRow2>
-            <output>tentativas restantes: 2</output>
+            {/*<output>tentativas restantes: 2</output>*/}
         </DivRow6>
     );
 }
