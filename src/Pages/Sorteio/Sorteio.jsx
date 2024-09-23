@@ -12,6 +12,7 @@ function shuffleArray(array) {
 
 function Sorteio() {
   const [dataSource, setDataSource] = useState([]);
+  const [dataView, setDataView] = useState([]);
   const [dataToDraw, setDataToDraw] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedRound, setSelectedRound] = useState(null);
@@ -82,7 +83,11 @@ function Sorteio() {
     {
       title: 'Ordem',
       key: 'order',
-      render: (_, __, index) => index + 1,
+      render: (_, __, index) => {
+        const pageIndex = dataView.findIndex(page => page.includes(__));
+        const previousItemsCount = pageIndex * 10; 
+        return previousItemsCount + index + 1;
+      },
       width: '25%',
       align: 'center',
     },
@@ -94,10 +99,18 @@ function Sorteio() {
     },
   ];
 
+  const paginate = (data, pageSize) => {
+    const pages = [];
+    for (let i = 0; i < data.length; i += pageSize) {
+      pages.push(data.slice(i, i + pageSize));
+    }
+    return pages;
+  };
+
   const randomizeData = () => {
     const shuffledData = shuffleArray([...dataToDraw]);
     setDataSource(shuffledData);
-    
+    setDataView(paginate(shuffledData, 10));
     if (!sentToBack) {
       const equipesIDs = dataSource.map(e => ({id: e._id}));
       const categoria = selectedCategory == "Avancada" ? 1 : 2;
@@ -200,7 +213,9 @@ function Sorteio() {
             <CustomButton onClick={randomizeData} text={"Sortear"}/>
           </Title>
           <ShuffleContainer>
-            <ShuffleTable dataSource={dataSource} columns={columns} pagination={false} />
+            {dataView.map((pageData, index)=>(
+              <ShuffleTable dataSource={pageData} columns={columns} pagination={false} size='small'/>
+            ))}   
           </ShuffleContainer> 
         </Frame>
       </Container>

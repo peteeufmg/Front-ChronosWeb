@@ -44,7 +44,7 @@ export const ShuffleContainer = styled.div`
 
     gap: 1%;
 
-    padding: 2.5%;
+    padding: 1%;
 `;
 export const ShuffleTable = styled(Table)`
     width: 50%;
