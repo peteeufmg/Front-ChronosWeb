@@ -1,7 +1,8 @@
-import { Flex, Modal, Select, Typography } from "antd";
+import { Flex, Input, Modal, Select, Typography } from "antd";
 import ConfigProvider, { ConfigContext } from "antd/es/config-provider"
 import { useEffect, useState } from "react";
 import api from "../../Services/api";
+import Button from "../Button";
 const { Title, Text } = Typography;
 
 // Permite visualizar as info de uma equipe
@@ -172,19 +173,42 @@ const EditModal = ({open, close, teamData}) => {
         </Flex>
     );
 
+    const handleCheckpointChange = (value, index, attempt) => {
+        const updatedCheckpoints = [...data[attempt]];
+        updatedCheckpoints[index] = value;
+
+        setData((prevData) => ({
+            ...prevData,
+            [attempt]: updatedCheckpoints,
+        }));
+    };
+
     //Dinamicamente preencher os checkpoints
     const checkpoints1 = Array.from({ length: 10 }, (_, index) => {
-        // Tenta obter o valor do checkpoint do array original
         const checkpoint = data.checkpoints_1[index];
-        // Se o valor não existir, retorna a string '--:--:---'
-        return checkpoint !== undefined ? checkpoint : '--:--:---';
+        return (
+            <Input
+                key={index}
+                value={checkpoint !== undefined ? checkpoint : "--:--:---"}
+                onChange={(e) => handleCheckpointChange(e.target.value, index, "checkpoints_1")}
+            />
+        );
     });
+
     const checkpoints2 = Array.from({ length: 10 }, (_, index) => {
-        // Tenta obter o valor do checkpoint do array original
         const checkpoint = data.checkpoints_2[index];
-        // Se o valor não existir, retorna a string '--:--:---'
-        return checkpoint !== undefined ? checkpoint : '--:--:---';
+        return (
+            <Input
+                key={index}
+                value={checkpoint !== undefined ? checkpoint : "--:--:---"}
+                onChange={(e) => handleCheckpointChange(e.target.value, index, "checkpoints_2")}
+            />
+        );
     });
+
+    const handleSubmit = () => {
+        console.log("t")
+    };
 
     return (
         <ConfigProvider>
@@ -235,7 +259,7 @@ const EditModal = ({open, close, teamData}) => {
                                 <Flex vertical={true} gap="small">
                                     <Text strong>Tempo total: {data.tempo_total_1}</Text>
                                     <Flex wrap gap="small">
-                                        {checkpoints1.map((checkpoint, index) => (<Text key={index}>Checkpoint {index + 1}: {checkpoint}</Text>))}
+                                        {checkpoints1}
                                     </Flex>
                                 </Flex>
                             </Flex>
@@ -244,12 +268,13 @@ const EditModal = ({open, close, teamData}) => {
                                 <Flex vertical={true} gap="small">
                                     <Text strong>Tempo total: {data.tempo_total_2}</Text>
                                     <Flex wrap gap="small">
-                                        {checkpoints2.map((checkpoint, index) => (<Text key={index}>Checkpoint {index + 1}: {checkpoint}</Text>))}
+                                        {checkpoints2}
                                     </Flex>
                                 </Flex>
                             </Flex>
                         </Flex>
                     </Flex>
+                    <Button type="Salvar" text="salvar" onClick={handleSubmit} />
                 </Flex>
             </Modal>
         </ConfigProvider>
