@@ -9,62 +9,75 @@ export default function Checkpoint(){
     
     const {disabled, check, refListaDeEquipes, listaDeEquipes} = useTimer();
     const indexCheckpoint = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
-    const[IdEnvidado, SetIdEnviado] = useState('');
+    const etapas = ["classificatorias", "arrancada", "finais", "repescagem"];
 
-    useEffect(() => { // colhe os dados de classificatórias existentes e salva em IdEnvidado
-         const fetchEquipes = async () => {
-             try {
-                 const response = await fetch('http://localhost:8000/classificatorias', {
-                     method: 'GET',
-                     headers: {
-                         'Content-Type': 'application/json',
-                     },
-                 });
-                 if (response.ok) {
-                     const data = await response.json();
-                     SetIdEnviado(data); // Update the list of teams
-                 } else {
-                     console.error('Erro ao buscar equipes');
-                 }
-             } catch (error) {
-                 console.error('Erro ao buscar equipes:', error);
-             }
-         };
-         fetchEquipes();
-     }, []); // Run only once when the component is mounted
-
-     useEffect(() => { //filtra os Id's enviados e salva os que ainda não foram no banco de dados
-            const fetchEquipes = async (id) => {
-                const data = {
-                    id_equipe: id,
-                    apresentacao: 0,
-                    criatividade: 0,
-                    robustez: 0,
-                    total: 0,
-                    bateria: []
-                };
-                // Verifica se o ID já foi enviado
-                if (IdEnvidado.some(idenviado => idenviado.id_equipe === id)) {
-                    console.log(`Id ${id} para classificatórias já foi enviado`);
-                    return;
-                }
-                try {
-                    const response = await axios.post('http://localhost:8000/classificatorias', data);
-                    console.log('Dados enviados com sucesso:', response.data);
-                } catch (error) {
-                    console.error('Erro ao enviar dados:', error);
-                }
-            };
-
-            try{
-                refListaDeEquipes.current.forEach((equipe) => {
-                    fetchEquipes(equipe._id);
-                });
-            }
-            catch(e){
-                console.error('Erro ao ler dados:', e);
-            }
+        useEffect(() => { //filtra os Id's enviados e salva os que ainda não foram no banco de dados
             
+            const fetchEquipes = async (id, etapa) => {
+                let reqEtapaAtual;
+                let reqEtapaAtualArray = [];
+                let data;
+                if(etapa === "classificatorias"){ // monta o tipo de dado da etapa para ser enviado
+                    data = {
+                        id_equipe: id,
+                        apresentacao: 0,
+                        criatividade: 0,
+                        robustez: 0,
+                        total: 0,
+                        bateria: []
+                    };
+                }else{
+                    data = {
+                        id_equipe: id,
+                        bateria: []
+                    }
+                }
+                try { //Atualiza o valor dos dados existentes no banco de dado para a etapa atual
+                    const response = await fetch(`http://localhost:8000/${etapa}`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        
+                    });
+                    if (response.ok) {
+                        reqEtapaAtual = await response.json();
+                        reqEtapaAtual.forEach((data)=>{
+                            reqEtapaAtualArray.push(data.id_equipe);
+                        })
+                    } else {
+                        console.error('Erro ao buscar equipes');
+                    }   
+                } catch (error) {
+                    console.error('Erro ao buscar equipes:', error);
+                }
+
+                // Verifica se o ID já foi enviado
+                if (reqEtapaAtualArray.includes(id)) {
+                    console.log(`Id ${id} para ${etapa} já foi enviado`);
+                    return;   
+                }
+                else{
+                    try {
+                        
+                        const response = await axios.post(`http://localhost:8000/${etapa}`, data);
+                        console.log('Dados enviados com sucesso:', response.data);
+                    } catch (error) {
+                        console.error('Erro ao enviar dados:', error);
+                    }
+            
+                }
+        }
+            etapas.forEach((etapa)=>{
+                try{
+                    refListaDeEquipes.current.forEach((equipe) => {
+                       fetchEquipes(equipe._id, etapa);
+                    });
+                }
+                catch(e){
+                    console.error('Erro ao ler dados:', e);
+                }
+            })
     }, [listaDeEquipes]);
     
     
