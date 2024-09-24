@@ -56,6 +56,10 @@ function Equipes() {
         const teams2 = fetchedTeams.filter(e => e.categoria === 2);
         setTeamsToDisplay(teams2);
         break;
+      case 3:
+        const teams3 = fetchedTeams.filter(e => e.categoria === 3);
+        setTeamsToDisplay(teams3);
+        break;  
     }
   }, [teamsFilter]);
 
@@ -100,6 +104,7 @@ function Equipes() {
               <Select.Option value={0}>Todas</Select.Option>
               <Select.Option value={1}>Avançada</Select.Option>
               <Select.Option value={2}>Mirim</Select.Option>
+              <Select.Option value={3}>Sumô</Select.Option>
             </Selection>
           </SelectContainer>
 
