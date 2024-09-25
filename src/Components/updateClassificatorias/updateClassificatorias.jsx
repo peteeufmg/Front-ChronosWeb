@@ -141,8 +141,10 @@ export default function updateClassificatorias(){
             const millissecond = parseInt(document.getElementById(`C${i}`).textContent.split(":")[2]);
             const second = parseInt(document.getElementById(`C${i}`).textContent.split(":")[1]);
             const minute = parseInt(document.getElementById(`C${i}`).textContent.split(":")[0]);
-            const checkpointTotal = millissecond + second*1000 + minute*60000;   
-            checkpoints.push(checkpointTotal);
+            const checkpointTotal = millissecond + second*1000 + minute*60000;
+            if (!isNaN(checkpointTotal)) {
+                checkpoints.push(checkpointTotal);
+            }
         }
         elementoBateriaAtual[Indexcheckpoint] = checkpoints
         elementoBateriaAtual[indexValor] = Math.max(...checkpoints)
