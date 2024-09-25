@@ -73,7 +73,7 @@ export default function updateClassificatorias(){
     useEffect(()=>{ // Quando a bateria for atualizada, os dados da classificatoria será requisitado
         const fetchData = async () => {
             try {
-                const response = await fetch(`http://localhost:8000/${refEtapaParaBack.current}`, {
+                const response = await fetch(`https://front-chronosweb-1.onrender.com/${refEtapaParaBack.current}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -125,7 +125,7 @@ export default function updateClassificatorias(){
 
     const upDateCheckpoint = async (id, index, dados_bateria) => {
         try {
-            const response = await axios.post(`http://localhost:8000/${refEtapaParaBack.current}/${id}`, {
+            const response = await axios.post(`https://front-chronosweb-1.onrender.com/${refEtapaParaBack.current}/${id}`, {
                 [`bateria.${index}`]: dados_bateria 
             });
             console.log('Dados enviados com sucesso:', response.data);

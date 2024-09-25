@@ -87,7 +87,7 @@ export default function DashboardSelect() {
     useEffect(() => {
         const fetchEquipes = async () => {
             try {
-                const response = await fetch('http://localhost:8000/equipes', {
+                const response = await fetch('https://front-chronosweb-1.onrender.com/equipes', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
