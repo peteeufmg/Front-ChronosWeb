@@ -54,7 +54,6 @@ export default function Connection(){
               break;
             case 4:
               checkpoint(NumberValue);
-              Pausar();
               break;
             case 5:
               checkpoint(NumberValue);
