@@ -11,6 +11,11 @@ import { useTimer } from "../../Components/TimerProvider/TimerProvider";
 
 function Cronometro() {
     const {tentativasFeitas, etapaAtual} = useTimer();
+
+    useEffect(() => {
+        localStorage.setItem('tentativasFeitas', tentativasFeitas);
+    }, [tentativasFeitas])
+
     updateClassificatorias();
     return (
         <>
