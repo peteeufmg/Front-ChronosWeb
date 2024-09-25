@@ -105,6 +105,7 @@ function Equipes() {
               <Select.Option value={1}>Avançada</Select.Option>
               <Select.Option value={2}>Mirim</Select.Option>
               <Select.Option value={3}>Sumô</Select.Option>
+              <Select.Option value={3}>Sumô</Select.Option>
             </Selection>
           </SelectContainer>
 
