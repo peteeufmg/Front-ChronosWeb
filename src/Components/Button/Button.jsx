@@ -2,7 +2,7 @@ import { ButtonContainer, ButtonText } from "./style";
 
 /**
  * Botão padrão do sistema web
- * @param {("Add"|"Close"|"Connect"|"Delete"|"Edit"|"Play"|"Restart"|"Salvar"|"View")} type - O tipo de botão. Pode ser um dos seguintes valores: "Add", "Close", "Connect", "Delete", "Edit", "Play", "Restart", "Salvar", "View".
+ * @param {("Add"|"Close"|"Connect"|"Delete"|"Edit"|"Play"|"Restart"|"Salvar"|"View"|"Pause"|"Stop")} type - O tipo de botão. Pode ser um dos seguintes valores: "Add", "Close", "Connect", "Delete", "Edit", "Play", "Restart", "Salvar", "View".
  * @param {String} text O texto que o botão terá.
  * @param {function} onClick Função a ser executada ao clicar no botão.
  */
@@ -52,6 +52,11 @@ export default function Button({ type, text, onClick }) {
         <path d="M24.66 22.4244L19.7915 17.5567C19.5717 17.337 19.2739 17.215 18.9613 17.215H18.1654C19.5131 15.4915 20.314 13.3237 20.314 10.9656C20.314 5.35576 15.7678 0.810303 10.157 0.810303C4.54623 0.810303 0 5.35576 0 10.9656C0 16.5754 4.54623 21.1208 10.157 21.1208C12.5156 21.1208 14.6837 20.3201 16.4074 18.9726V19.7684C16.4074 20.0809 16.5295 20.3787 16.7493 20.5984L21.6178 25.4661C22.0768 25.925 22.8191 25.925 23.2732 25.4661L24.6551 24.0844C25.1141 23.6255 25.1141 22.8833 24.66 22.4244ZM10.157 17.215C6.70459 17.215 3.90654 14.4223 3.90654 10.9656C3.90654 7.51375 6.69971 4.71617 10.157 4.71617C13.6094 4.71617 16.4074 7.50887 16.4074 10.9656C16.4074 14.4174 13.6143 17.215 10.157 17.215Z" fill="#EDA500"/>
         </svg>
         
+    } else if (type == "Pause") {
+        icon = <svg width="25" height="25" fill="none" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="m144 479h-96c-26.5 0-48-21.5-48-48v-352c0-26.5 21.5-48 48-48h96c26.5 0 48 21.5 48 48v352c0 26.5-21.5 48-48 48zm304-48v-352c0-26.5-21.5-48-48-48h-96c-26.5 0-48 21.5-48 48v352c0 26.5 21.5 48 48 48h96c26.5 0 48-21.5 48-48z" fill="#EDA500"/></svg>
+        
+    } else if (type == "Stop") {
+        icon = <svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg" width="25" height="25"><path d="m400 32h-352c-26.5 0-48 21.5-48 48v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-352c0-26.5-21.5-48-48-48z" fill="#EDA500" /></svg>
     }
 
     return (

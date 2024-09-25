@@ -52,6 +52,7 @@ const AddModal = ({open, close, message}) => {
                     >
                         <Select.Option value={1}>Categoria Avançada</Select.Option>
                         <Select.Option value={2}>Categoria Mirim</Select.Option>
+                        <Select.Option value={3}>Sumô</Select.Option>
                     </Select>
                 </Flex>
             </Modal>

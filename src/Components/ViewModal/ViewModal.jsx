@@ -172,6 +172,84 @@ const ViewModal = ({open, close, teamData}) => {
         return checkpoint !== undefined ? checkpoint : '--:--:---';
     });
 
+    let teamCategoria = teamCategoriaHandler();
+
+    function teamCategoriaHandler () {
+        switch (teamData.categoria) {
+            case 1:
+                return "Avançada";
+            case 2:
+                return "Mirim";
+            case 3:
+                return "Sumô";
+        }
+    }
+
+    const seguidorContent =
+            <>
+                <Flex gap="middle">
+                    <Select 
+                        defaultValue={0}
+                        onChange={e => {setSelectedRound(e);fetchData(e);}}
+                    >
+                        <Select.Option value={0}>Classificatória</Select.Option>
+                        <Select.Option value={1} disabled={disableRepescagem}>Repescagem</Select.Option>
+                        <Select.Option value={2}>Final</Select.Option>
+                    </Select>
+                    <Select
+                        defaultValue={0}
+                        disabled={disableHeats}
+                        onChange={e => setSelectedHeat(e)}
+                    >
+                        <Select.Option value={0}>Bateria 1</Select.Option>
+                        <Select.Option value={1}>Bateria 2</Select.Option>
+                        <Select.Option value={2}>Bateria 3</Select.Option>
+                    </Select>
+                </Flex>
+                {/* Display tries */}
+                <Flex vertical={true} gap="small">
+                    {displayScores && scores}
+                    <Flex gap="large">
+                        <Flex vertical={true} gap="small" align="center">
+                            <Title level={5}>Tentativa 1</Title>
+                            <Flex vertical={true} gap="small">
+                                <Text strong>Tempo total: {data.tempo_total_1}</Text>
+                                <Flex wrap gap="small">
+                                    {checkpoints1.map((checkpoint, index) => (<Text key={index}>Checkpoint {index + 1}: {checkpoint}</Text>))}
+                                </Flex>
+                            </Flex>
+                        </Flex>
+                        <Flex vertical={true} gap="small" align="center">
+                            <Title level={5}>Tentativa 2</Title>
+                            <Flex vertical={true} gap="small">
+                                <Text strong>Tempo total: {data.tempo_total_2}</Text>
+                                <Flex wrap gap="small">
+                                    {checkpoints2.map((checkpoint, index) => (<Text key={index}>Checkpoint {index + 1}: {checkpoint}</Text>))}
+                                </Flex>
+                            </Flex>
+                        </Flex>
+                    </Flex>
+                </Flex>
+            </>;
+
+    const sumoContent = 
+            <>
+                {/* Display tries */}
+                <Flex vertical={true} gap="small">
+                    <Flex>
+                        <Flex vertical={true} gap="small" align="center">
+                            <Title level={5}>Tentativa 1</Title>
+                            <Flex vertical={true} gap="small">
+                                <Text strong>Tempo total: {data.tempo_total_2}</Text>
+                                <Flex wrap gap="small">
+                                    {checkpoints2.map((checkpoint, index) => (<Text key={index}>Checkpoint {index + 1}: {checkpoint}</Text>))}
+                                </Flex>
+                            </Flex>
+                        </Flex>
+                    </Flex>
+                </Flex>
+            </>;
+
     return (
         <ConfigProvider>
             <Modal
@@ -190,56 +268,14 @@ const ViewModal = ({open, close, teamData}) => {
                 >
                     <Flex gap="middle">
                         <Text>Capitão: <Text type="secondary">{teamData.capitao}</Text></Text>
-                        <Text>Categoria: <Text type="secondary">{teamData.categoria == 1 ? "Avançado" : "Mirim"}</Text></Text>
+                        <Text>Categoria: <Text type="secondary">{teamCategoria}</Text></Text>
                     </Flex>
                     {/* Define round and heat Selects */}
-                    <Flex gap="middle">
-                        <Select 
-                            defaultValue={0}
-                            onChange={e => {setSelectedRound(e);fetchData(e);}}
-                        >
-                            <Select.Option value={0}>Classificatória</Select.Option>
-                            <Select.Option value={1} disabled={disableRepescagem}>Repescagem</Select.Option>
-                            <Select.Option value={2}>Final</Select.Option>
-                        </Select>
-                        <Select
-                            defaultValue={0}
-                            disabled={disableHeats}
-                            onChange={e => setSelectedHeat(e)}
-                        >
-                            <Select.Option value={0}>Bateria 1</Select.Option>
-                            <Select.Option value={1}>Bateria 2</Select.Option>
-                            <Select.Option value={2}>Bateria 3</Select.Option>
-                        </Select>
-                    </Flex>
-                    {/* Display tries */}
-                    <Flex vertical={true} gap="small">
-                        {displayScores && scores}
-                        <Flex>
-                            <Flex vertical={true} gap="small" align="center">
-                                <Title level={5}>Tentativa 1</Title>
-                                <Flex vertical={true} gap="small">
-                                    <Text strong>Tempo total: {data.tempo_total_1}</Text>
-                                    <Flex wrap gap="small">
-                                        {checkpoints1.map((checkpoint, index) => (<Text key={index}>Checkpoint {index + 1}: {checkpoint}</Text>))}
-                                    </Flex>
-                                </Flex>
-                            </Flex>
-                            <Flex vertical={true} gap="small" align="center">
-                                <Title level={5}>Tentativa 2</Title>
-                                <Flex vertical={true} gap="small">
-                                    <Text strong>Tempo total: {data.tempo_total_2}</Text>
-                                    <Flex wrap gap="small">
-                                        {checkpoints2.map((checkpoint, index) => (<Text key={index}>Checkpoint {index + 1}: {checkpoint}</Text>))}
-                                    </Flex>
-                                </Flex>
-                            </Flex>
-                        </Flex>
-                    </Flex>
+                    {teamData.categoria == 3 ? sumoContent : seguidorContent}
                 </Flex>
             </Modal>
         </ConfigProvider>
     );
 }
 
-export default ViewModal
+export default ViewModal   
