@@ -2,7 +2,7 @@ import { ButtonContainer, ButtonText } from "./style";
 
 /**
  * Botão padrão do sistema web
- * @param {("Add"|"Close"|"Connect"|"Delete"|"Edit"|"Play"|"Restart"|"Salvar"|"View"|"Stop")} type - O tipo de botão. Pode ser um dos seguintes valores: "Add", "Close", "Connect", "Delete", "Edit", "Play", "Restart", "Salvar", "View".
+ * @param {("Add"|"Close"|"Connect"|"Delete"|"Edit"|"Play"|"Restart"|"Salvar"|"View"|"Stop"|"update")} type - O tipo de botão. Pode ser um dos seguintes valores: "Add", "Close", "Connect", "Delete", "Edit", "Play", "Restart", "Salvar", "View".
  * @param {String} text O texto que o botão terá.
  * @param {function} onClick Função a ser executada ao clicar no botão.
  */
@@ -53,7 +53,13 @@ export default function Button({ type, text, onClick, disabled}) {
         icon = <svg width="25" height="26" viewBox="0 0 25 26" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M24.66 22.4244L19.7915 17.5567C19.5717 17.337 19.2739 17.215 18.9613 17.215H18.1654C19.5131 15.4915 20.314 13.3237 20.314 10.9656C20.314 5.35576 15.7678 0.810303 10.157 0.810303C4.54623 0.810303 0 5.35576 0 10.9656C0 16.5754 4.54623 21.1208 10.157 21.1208C12.5156 21.1208 14.6837 20.3201 16.4074 18.9726V19.7684C16.4074 20.0809 16.5295 20.3787 16.7493 20.5984L21.6178 25.4661C22.0768 25.925 22.8191 25.925 23.2732 25.4661L24.6551 24.0844C25.1141 23.6255 25.1141 22.8833 24.66 22.4244ZM10.157 17.215C6.70459 17.215 3.90654 14.4223 3.90654 10.9656C3.90654 7.51375 6.69971 4.71617 10.157 4.71617C13.6094 4.71617 16.4074 7.50887 16.4074 10.9656C16.4074 14.4174 13.6143 17.215 10.157 17.215Z" fill="#EDA500"/>
         </svg>
+    }else if (type == "update") {
+        icon = <svg width="31" height="25" viewBox="0 0 31 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8.09444 10.7143C8.78333 7.14286 11.8833 4.46429 15.5 4.46429C18.0833 4.46429 20.15 5.71429 21.5278 7.67857L24.4556 4.10714C22.3889 1.60714 19.1167 0 15.5 0C9.47222 0 4.47778 4.64286 3.61667 10.7143H0L6.02778 17.8571L12.0556 10.7143H8.09444ZM24.9722 7.14286L18.9444 14.2857H22.9056C22.0444 17.8571 19.1167 20.5357 15.5 20.5357C12.9167 20.5357 10.85 19.2857 9.47222 17.3214L6.54444 20.7143C8.61111 23.3929 11.8833 25 15.5 25C21.5278 25 26.5222 20.3571 27.3833 14.2857H31L24.9722 7.14286Z" fill="#EDA500"/>
+        </svg>
+        
     }
+    
 
     return (
         <ButtonContainer disabled={disabled} onClick={onClick}>

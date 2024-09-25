@@ -6,13 +6,14 @@ import { default as TimeButton } from '../../Components/Button/Button';
 export default function Timer() {
     
     const { Iniciar, Pausar, Reiniciar, minute, second, millisecond, disabled, setdisabled, returnMinute, returnSecond, returnMillisecond} = useTimer();
+    
     return (
         <DivColumn>
             <div>
                 <label htmlFor="activTimer">Validar</label>
                 <input type="checkbox" onClick={() => setdisabled(!document.getElementById('activTimer').checked)} name="activTimer" id="activTimer"/>
             </div>
-
+            
             <form name="form_main">
                 <div>
                     <h1>Cronômetro:

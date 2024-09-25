@@ -1,6 +1,6 @@
 import { Select } from 'antd'
 
-export default function Selecionar({options, onSelect, onChange, value, onClick, defaultValue, disabled}) {
+export default function Selecionar({options, onSelect, onChange, value, ref, onClick, defaultValue, disabled}) {
     return(
         <>
         <Select
@@ -8,6 +8,7 @@ export default function Selecionar({options, onSelect, onChange, value, onClick,
             style={{ width: 150 }}
             placeholder="Selecionar"
             optionFilterProp="label"
+            ref={ref}
             options={options}
             onSelect={onSelect}
             onChange={onChange}

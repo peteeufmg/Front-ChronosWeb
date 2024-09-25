@@ -1,6 +1,5 @@
 import {DivRow, DivRow1,DivRow2,DivButton, Ol, Li, DivC, Div, DivSumo} from './Style';
-import {default as CustomButton} from '../../Components/Button/Button';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect} from 'react';
 import { useTimer } from '../TimerProvider/TimerProvider';
 import Edit from '../Edit/Edit'
 import axios from 'axios';
@@ -11,73 +10,68 @@ export default function Checkpoint(){
     const indexCheckpoint = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
     const etapas = ["classificatorias", "arrancada", "finais", "repescagem"];
 
-        useEffect(() => { //filtra os Id's enviados e salva os que ainda não foram no banco de dados
-            
-            const fetchEquipes = async (id, etapa) => {
-                let reqEtapaAtual;
-                let reqEtapaAtualArray = [];
-                let data;
-                if(etapa === "classificatorias"){ // monta o tipo de dado da etapa para ser enviado
-                    data = {
-                        id_equipe: id,
-                        apresentacao: 0,
-                        criatividade: 0,
-                        robustez: 0,
-                        total: 0,
-                        bateria: []
-                    };
-                }else{
-                    data = {
-                        id_equipe: id,
-                        bateria: []
-                    }
+    useEffect(() => { //filtra os Id's enviados e salva os que ainda não foram no banco de dados
+        const fetchEquipes = async (id, etapa) => {
+            let reqEtapaAtual;
+            let reqEtapaAtualArray = [];
+            let data;
+            if(etapa === "classificatorias"){ // monta o tipo de dado da etapa para ser enviado
+                data = {
+                    id_equipe: id,
+                    apresentacao: 0,
+                    criatividade: 0,
+                    robustez: 0,
+                    total: 0,
+                    bateria: []
+                };
+            }else{
+                data = {
+                    id_equipe: id,
+                    bateria: []
                 }
-                try { //Atualiza o valor dos dados existentes no banco de dado para a etapa atual
-                    const response = await fetch(`http://localhost:8000/${etapa}`, {
-                        method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        
-                    });
-                    if (response.ok) {
-                        reqEtapaAtual = await response.json();
-                        reqEtapaAtual.forEach((data)=>{
-                            reqEtapaAtualArray.push(data.id_equipe);
-                        })
-                    } else {
-                        console.error('Erro ao buscar equipes');
-                    }   
+            }
+            try { //Atualiza o valor dos dados existentes no banco de dado para a etapa atual
+                const response = await fetch(`http://localhost:8000/${etapa}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },   
+                });
+                if (response.ok) {
+                    reqEtapaAtual = await response.json();
+                    reqEtapaAtual.forEach((data)=>{
+                        reqEtapaAtualArray.push(data.id_equipe);
+                    })
+                } else {
+                    console.error('Erro ao buscar equipes');
+                }   
+            } catch (error) {
+                console.error('Erro ao buscar equipes:', error);
+            }
+            // Verifica se o ID já foi enviado
+            if (reqEtapaAtualArray.includes(id)) {
+                console.log(`Id ${id} para ${etapa} já foi enviado`);
+                return;   
+            }
+            else{
+                try {
+                    const response = await axios.post(`http://localhost:8000/${etapa}`, data);
+                    console.log('Dados enviados com sucesso:', response.data);
                 } catch (error) {
-                    console.error('Erro ao buscar equipes:', error);
+                    console.error('Erro ao enviar dados:', error);
                 }
-
-                // Verifica se o ID já foi enviado
-                if (reqEtapaAtualArray.includes(id)) {
-                    console.log(`Id ${id} para ${etapa} já foi enviado`);
-                    return;   
-                }
-                else{
-                    try {
-                        
-                        const response = await axios.post(`http://localhost:8000/${etapa}`, data);
-                        console.log('Dados enviados com sucesso:', response.data);
-                    } catch (error) {
-                        console.error('Erro ao enviar dados:', error);
-                    }
-            
-                }
+            }
+    }
+    etapas.forEach((etapa)=>{
+        try{
+            refListaDeEquipes.current.forEach((equipe) => {
+               fetchEquipes(equipe._id, etapa);
+            });
         }
-            etapas.forEach((etapa)=>{
-                try{
-                    refListaDeEquipes.current.forEach((equipe) => {
-                       fetchEquipes(equipe._id, etapa);
-                    });
-                }
-                catch(e){
-                    console.error('Erro ao ler dados:', e);
-                }
-            })
+        catch(e){
+            console.error('Erro ao ler dados:', e);
+        }
+    })
     }, [listaDeEquipes]);
     
     
@@ -87,6 +81,7 @@ export default function Checkpoint(){
             document.getElementById(e).disabled = true;
         })
     }, [])
+
     const[index, setIndex] = useState(null);
     const[valor, setvalor] = useState(true);
     useEffect(()=>{
@@ -96,14 +91,12 @@ export default function Checkpoint(){
         }
         else{ // Lógica dos checkpoints 
             if(indexCheckpoint.every((e)=> document.getElementById(e).disabled === true) && document.getElementById("0").checked === false){//se todos estiverem bloqueados
-                //&& document.getElementById("C0").textContent === "--:--:---"
                 document.getElementById("0").disabled = false;
                 setIndex("0");
                 console.log("valor inicial");
             }
             else{//se houver algum desbloqueado
                 const indexOn = indexCheckpoint.find((e) => document.getElementById(e).disabled === false) //faz uma busca no elemento desbloqueado
-
                 if(indexCheckpoint.some((e)=> e === indexOn)){// se encontrou algum
                     document.getElementById(indexOn).disabled = true;
                     setIndex(indexOn);

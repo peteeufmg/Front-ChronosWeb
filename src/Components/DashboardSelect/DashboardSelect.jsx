@@ -17,30 +17,24 @@ export default function DashboardSelect() {
         { label: "Mirim", value: 2 },
     ]);
 
-    useEffect(() => {  
-
+    useEffect(() => {
         if(categoriaAtual == 1){ // se for Avancado
             setEtapas([
             { label: "Arrancada", value: 0 },
             { label: "Classificatoria", value: 1 },
             { label: "Repescagem", value: 2 },
             { label: "Final", value: 3 }]);
-
             if (etapaAtual == 1){ //Classificatoria
               setBaterias([
                 { label: "Bateria 1", value: 1 },
                 { label: "Bateria 2", value: 2 },
                 { label: "Bateria 3", value: 3 }
               ])
-            }if (etapaAtual == 2){ // Repescagem
+            }if (etapaAtual == 2 || etapaAtual == 3){ // Repescagem ou final
               setBaterias([])
-              //setSelectedHeat([]);
-            }if (etapaAtual == 3){ // Final
-              setBaterias([])
-              //setSelectedHeat([]);
             }
-
-        }else if (categoriaAtual == 2){ //Se for Mirim
+        }
+        else if (categoriaAtual == 2){ //Se for Mirim
             setEtapas([
                 { label: "Arrancada", value: 0 },
                 { label: "Classificatoria", value: 1 },
@@ -67,6 +61,16 @@ export default function DashboardSelect() {
         setEtapaAtual(null);
         setTentativasFeitas(0);
       }, [value])
+      const[refBateria, setBateria] = useState(false);
+      useEffect(()=>{
+        if(etapaAtual === 1){ //se a etapa escolhida for classificatória
+            refValue.current = value;
+            setBateria(false);
+        }else{
+            setBateria(true);
+            setBateriaAtual(null);
+        }
+      }, [etapaAtual])
 
     // Fetching data once on component mount
     useEffect(() => {
@@ -132,6 +136,7 @@ export default function DashboardSelect() {
                 <DivRow3>
                     <div><label htmlFor="">Bateria:</label></div>
                     <Selecionar 
+                        disabled={refBateria}
                         value={bateriaAtual}
                         onSelect={e => setBateriaAtual(e)}
                         options={baterias}/>

@@ -49,11 +49,11 @@ export default function updateClassificatorias(){
                 const indexCheckpoint = "tempo_checkpoints_1";
                 const indexMaiorValor = "tempo_total_1";
                 saveCheckpoint(ElementBateriaAtual, indexCheckpoint, indexMaiorValor)
-                upDateCheckpoint(Id_classificatorias, labelBateriaAtual,ElementBateriaAtual);
+                upDateCheckpoint(Id_classificatorias, labelBateriaAtual, ElementBateriaAtual);
                 setTentativasFeitas(2);
                 
             }
-            else if(ElementBateriaAtual.tempo_checkpoints_1.length != 0 || ElementBateriaAtual.tempo_checkpoints_2.length != 0){ // 2ª tentativa
+            else if(ElementBateriaAtual.tempo_checkpoints_1.length != 0 ^ ElementBateriaAtual.tempo_checkpoints_2.length != 0){ // 2ª tentativa
                 const indexCheckpoint = "tempo_checkpoints_2";
                 const indexMaiorValor = "tempo_total_2";
                 saveCheckpoint(ElementBateriaAtual, indexCheckpoint, indexMaiorValor)
@@ -79,7 +79,6 @@ export default function updateClassificatorias(){
                         'Content-Type': 'application/json',
                     },
                 });
-
                 if (response.ok) {
                     const data = await response.json();
                     setclassificatoria(data)
@@ -103,18 +102,19 @@ export default function updateClassificatorias(){
             const Id_classificatorias = classificatoria.find((e)=>e.id_equipe == Id)._id; // Id da classificatória da equipe atual
             const ClassificatoriaAtual = classificatoria.find((e)=>e._id == Id_classificatorias); // elemento da classificatória da equipe atual
             let labelBateriaAtual;
+            
             if(etapaAtual == 1) labelBateriaAtual =  baterias.find((e)=>e.value == bateriaAtual).label // string com o label da bateria atual
             else labelBateriaAtual = '0'
             const ElementBateriaAtual = ClassificatoriaAtual.bateria[labelBateriaAtual] // elemento da bateria atual
-            console.log(ElementBateriaAtual);
+
             if (ElementBateriaAtual.tempo_checkpoints_1.length == 0 && ElementBateriaAtual.tempo_checkpoints_2.length == 0){ // Caso ambos os tempos e todos os checkpoints estejam vazios - 1ª tentativa
-            setTentativasFeitas(1);
+                setTentativasFeitas(1);
             }
             else if(ElementBateriaAtual.tempo_checkpoints_1.length != 0 ^ ElementBateriaAtual.tempo_checkpoints_2.length != 0){ // 2ª tentativa
-            setTentativasFeitas(2);
+                setTentativasFeitas(2);
             }
             else{ // ambas tentativas foram comcluidas
-            setTentativasFeitas("Bateria Concluida");
+                setTentativasFeitas("Bateria Concluida");
             }
         }
         catch(error){
@@ -141,8 +141,14 @@ export default function updateClassificatorias(){
             const millissecond = parseInt(document.getElementById(`C${i}`).textContent.split(":")[2]);
             const second = parseInt(document.getElementById(`C${i}`).textContent.split(":")[1]);
             const minute = parseInt(document.getElementById(`C${i}`).textContent.split(":")[0]);
-            const checkpointTotal = millissecond + second*1000 + minute*60000;   
-            checkpoints.push(checkpointTotal);
+            const checkpointTotal = millissecond + second*1000 + minute*60000;
+            if(isNaN(checkpointTotal)){
+                checkpoints.push(0);
+            }
+            else{
+                checkpoints.push(checkpointTotal);
+            }
+
         }
         elementoBateriaAtual[Indexcheckpoint] = checkpoints
         elementoBateriaAtual[indexValor] = Math.max(...checkpoints)
