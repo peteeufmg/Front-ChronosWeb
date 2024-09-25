@@ -1,15 +1,21 @@
-import { ConfigProvider, Divider, Flex, Input, Select, Space, Typography } from "antd";
+import { Alert, ConfigProvider, Divider, Flex, Input, Select, Space, Typography } from "antd";
 import useTimer from "easytimer-react-hook";
 import NavBar from "../../Components/NavBar";
 import Button from "../../Components/Button";
 import { Container, Frame } from "./style";
 import { useEffect, useState } from "react";
 
+import api from '../../Services/api';
+
 const { Title, Text } = Typography;
 
 function Sumo() {
     const [timer, isTargetAchieved] = useTimer({precision: "secondTenths", startValues: {secondTenths: 0, seconds: 0}});
     const [fetchedTeams, setFetchedTeams] = useState([]);
+    const [teamsToDisplay, setTeamsToDisplay] = useState([]);
+    const [competitors, setCompetitors] = useState([]);
+    const [roundWinners, setRoundWinners] = useState([]);
+    const [fase, setFase] = useState(1);
     const [round1, setRound1] = useState([0,0,0]);
     const [round2, setRound2] = useState([0,0,0]);
     const [round3, setRound3] = useState([0,0,0]);
@@ -32,24 +38,72 @@ function Sumo() {
         }
     };
 
-    useEffect(() => {
+    const handleCompetitorsSelect = (team, index) => {
+        // Create a new array instead of modifying the existing one
+        const updatedCompetitors = [...competitors];
         
+        if (index === 1) {
+            updatedCompetitors[0] = team;
+        } else if (index === 2) {
+            updatedCompetitors[1] = team;
+        }
+        
+        setCompetitors(updatedCompetitors); // Update the state with the new array
+    }
+
+    useEffect(() => {
+        fetchData();
     }, []);
+
+    const handleWinnerSelect = (e, index) => {
+        const updateWinners = [...roundWinners];
+
+        switch (index) {
+            case 1:
+                updateWinners[0] = e;
+            case 2:
+                updateWinners[1] = e;
+            case 3:
+                updateWinners[2] = e;
+        }
+
+        setRoundWinners(updateWinners);
+    };
 
     const salvarPartida = () => {
         const tempo1 = round1[1]*60000 + round1[2]*1000 + round1[3]*100;
         const tempo2 = round2[1]*60000 + round2[2]*1000 + round2[3]*100;
         const tempo3 = round3[1]*60000 + round3[2]*1000 + round3[3]*100;
 
-        const req = [tempo1, tempo2, tempo3];
+        const tempos = [tempo1, tempo2, tempo3];
+
+        // Mapear os times selecionados para obter objetos contendo apenas _id e nome
+        const teamObjects = competitors.map(competitor => {
+            const team = teamsToDisplay.find(t => t.nome === competitor); // Encontrar o time correspondente
+            return team ? { _id: team._id, nome: team.nome } : null; // Retornar apenas _id e nome
+        }).filter(Boolean); // Remover valores nulos ou indefinidos
+
+        if (teamObjects.length !== competitors.length) {
+            console.error("Erro: alguns times não foram selecionados corretamente.");
+            return;
+        }
+
+        const req = {
+            tempos,  // Array de tempos para os rounds
+            roundWinners,
+            times: teamObjects,  // Lista de times selecionados com _id e nome
+            fase: fase
+        };
 
         const sendData = async () => {
             try {
-              const response = await api.post('/sumo', req);
+                const response = await api.post('/sumo', req);
+                alert("Enviado com sucesso");
             } catch (error) {
               console.error("Erro ao buscar os dados:", error);
             }
         };
+        sendData();
 
     };
     
@@ -71,14 +125,14 @@ function Sumo() {
                         <Flex gap="large" justify="center">
                             <Flex gap="middle" align="center">
                                 <Title level={2}>Etapa:</Title>
-                                <Select defaultValue={"grupos"} options={[{ value: 'grupos', label: 'Fase de grupos' }, { value: 'final', label: 'Final' }]}></Select>
+                                <Select defaultValue={1} onChange={e => setFase(e)} options={[{ value: 1, label: 'Fase de grupos' }, { value: 2, label: 'Final' }]}></Select>
                             </Flex>
                             <Title> | </Title>
                             <Flex gap="middle" align="center">
                                 <Title level={2}>Equipes:</Title>
-                                <Select defaultValue={"grupos"} options={[{ value: 'grupos', label: 'Fase de grupos' }, { value: 'final', label: 'Final' }]}></Select>
+                                <Select placeholder="Selecione uma equipe" onSelect={e => handleCompetitorsSelect(e, 1)} options={teamsToDisplay.map(e => ({value: e.nome, title: e._id}))}></Select>
                                 <Title level={2}>VS</Title>
-                                <Select defaultValue={"grupos"} options={[{ value: 'grupos', label: 'Fase de grupos' }, { value: 'final', label: 'Final' }]}></Select>
+                                <Select placeholder="Selecione uma equipe" onSelect={e => handleCompetitorsSelect(e, 2)} options={teamsToDisplay.map(e => ({value: e.nome, title: e._id}))}></Select>
                             </Flex>
                         </Flex>
                         {/* Ordem das equipes */}
@@ -93,10 +147,10 @@ function Sumo() {
                                 </Space>
                             </Flex>
                             {/* Inputs ganhador */}
-                            <Flex gap="large" align="center">
-                                <Flex gap="small" vertical>
+                            <Flex gap="middle" align="center" vertical>
+                                <Flex gap="small">
                                     <Flex align="center" gap="middle">
-                                        <Title level={3}> Round 1:</Title>
+                                        <Title level={3}>Round 1:</Title>
                                         <Flex align="center" gap="small">
                                             <Input.OTP length={2} defaultValue="00" onChange={(e) => {const i = round1; i[1] = e; setRound1[i]}}></Input.OTP>
                                             <Title level={2}>:</Title>
@@ -104,15 +158,12 @@ function Sumo() {
                                             <Title level={2}>:</Title>
                                             <Input.OTP length={1} defaultValue="0" onChange={(e) => {const i = round1; i[3] = e; setRound1[i]}}></Input.OTP>
                                         </Flex>
-                                    </Flex>
-                                    <Flex align="center" gap="middle">
-                                        <Title level={3}>Vencedor:</Title>
-                                        <Select defaultValue={"grupos"} options={[{ value: 'grupos', label: 'Fase de grupos' }, { value: 'final', label: 'Final' }]} />
+                                        <Select placeholder="Selecione o vencedor" options={competitors.map((e) => ({value: e}))} onChange={e => handleWinnerSelect(e, 1)}/>
                                     </Flex>
                                 </Flex>
                                 <Flex gap="small" vertical>
                                     <Flex align="center" gap="middle">
-                                        <Title level={3}> Round 2:</Title>
+                                        <Title level={3}>Round 2:</Title>
                                         <Flex align="center" gap="small">
                                             <Input.OTP length={2} defaultValue="00" onChange={(e) => {const i = round2; i[1] = e; setRound2[i]}}></Input.OTP>
                                             <Title level={2}>:</Title>
@@ -120,15 +171,12 @@ function Sumo() {
                                             <Title level={2}>:</Title>
                                             <Input.OTP length={1} defaultValue="0" onChange={(e) => {const i = round2; i[3] = e; setRound2[i]}}></Input.OTP>
                                         </Flex>
-                                    </Flex>
-                                    <Flex align="center" gap="middle">
-                                        <Title level={3}>Vencedor:</Title>
-                                        <Select defaultValue={"grupos"} options={[{ value: 'grupos', label: 'Fase de grupos' }, { value: 'final', label: 'Final' }]} />
+                                        <Select placeholder="Selecione o vencedor" options={competitors.map((e) => ({value: e}))} onChange={e => handleWinnerSelect(e, 2)}/>
                                     </Flex>
                                 </Flex>
                                 <Flex gap="small" vertical>
                                     <Flex align="center" gap="middle">
-                                        <Title level={3}> Round 3:</Title>
+                                        <Title level={3}>Round 3:</Title>
                                         <Flex align="center" gap="small">
                                             <Input.OTP length={2} defaultValue="00" onChange={(e) => {const i = round3; i[1] = e; setRound2[i]}}></Input.OTP>
                                             <Title level={2}>:</Title>
@@ -136,10 +184,7 @@ function Sumo() {
                                             <Title level={2}>:</Title>
                                             <Input.OTP length={1} defaultValue="0" onChange={(e) => {const i = round3; i[3] = e; setRound2[i]}}></Input.OTP>
                                         </Flex>
-                                    </Flex>
-                                    <Flex align="center" gap="middle">
-                                        <Title level={3}>Vencedor:</Title>
-                                        <Select defaultValue={"grupos"} options={[{ value: 'grupos', label: 'Fase de grupos' }, { value: 'final', label: 'Final' }]} />
+                                        <Select placeholder="Selecione o vencedor" options={competitors.map((e) => ({value: e}))} onChange={e => handleWinnerSelect(e, 3)}/>
                                     </Flex>
                                 </Flex>
                             </Flex>
