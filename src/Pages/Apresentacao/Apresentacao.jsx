@@ -9,7 +9,14 @@ function Apresentacao() {
     });
     const [equipeAtual, setEquipeAtual] = useState(localStorage.getItem('equipeAtual'));
     const [etapaAtual, setEtapaAtual] = useState(localStorage.getItem('etapaAtual'));
-    const [tentativasFeitas, setTentativasFeitas] = useState(localStorage.getItem('tentativasFeitas'));
+    const [tentativasFeitas, setTentativasFeitas] = useState(() => {
+        const value = localStorage.getItem('tentativasFeitas')
+        if (value==0 || value=='Bateria Concluida'){
+            return "X";
+        }else if(value!='Bateria Concluida'){
+            return value;
+        }
+    });
     const [bateriaAtual, setBateriaAtual] = useState(localStorage.getItem('bateriaAtual'));
     const [categoriaAtual, setCategoriaAtual] = useState(localStorage.getItem('categoriaAtual'))
 
@@ -100,12 +107,7 @@ function Apresentacao() {
                         ))}
                     </DivCheckpoints>
                 </DivEquipe>
-                <DivClassificacao>
-                    <DivTitle>
-                        CoRA - 11 Edição - XXXXXXXXXX
-                        
-                    </DivTitle>
-                </DivClassificacao>
+        
             </DivContainer> 
         </>
     )

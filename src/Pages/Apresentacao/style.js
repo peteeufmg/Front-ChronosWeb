@@ -16,7 +16,7 @@ export const DivEquipe = styled.div`
     text-transform: uppercase;
     align-items: center;
     color: white;
-    width: 35vw;
+    width: 100vw;
     height: 100vh;
 `;
 
@@ -60,7 +60,7 @@ export const DivClassificacao = styled.div`
     text-transform: uppercase;
     align-items: center;
     color: white;
-    width: 65vw;
+    width: 0vw;
     height: 100vh;
 `;
 
