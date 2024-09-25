@@ -11,7 +11,7 @@ export default function NavBar() {
                     </NavLink>
                 </NavTitle>
                 <NavLinks>
-                    <NavLink to="/cronometro">Cronomêtro</NavLink>
+                    <NavLink to="/cronometro">Cronômetro</NavLink>
                     <NavLink to="/equipes">Equipes</NavLink>
                 </NavLinks>
             </Container>

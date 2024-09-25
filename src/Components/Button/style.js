@@ -9,17 +9,24 @@ export const ButtonContainer = styled.button`
     gap: 10px;
     border-radius: 5px;
 
-    background-color: white;
+    background-color: black;
 
     &:active {
         background-color: grey;
+    }
+    &:disabled{
+        background-color: #ccc;
+        color: #666;
+        cursor: not-allowed;
+        border: 2px solid #999;
+        opacity: 0.7;
     }
 `;
 
 export const ButtonText = styled.div`
     font-size: 1.6rem;
     
-    color: #343537;
+    color: #FFFFFF;
     text-transform: uppercase;
     font-weight: 600;
 `;
