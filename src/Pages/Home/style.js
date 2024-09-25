@@ -23,6 +23,7 @@ export const DivLinks = styled.div`
 `;
 
 export const Title = styled.h1`
+    
     display: flex;
     color: #FFFFFF;
     font-optical-sizing: auto;
@@ -30,15 +31,6 @@ export const Title = styled.h1`
     text-transform: uppercase;
     font-size: 8rem;   
     
-    @media (max-width: 900px) {
-        font-size: 4.8rem;  
-    }
-    @media (max-width: 550px) {
-        font-size: 3rem; 
-    }
-    @media(max-width: 380px){
-        font-size: 1.5rem;
-    }
 `;
 
 export const Link = styled.a`
@@ -48,15 +40,6 @@ export const Link = styled.a`
     text-transform: uppercase;
     font-size: 3rem;
 
-    @media (max-width: 900px) {
-        font-size: 2.5rem;  
-    }
-    @media (max-width: 550px) {
-        font-size: 2rem; 
-    }
-    @media(max-width: 380px){
-        font-size: 1.0rem;
-    }
 `;
 
 

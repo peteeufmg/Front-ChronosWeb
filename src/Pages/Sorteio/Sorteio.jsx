@@ -12,6 +12,7 @@ function shuffleArray(array) {
 
 function Sorteio() {
   const [dataSource, setDataSource] = useState([]);
+  const [dataView, setDataView] = useState([]);
   const [dataToDraw, setDataToDraw] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedRound, setSelectedRound] = useState(null);
@@ -36,6 +37,16 @@ function Sorteio() {
         const fetchData = async () => {
           try {
             const response = await api.get('/equipes', {params: {categoria:2}});
+            setDataToDraw(response.data); 
+          } catch (error) {
+            console.error("Erro ao buscar os dados:", error); 
+          }
+        };
+        fetchData();
+      }else if (selectedCategory=='Sumo'){
+        const fetchData = async () => {
+          try {
+            const response = await api.get('/equipes', {params: {categoria:3}});
             setDataToDraw(response.data); 
           } catch (error) {
             console.error("Erro ao buscar os dados:", error); 
@@ -74,15 +85,25 @@ function Sorteio() {
         setHeats([]);
         setSelectedHeat([]);
       }
+    }else if (selectedCategory=='Sumo'){
+      setRound([{ value:'Fase de Grupos' }])
+      setHeats([]);
+      setSelectedHeat([]);
+      
     }
+    
     setSentToBack(false);
   }, [selectedRound, selectedCategory, selectedHeat])
 
-  const columns = [
+  const columnsFollower = [
     {
       title: 'Ordem',
       key: 'order',
-      render: (_, __, index) => index + 1,
+      render: (_, __, index) => {
+        const pageIndex = dataView.findIndex(page => page.includes(__));
+        const previousItemsCount = pageIndex * 10; 
+        return previousItemsCount + index + 1;
+      },
       width: '25%',
       align: 'center',
     },
@@ -94,11 +115,42 @@ function Sorteio() {
     },
   ];
 
+  const columnsSumo = [
+    {
+      title: 'Ordem',
+      key: 'order',
+      render: (_, __, index) => {
+        return index + 1;
+      },
+      width: '25%',
+      align: 'center',
+    },
+    {
+      title: 'Equipe',
+      dataIndex: 'nome',
+      key: 'nome',
+      align: 'center',
+    },
+  ];
+
+  const paginate = (data, pageSize) => {
+    const pages = [];
+    for (let i = 0; i < data.length; i += pageSize) {
+      pages.push(data.slice(i, i + pageSize));
+    }
+    return pages;
+  };
+
   const randomizeData = () => {
     const shuffledData = shuffleArray([...dataToDraw]);
     setDataSource(shuffledData);
+    if (selectedCategory=='Sumo'){
+      setDataView(paginate(shuffledData, shuffledData.length/2));
+    }else{
+      setDataView(paginate(shuffledData, 10));
+    }
     
-    if (!sentToBack) {
+    if (!sentToBack && selectedCategory!='Sumo') {
       const equipesIDs = dataSource.map(e => ({id: e._id}));
       const categoria = selectedCategory == "Avancada" ? 1 : 2;
       const etapa = () => { 
@@ -122,10 +174,36 @@ function Sorteio() {
         ordem: equipesIDs
       };
 
-      //Arrumando essa função, tem q so permitir adicionar um sorteio.\
+      //Arrumando essa função, tem q so permitir adicionar um sorteio.
       const postData = async () => {
         try {
           const request = await api.post("/sorteios", body);
+        } catch (error) {
+          let message = error;
+          switch (error.response.status) {
+            case 409: message = "O sorteio requisitado já foi realizado";
+            break;
+            case 500: message = error.response.data.message;
+            break;
+          }
+          alert(message);
+        }
+      }
+
+      postData();
+      setSentToBack(true);
+    }else if(!sentToBack && selectedCategory=='Sumo'){
+      const equipesIDs_1 = dataView[0].map(e => ({id: e._id}));
+      const equipesIDs_2 = dataView[1].map(e => ({id: e._id}));
+      const body = {
+        grupo_1: equipesIDs_1,
+        grupo_2: equipesIDs_2
+      };
+
+      //Arrumando essa função, tem q so permitir adicionar um sorteio.\
+      const postData = async () => {
+        try {
+          const request = await api.post("/sorteiossumo", body);
         } catch (error) {
           let message = error;
           switch (error.response.status) {
@@ -160,6 +238,7 @@ function Sorteio() {
             >
               <Option value="Avancada">Avançada</Option>
               <Option value="Mirim">Mirim</Option>
+              <Option value="Sumo">Sumô</Option>
             </Selection>
               
             </SelectContainer>         
@@ -200,7 +279,12 @@ function Sorteio() {
             <CustomButton onClick={randomizeData} text={"Sortear"}/>
           </Title>
           <ShuffleContainer>
-            <ShuffleTable dataSource={dataSource} columns={columns} pagination={false} />
+            {selectedCategory=='Sumo' && dataView.map((pageData)=>(
+              <ShuffleTable dataSource={pageData} columns={columnsSumo} pagination={false} size='small'/>
+            ))}   
+            {selectedCategory!='Sumo' && dataView.map((pageData)=>(
+              <ShuffleTable dataSource={pageData} columns={columnsFollower} pagination={false} size='small'/>
+            ))}  
           </ShuffleContainer> 
         </Frame>
       </Container>

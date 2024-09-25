@@ -12,6 +12,8 @@ import Test from "./Pages/Test";
 import Ranking from "./Pages/Ranking";
 import Sorteio from "./Pages/Sorteio";
 import Sumo from "./Pages/Sumo/Sumo";
+import Apresentacao from "./Pages/Apresentacao";
+import Cronometro from "./Pages/Cronometro";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -19,15 +21,13 @@ const router = createBrowserRouter(
         // Exemplo: para a página do seguidor colocar -> <Route path="seguidor" element={<[Pagina]/>}/>
         <Route>
             <Route path="/" element={<Home />} />
-            <Route path="/equipes" element={<Equipes />} />
-            <Route path="/button" element={<Test />} />
-            
+            <Route path="/equipes" element={<Equipes />} />          
             <Route path="/classificacao" element={<Ranking />} />
             <Route path="/sorteio" element={<Sorteio />} />
-
             <Route path="/sumo" element={<Sumo />} />
+            <Route path="/cronometro" element={<Cronometro />} />
 
-            <Route path="/test" element={<Test />} />
+            <Route path="/apresentacao" element={<Apresentacao />} />
         </Route>
     )
 );
