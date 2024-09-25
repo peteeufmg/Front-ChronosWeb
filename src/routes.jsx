@@ -20,15 +20,10 @@ const router = createBrowserRouter(
         // Exemplo: para a página do seguidor colocar -> <Route path="seguidor" element={<[Pagina]/>}/>
         <Route>
             <Route path="/" element={<Home />} />
-            <Route path="/equipes" element={<Equipes />} />
-            <Route path="/button" element={<Test />} />
-            
+            <Route path="/equipes" element={<Equipes />} />          
             <Route path="/classificacao" element={<Ranking />} />
             <Route path="/sorteio" element={<Sorteio />} />
-
             <Route path="/sumo" element={<Sumo />} />
-
-            <Route path="/test" element={<Test />} />
             <Route path="/cronometro" element={<Cronometro />} />
         </Route>
     )

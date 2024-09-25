@@ -6,7 +6,7 @@ export const DivContainer = styled.div`
     justify-content: start;
     text-transform: uppercase;
     align-items: center;
-    color: black;
+    color: white;
     width: 100vw;
     height: 100vh;
 `;

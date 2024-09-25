@@ -13,7 +13,7 @@ const GlobalStyle = createGlobalStyle`
   body, html {
     font-family: 'Jura', sans-serif;
     display: flex;
-    background-color: white !important;
+    background-color: #262729 !important;
     display: flex;
     color: black;
     line-height: 1;
