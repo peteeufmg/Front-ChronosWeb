@@ -14,42 +14,113 @@ export default function Ranking() {
     const [disableHeats, setDisableHeats] = useState(false);
     const [disableHeat3, setDisableHeat3] = useState(false);
     const [classificatorias, setClassificatorias] = useState([]);
+    const [repescagem, setRepescagem] = useState([]);
+    const [final, setFinal] = useState([]);
     const [rankedTeams, setRankedTeams] = useState([]);
+    const [teams, setTeams] = useState([]);
 
-    const fetchClassificatorias = async () => {
+    const fetchClassificatorias = async (heat) => {
         try {
             const response = await api.get("/classificatorias");
 
             setClassificatorias(response.data);
-            setRankedTeams(equipesComMelhorTempo.sort((a, b) => a.melhorTempo - b.melhorTempo));
-            console.log(classificatorias);
+            setRankedTeams(ranking);
         } catch (error) {
             console.log(error);
         }
     };
 
-    // Mapeia para encontrar o melhor tempo de cada equipe
-    const equipesComMelhorTempo = classificatorias.map(classificatoria => {
+    const fetchRepescagem = async () => {
+        try {
+            const response = await api.get("/classificatorias");
+
+            setClassificatorias(response.data);
+            setRankedTeams(ranking);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const fetchTeams = async () => {
+        try {
+            const response = await api.get("/equipes");
+
+            setTeams(response.data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
+        fetchTeams();
+    }, [])
+
+    // Mapeia para encontrar o melhor desempenho de cada equipe
+    const equipesComDesempenho = classificatorias.map(classificatoria => {
         const { id_equipe, bateria } = classificatoria;
 
-        // Encontrar o melhor tempo de todas as baterias
-        const melhorTempo = bateria.reduce((menorTempo, b) => {
-            // Verifica os tempos totais das baterias
-            const tempos = [b.tempo_total_1, b.tempo_total_2];
-            const menorTempoBateria = Math.min(...tempos);
-            return Math.min(menorTempo, menorTempoBateria);
-        }, Infinity);
+        // Encontrar o melhor desempenho entre as baterias
+        const melhorDesempenho = bateria.reduce((melhor, b) => {
+            // Quantidade de checkpoints e tempos correspondentes
+            const checkpoints1 = b.tempo_checkpoints_1.length;
+            const checkpoints2 = b.tempo_checkpoints_2.length;
+            
+            // O maior número de checkpoints e o menor tempo correspondente
+            let maiorCheckpointCount, menorTempo;
 
-        console.log(melhorTempo);
+            if (checkpoints1 > checkpoints2) {
+                maiorCheckpointCount = checkpoints1;
+                menorTempo = b.tempo_total_1;
+            } else if (checkpoints2 > checkpoints1) {
+                maiorCheckpointCount = checkpoints2;
+                menorTempo = b.tempo_total_2;
+            } else {
+                // Se os checkpoints forem iguais, usar o menor tempo
+                maiorCheckpointCount = checkpoints1; // Ambos são iguais, pode ser checkpoints1 ou checkpoints2
+                menorTempo = Math.min(b.tempo_total_1, b.tempo_total_2);
+            }
 
-        // Retornar o _id, nome da equipe, e o menor tempo
+            // Comparar com o melhor desempenho encontrado até agora
+            return maiorCheckpointCount > melhor.checkpoints || 
+                (maiorCheckpointCount === melhor.checkpoints && menorTempo < melhor.tempo) 
+                ? { checkpoints: maiorCheckpointCount, tempo: menorTempo } 
+                : melhor;
+        }, { checkpoints: 0, tempo: Infinity });
+
+        const teamInfo = teams.find(team => team._id.toString() === id_equipe.toString());
+
+        function formatTime(ms) {
+            // Calcula os minutos e segundos
+            let minutes = Math.floor(ms / 60000); // 1 minuto = 60000 milissegundos
+            let seconds = Math.floor((ms % 60000) / 1000); // 1 segundo = 1000 milissegundos
+            let milliseconds = ms % 1000; // Milissegundos restantes
+        
+            // Formata os minutos e segundos para ter sempre dois dígitos
+            let formattedMinutes = minutes.toString().padStart(2, '0');
+            let formattedSeconds = seconds.toString().padStart(2, '0');
+            let formattedMilliseconds = milliseconds.toString().padStart(3, '0');
+        
+            return `${formattedMinutes}:${formattedSeconds}:${formattedMilliseconds}`;
+        }
+
+        // Retornar o _id, nome da equipe, checkpoints e o menor tempo
         return {
             _id: id_equipe._id,
-            nome: id_equipe.nome,
-            melhorTempo
+            nome: teamInfo.nome,
+            checkpoints: melhorDesempenho.checkpoints,
+            tempo: formatTime(melhorDesempenho.tempo)
         };
     });
-    
+
+    // Ordenar as equipes pelo maior número de checkpoints, depois pelo menor tempo
+    const ranking = equipesComDesempenho.sort((a, b) => {
+        // Primeiro, comparar pela quantidade de checkpoints
+        if (b.checkpoints !== a.checkpoints) {
+            return b.checkpoints - a.checkpoints;
+        }
+        // Se a quantidade de checkpoints for igual, comparar pelo menor tempo
+        return a.tempo - b.tempo;
+    });
 
     useEffect(() => {
         switch (categoria) {
@@ -59,6 +130,7 @@ export default function Ranking() {
                 setDisableRepescagem(false);
                 switch (round) {
                     case 0:
+
                         break;
                     default:
                         setDisableHeats(true);
@@ -80,7 +152,8 @@ export default function Ranking() {
     const columns = [
         {
             title: "Posição",
-            key: "1",
+            key: 'index',
+            render: (text, record, index) => index + 1,
             width: 10
         },
         {
@@ -90,9 +163,15 @@ export default function Ranking() {
             width: 350
         },
         { 
+            title: "Checkpoints",
+            dataIndex: "checkpoints",
+            key: "3",
+            width: 200
+        },
+        { 
             title: "Tempo",
             dataIndex: "tempo",
-            key: "3",
+            key: "4",
             width: 200
         }
     ];
@@ -141,6 +220,7 @@ export default function Ranking() {
                     <Flex>
                         <Table
                             columns={columns}
+                            dataSource={ranking}
                         />
                     </Flex>
                 </Flex>

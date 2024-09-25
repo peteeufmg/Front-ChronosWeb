@@ -82,6 +82,7 @@ export default function DashboardSelect() {
                 if (response.ok) {
                     const data = await response.json();
                     setListaDeEquipes(data); // Update the list of teams
+                    console.log(listaDeEquipes);
                 } else {
                     console.error('Erro ao buscar equipes');
                 }
