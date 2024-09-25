@@ -69,6 +69,7 @@ export function TimerProvider({ children }) {
 
     const Iniciar = () =>{
         if(disabledRef.current === false){//case o timer esteja desbloqueado
+            
             if(document.getElementById('C0').textContent === "--:--:---"){
                 document.getElementById('C0').textContent = `${returnMinute(minute)}:${returnSecond(second)}:${returnMillisecond(millisecond)}`;
                 document.getElementById('0').checked = true;
@@ -89,6 +90,7 @@ export function TimerProvider({ children }) {
     const Reiniciar = () => {
         Pausar();
         const index = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+        localStorage.setItem('checkpoints', '');
         index.forEach((check)=>{
             document.getElementById(`C${check}`).textContent = "--:--:---";
             document.getElementById(check).checked = false;
@@ -133,13 +135,22 @@ export function TimerProvider({ children }) {
         document.getElementById(CountId).disabled = true;
 
         if(e.target.id == 0) {
+        
             document.getElementById(CountId+1).disabled = false;
             Iniciar();
         }
         else if (e.target.id != 9){
+            const strCheckpoints = localStorage.getItem('checkpoints');
+            const checkpoints = strCheckpoints ? JSON.parse(strCheckpoints) : [];
+            checkpoints.push(document.getElementById(`C${e.target.id}`).textContent)
+            localStorage.setItem('checkpoints', JSON.stringify(checkpoints));
             document.getElementById(CountId+1).disabled = false;
         }
         else{
+            const strCheckpoints = localStorage.getItem('checkpoints');
+            const checkpoints = strCheckpoints ? JSON.parse(strCheckpoints) : [];
+            checkpoints.push(document.getElementById(`C${e.target.id}`).textContent)
+            localStorage.setItem('checkpoints', JSON.stringify(checkpoints));
             Pausar();
         }
     }

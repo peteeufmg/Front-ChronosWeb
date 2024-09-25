@@ -26,7 +26,7 @@ export const ButtonContainer = styled.button`
 export const ButtonText = styled.div`
     font-size: 1.6rem;
     
-    color: #262729;
+    color: #343537;
     text-transform: uppercase;
     font-weight: 600;
 `;

@@ -111,10 +111,18 @@ export default function Connection(){
       if(CountId !== 9){
           document.getElementById(CountId+1).disabled = false;
       };
+     
       document.getElementById(`C${CountId}`).textContent = `${returnMinute(minuteRef.current)}:${returnSecond(secondRef.current)}:${returnMillisecond(millisecondRef.current)}`;   
       document.getElementById(`${CountId}`).checked = true;   
       document.getElementById(`${CountId}`).disabled = true;  
       console.log(document.getElementById("Restart"))
+      if (CountId!=0){
+        const strCheckpoints = localStorage.getItem('checkpoints');
+        const checkpoints = strCheckpoints ? JSON.parse(strCheckpoints) : [];
+        checkpoints.push(document.getElementById(`C${CountId}`).textContent)
+        localStorage.setItem('checkpoints', JSON.stringify(checkpoints));
+      }
+      
   }
     return (
         <>

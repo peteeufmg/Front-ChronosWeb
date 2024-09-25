@@ -20,6 +20,7 @@ export default function DashboardSelect() {
     useEffect(() => {  
 
         if(categoriaAtual == 1){ // se for Avancado
+            localStorage.setItem("categoriaAtual", "Avançada");
             setEtapas([
             { label: "Arrancada", value: 0 },
             { label: "Classificatoria", value: 1 },
@@ -27,30 +28,36 @@ export default function DashboardSelect() {
             { label: "Final", value: 3 }]);
 
             if (etapaAtual == 1){ //Classificatoria
+              localStorage.setItem("etapaAtual", "Classificatória"); 
               setBaterias([
                 { label: "Bateria 1", value: 1 },
                 { label: "Bateria 2", value: 2 },
                 { label: "Bateria 3", value: 3 }
               ])
             }if (etapaAtual == 2){ // Repescagem
+              localStorage.setItem("etapaAtual", "Repescagem");
               setBaterias([])
               //setSelectedHeat([]);
             }if (etapaAtual == 3){ // Final
+              localStorage.setItem("etapaAtual", "Final");
               setBaterias([])
               //setSelectedHeat([]);
             }
 
         }else if (categoriaAtual == 2){ //Se for Mirim
+            localStorage.setItem("categoriaAtual", "Mirim");
             setEtapas([
                 { label: "Arrancada", value: 0 },
                 { label: "Classificatoria", value: 1 },
                 { label: "Final", value: 3 }])
             if (etapaAtual == 1){ //Classificatoria
+              localStorage.setItem("etapaAtual", "Classificatória"); 
               setBaterias([
                 { label: "Bateria 1", value: 1 },
                 { label: "Bateria 2", value: 2 },
               ])
             }else if (etapaAtual == 3){ //Final
+              localStorage.setItem("etapaAtual", "Final");
               setBaterias([]);
               //setSelectedHeat([]);
             }
@@ -58,6 +65,14 @@ export default function DashboardSelect() {
         //setSentToBack(false);
       }, [etapaAtual, categoriaAtual])
       
+      useEffect(() => {
+        localStorage.setItem('bateriaAtual', bateriaAtual);
+      }, [bateriaAtual])
+
+      useEffect(()=>{
+        localStorage.setItem("equipeAtual", equipeAtual);
+      },[equipeAtual]);
+
       const[value, setValue] = useState(null);
       const refValue = useRef(null);
       useEffect(()=>{
