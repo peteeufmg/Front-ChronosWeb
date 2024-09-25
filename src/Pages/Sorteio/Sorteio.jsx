@@ -174,7 +174,7 @@ function Sorteio() {
         ordem: equipesIDs
       };
 
-      //Arrumando essa função, tem q so permitir adicionar um sorteio.\
+      //Arrumando essa função, tem q so permitir adicionar um sorteio.
       const postData = async () => {
         try {
           const request = await api.post("/sorteios", body);
