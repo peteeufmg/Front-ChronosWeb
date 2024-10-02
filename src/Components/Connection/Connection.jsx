@@ -35,7 +35,9 @@ export default function Connection(){
           break;
         }
         // value is a string.
+       
         const NumberValue = parseInt(value.replace("S",""));
+        console.log(NumberValue);
         if(disabledRef.current === false){ // Executa o chechpoint apenas se o timer estiver liberado
           switch(NumberValue){
             case 0:
@@ -82,8 +84,8 @@ export default function Connection(){
       await port.close();
     };
 
-   async function checkpoint(numeroDaPlaca){
-        const UnrepetedNumber = noRepete(numeroDaPlaca);
+   async function checkpoint(valorAtual){
+        const UnrepetedNumber = noRepete(valorAtual);
         if(UnrepetedNumber != null){
           check(UnrepetedNumber);
         }
@@ -94,17 +96,25 @@ export default function Connection(){
     }
     
 
-    const noRepete = (numeroDaPlaca) =>{
-      if(refIndex.current.includes(numeroDaPlaca)){
+    const noRepete = (valorAtual) =>{
+      if(refIndex.current.includes(valorAtual)){
         console.log('já existe');
         return null;
       }
       else{
-        refIndex.current.push(numeroDaPlaca);
-        console.log('adicionado');
-        return numeroDaPlaca;
+        if(refIndex.current.length !== valorAtual){
+          console.log('não está em ordem');
+          return null;
+        }
+        else{
+          refIndex.current.push(valorAtual);
+          console.log('adicionado');
+          return valorAtual;
+        }
+        
       } 
     }
+    
 
     const check = (e) =>{
       const CountId = parseInt(e);

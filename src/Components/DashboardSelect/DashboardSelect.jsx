@@ -17,8 +17,7 @@ export default function DashboardSelect() {
         { label: "Mirim", value: 2 },
     ]);
 
-    useEffect(() => {  
-
+    useEffect(() => {
         if(categoriaAtual == 1){ // se for Avancado
             localStorage.setItem("categoriaAtual", "Avançada");
             setEtapas([
@@ -26,7 +25,6 @@ export default function DashboardSelect() {
             { label: "Classificatoria", value: 1 },
             { label: "Repescagem", value: 2 },
             { label: "Final", value: 3 }]);
-
             if (etapaAtual == 1){ //Classificatoria
               localStorage.setItem("etapaAtual", "Classificatória"); 
               setBaterias([
@@ -41,7 +39,6 @@ export default function DashboardSelect() {
             }if (etapaAtual == 3){ // Final
               localStorage.setItem("etapaAtual", "Final");
               setBaterias([])
-              //setSelectedHeat([]);
             }
 
         }else if (categoriaAtual == 2){ //Se for Mirim
@@ -82,6 +79,16 @@ export default function DashboardSelect() {
         setEtapaAtual(null);
         setTentativasFeitas(0);
       }, [value])
+      const[refBateria, setBateria] = useState(false);
+      useEffect(()=>{
+        if(etapaAtual === 1){ //se a etapa escolhida for classificatória
+            refValue.current = value;
+            setBateria(false);
+        }else{
+            setBateria(true);
+            setBateriaAtual(null);
+        }
+      }, [etapaAtual])
 
     // Fetching data once on component mount
     useEffect(() => {
@@ -148,6 +155,7 @@ export default function DashboardSelect() {
                 <DivRow3>
                     <div><label htmlFor="">Bateria:</label></div>
                     <Selecionar 
+                        disabled={refBateria}
                         value={bateriaAtual}
                         onSelect={e => setBateriaAtual(e)}
                         options={baterias}/>

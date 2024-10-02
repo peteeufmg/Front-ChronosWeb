@@ -1,6 +1,5 @@
 import {DivRow, DivRow1,DivRow2,DivButton, Ol, Li, DivC, Div, DivSumo} from './Style';
-import {default as CustomButton} from '../../Components/Button/Button';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect} from 'react';
 import { useTimer } from '../TimerProvider/TimerProvider';
 import Edit from '../Edit/Edit'
 import axios from 'axios';
@@ -87,6 +86,7 @@ export default function Checkpoint(){
             document.getElementById(e).disabled = true;
         })
     }, [])
+
     const[index, setIndex] = useState(null);
     const[valor, setvalor] = useState(true);
     useEffect(()=>{
@@ -96,14 +96,12 @@ export default function Checkpoint(){
         }
         else{ // Lógica dos checkpoints 
             if(indexCheckpoint.every((e)=> document.getElementById(e).disabled === true) && document.getElementById("0").checked === false){//se todos estiverem bloqueados
-                //&& document.getElementById("C0").textContent === "--:--:---"
                 document.getElementById("0").disabled = false;
                 setIndex("0");
                 console.log("valor inicial");
             }
             else{//se houver algum desbloqueado
                 const indexOn = indexCheckpoint.find((e) => document.getElementById(e).disabled === false) //faz uma busca no elemento desbloqueado
-
                 if(indexCheckpoint.some((e)=> e === indexOn)){// se encontrou algum
                     document.getElementById(indexOn).disabled = true;
                     setIndex(indexOn);
