@@ -121,7 +121,8 @@ export default function Ranking() {
             _id: id_equipe._id,
             nome: teamInfo.nome,
             checkpoints: melhorDesempenho().checkpoints,
-            tempo: formatTime(melhorDesempenho().tempo)
+            tempo: formatTime(melhorDesempenho().tempo),
+            categoria: teamInfo.categoria
         };
     });
     
@@ -185,7 +186,7 @@ export default function Ranking() {
             nome: teamInfo.nome,
             checkpoints: melhorDesempenho().checkpoints,
             tempo: formatTime(melhorDesempenho().tempo),
-            key: id_equipes._id
+            categoria: teamInfo.categoria
         };
     });
 //finais
@@ -246,23 +247,27 @@ const equipesComDesempenhoFinais = final.map(classificatoria => {
         nome: teamInfo.nome,
         checkpoints: melhorDesempenho().checkpoints,
         tempo: formatTime(melhorDesempenho().tempo),
-        key: id_equipes._id
+        categoria: teamInfo.categoria
     };
 });
 
     useEffect(() => {
+
+        const equipesFiltradas = equipesComDesempenho.filter(equipe => equipe.categoria === categoria);
         
-        const tabela = equipesComDesempenho.sort((a, b) => {
+        const tabela = equipesFiltradas.sort((a, b) => {
         // Primeiro, comparar pela quantidade de checkpoints
-     if (b.checkpoints !== a.checkpoints) {
+         if (b.checkpoints !== a.checkpoints) {
             return b.checkpoints - a.checkpoints;
-        }
+        }        
+        
         // Se a quantidade de checkpoints for igual, comparar pelo menor tempo
-        return a.tempo - b.tempo;});
+        return a.tempo - b.tempo;}).filter(a => a.checkpoints);// Verifica se a equipe tem checkpoints
+
 
         setRanking(tabela);
 
-    }, [teams,heat, classificatorias]);
+    }, [teams, heat, classificatorias]);
 
     useEffect(() => {
         switch(round){
