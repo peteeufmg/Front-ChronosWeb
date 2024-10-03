@@ -94,7 +94,7 @@ export default function DashboardSelect() {
     useEffect(() => {
         const fetchEquipes = async () => {
             try {
-                const response = await fetch('https://localohost:8000/equipes', {
+                const response = await fetch('http://localohost:8000/equipes', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',

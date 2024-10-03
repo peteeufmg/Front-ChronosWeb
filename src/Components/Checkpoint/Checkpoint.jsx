@@ -32,7 +32,7 @@ export default function Checkpoint(){
                     }
                 }
                 try { //Atualiza o valor dos dados existentes no banco de dado para a etapa atual
-                    const response = await fetch(`https://localohost:8000/${etapa}`, {
+                    const response = await fetch(`http://localohost:8000/${etapa}`, {
                         method: 'GET',
                         headers: {
                             'Content-Type': 'application/json',
@@ -59,7 +59,7 @@ export default function Checkpoint(){
                 else{
                     try {
                         
-                        const response = await axios.post(`https://localohost:8000/${etapa}`, data);
+                        const response = await axios.post(`http://localohost:8000/${etapa}`, data);
                         console.log('Dados enviados com sucesso:', response.data);
                     } catch (error) {
                         console.error('Erro ao enviar dados:', error);
