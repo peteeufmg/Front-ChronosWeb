@@ -14,6 +14,7 @@ import Sorteio from "./Pages/Sorteio";
 import Sumo from "./Pages/Sumo/Sumo";
 import Apresentacao from "./Pages/Apresentacao";
 import Cronometro from "./Pages/Cronometro";
+import CronometroFix from "./Pages/CronometroFix";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -26,8 +27,8 @@ const router = createBrowserRouter(
             <Route path="/sorteio" element={<Sorteio />} />
             <Route path="/sumo" element={<Sumo />} />
             <Route path="/cronometro" element={<Cronometro />} />
-
             <Route path="/apresentacao" element={<Apresentacao />} />
+            <Route path="/test" element={<CronometroFix />} />
         </Route>
     )
 );
