@@ -4,7 +4,7 @@ import { useTimer } from '../TimerProvider/TimerProvider';
 import Edit from '../Edit/Edit'
 import axios from 'axios';
 
-export default function Checkpoint(){
+export default function Checkpointz(){
     
     const {disabled, check, refListaDeEquipes, listaDeEquipes} = useTimer();
     const indexCheckpoint = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];

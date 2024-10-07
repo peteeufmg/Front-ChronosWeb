@@ -17,6 +17,13 @@ export default function Edit() {
     const inp = document.createElement('input');
     inp.id = index;
     inp.value = dados;
+
+     // Estiliza o input para ficar semelhante ao span
+    inp.style.border = 'none'; // ou qualquer outro estilo de borda que se encaixe
+    inp.style.width = '20%'; // ajuste o tamanho conforme necessário
+    inp.style.fontFamily = getComputedStyle(span).fontFamily; // mantém a mesma fonte
+    inp.style.fontSize = '50%'; // mesma altura de fonte
+
     span.replaceWith(inp);
   }
   const salvar = (e) =>{
