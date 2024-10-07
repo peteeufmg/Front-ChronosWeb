@@ -55,6 +55,7 @@ function Cronometro() {
                 setDisableRound(false);
                 setDisableHeats(false);
                 setEquipe([]);
+                setRound(null);
                 break;
             case 2:
                 filterTeams(2);
@@ -63,12 +64,14 @@ function Cronometro() {
                 setDisableRound(false);
                 setDisableHeats(false);
                 setEquipe([]);
+                setRound(null);
                 break;
             case 4:
                 filterTeams();
                 setDisableRound(true);
                 setDisableHeats(true);
                 setEquipe([]);
+                setRound(null);
                 break;
         }
     }, [categoria]);
@@ -76,7 +79,6 @@ function Cronometro() {
         switch (round) {
             case 0:
                 setDisableHeats(false);
-                setHeat(0);
                 break;
             case 1:
                 setDisableHeats(true);
@@ -88,6 +90,9 @@ function Cronometro() {
                 break;
         }
     }, [round]);
+    useEffect(() => {
+       setHeat(null);
+    }, [equipe]);
 
     // Função para filtrar times do select
     const filterTeams = (i) => {
@@ -97,6 +102,8 @@ function Cronometro() {
             if (i) {
                 // Filtra os times que possuem a categoria igual a i
                 filteredTeams = fetchedTeams.filter((team) => team.categoria === i);
+            } else {
+                filteredTeams = fetchedTeams.filter((team) => team.categoria != 3);
             }
             
             // Mapeia os times filtrados para o formato esperado
@@ -110,12 +117,12 @@ function Cronometro() {
     };
    
     // Fetch da etapa correspondente a equipe
-    const fetchRound = () => {
+    const fetchRound = async () => {
 
         const fetchArrancada = async () => {
             try {
                 const response = await api.get(`/arrancada/team/${equipe}`);
-                setFetchedTentativa(response.data);
+                setFetchedTentativa(e => response.data);
 
             } catch (error) {
                 console.log(error);
@@ -153,53 +160,59 @@ function Cronometro() {
         if (equipe.length != 0) {
             switch (categoria) {
                 case 4:
-                    fetchArrancada();
+                    await fetchArrancada();
                     break;
                 default:
                     switch (round) {
                         case 0:
-                            fetchClassificatoria();
+                            await fetchClassificatoria();
                             break;
                         case 1:
-                            fetchRepescagem();
+                            await fetchRepescagem();
                             break;
                         case 2:
-                            fetchFinal();
+                            await fetchFinal();
                             break;
                     }
                     break;
             }
         }
+    }
 
-        
+    useEffect(() => {
+        updateTentativa();
+    }, [fetchedTentativa]);
+
+    const updateTentativa = () => {
         if (fetchedTentativa != null && fetchedTentativa != 0) {
             let tentativa;
             let bateria;
+            console.log(fetchedTentativa);
             if (heat === null || heat === 0) {
                 bateria = fetchedTentativa.bateria[0];
                 if (bateria.tempo_total_1 === 0 && bateria.tempo_total_2 === 0) {
                     tentativa = "1° tentativa";
-                } else if (bateria.tempo_total_1 === 1 && bateria.tempo_total_2 === 0) {
+                } else if (bateria.tempo_total_1 != 0 && bateria.tempo_total_2 === 0) {
                     tentativa = "2° tentativa";
-                } else if (bateria.tempo_total_1 === 1 && bateria.tempo_total_2 === 1) {
+                } else if (bateria.tempo_total_1 != 0 && bateria.tempo_total_2 != 0) {
                     tentativa = "Tentativas realizadas";
                 }
             } else if (heat === 1) {
                 bateria = fetchedTentativa.bateria[1];
                 if (bateria.tempo_total_1 === 0 && bateria.tempo_total_2 === 0) {
                     tentativa = "1° tentativa";
-                } else if (bateria.tempo_total_1 === 1 && bateria.tempo_total_2 === 0) {
+                } else if (bateria.tempo_total_1 != 0 && bateria.tempo_total_2 === 0) {
                     tentativa = "2° tentativa";
-                } else if (bateria.tempo_total_1 === 1 && bateria.tempo_total_2 === 1) {
+                } else if (bateria.tempo_total_1 != 0 && bateria.tempo_total_2 != 0) {
                     tentativa = "Tentativas realizadas";
                 }
             } else if (heat === 2) {
                 bateria = fetchedTentativa.bateria[2];
                 if (bateria.tempo_total_1 === 0 && bateria.tempo_total_2 === 0) {
                     tentativa = "1° tentativa";
-                } else if (bateria.tempo_total_1 === 1 && bateria.tempo_total_2 === 0) {
+                } else if (bateria.tempo_total_1 != 0 && bateria.tempo_total_2 === 0) {
                     tentativa = "2° tentativa";
-                } else if (bateria.tempo_total_1 === 1 && bateria.tempo_total_2 === 1) {
+                } else if (bateria.tempo_total_1 != 0 && bateria.tempo_total_2 != 0) {
                     tentativa = "Tentativas realizadas";
                 }
             }
@@ -211,6 +224,7 @@ function Cronometro() {
 
     // Atualizar o valor da tentativa
     useEffect(() => {
+        setFetchedTentativa([]);
         fetchRound();
     }, [categoria, round, heat, equipe]);
 
@@ -220,7 +234,6 @@ function Cronometro() {
         intervalRef.current = setInterval(() => {
           setTime((currentTime) => currentTime + 10)
         }, 10);
-        console.log(time);
     }
 
     const onStop = () => {
@@ -230,6 +243,7 @@ function Cronometro() {
 
     const onReset = () => {
         setTime(0);
+        setCheckpoints([0,0,0,0,0,0,0,0,0,0]);
     }
 
     // Função para formatar o tempo como MM:SS:MIL
@@ -307,6 +321,90 @@ function Cronometro() {
         setCheckpoints(updatedCheckpoints); // Define o novo array como o estado
     }
 
+    // Enviar checkpoints para o back
+    const sendData = async () => {
+        // Função para remover os valores 0 após o último valor preenchido
+        function removeTrailingZeros(array) {
+            let lastNonZeroIndex = -1;
+            
+            // Encontrar o índice do último valor diferente de 0
+            for (let i = array.length - 1; i >= 0; i--) {
+                if (array[i] !== 0) {
+                    lastNonZeroIndex = i;
+                    break;
+                }
+            }
+            
+            // Retornar o array até o último índice não zero
+            return array.slice(0, lastNonZeroIndex + 1);
+        }
+
+        function formatBateria(bateria) {
+            const e = removeTrailingZeros(checkpoints);
+            const l = e.length;
+            switch (tentativa) {
+                case "1° tentativa":
+                    bateria.tempo_total_1 = e[l-1];
+                    bateria.tempo_checkpoints_1 = e;
+                    break;
+                case "2° tentativa":
+                    bateria.tempo_total_2 = e[l-1];
+                    bateria.tempo_checkpoints_2 = e;
+                    break;
+                default:
+                    return bateria;
+            }
+            return bateria;
+        }
+
+        let bateria;
+
+        if (tentativa === "Tentativas realizadas") {
+            alert("Todas tentativas realizadas");
+            return;
+        }
+
+        if (categoria === 4) {
+            bateria = fetchedTentativa;
+            bateria.bateria[0] = formatBateria(bateria.bateria[0]);
+            try {
+                const response = await api.post(`/arrancada/${equipe}`, bateria);
+                setFetchedTentativa(response.data);
+            } catch (error) {
+                console.log(error);
+            }
+        } else {
+            if (round === 0) {
+                bateria = fetchedTentativa;
+                bateria.bateria[heat] = formatBateria(bateria.bateria[heat]);
+                try {
+                    const response = await api.post(`/classificatorias/${equipe}`, bateria);
+                    setFetchedTentativa(response.data);
+                } catch (error) {
+                    console.log(error);
+                }
+            } else if (round === 1) {
+                bateria = fetchedTentativa;
+                bateria.bateria[0] = formatBateria(bateria.bateria[0]);
+                try {
+                    const response = await api.post(`/repescagem/${equipe}`, bateria);
+                    setFetchedTentativa(response.data);
+                } catch (error) {
+                    console.log(error);
+                }
+            } else if (round === 2) {
+                bateria = fetchedTentativa;
+                bateria.bateria[0] = formatBateria(bateria.bateria[0]);
+                try {
+                    const response = await api.post(`/finais/${equipe}`, bateria);
+                    setFetchedTentativa(response.data);
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+        }
+    }
+        
     return(
         <>
             <NavBar />
@@ -336,6 +434,7 @@ function Cronometro() {
                         </Select>
                         <Select 
                             style={{ width: 150 }}
+                            value={round}
                             onSelect={e => setRound(e)}
                             disabled={disableRound}
                             placeholder="Etapa"
@@ -470,9 +569,9 @@ function Cronometro() {
                                     onSearch={e => updatedCheckpoint(e)}
                                     style={{width: 450}}
                                 />
-                                <Button type="Salvar" text="Salvar" />
+                                <Button type="Salvar" text="Salvar" onClick={sendData} />
                             </Flex>
-                            <Button type="Add" text="Adicionar tempo" onClick={saveTime}/>
+                            <Button type="Add" text="Adicionar tempo" onClick={saveTime} />
                         </Flex>
                     </Flex>
                 </Flex>
