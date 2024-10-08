@@ -1,6 +1,7 @@
 import Button from '../Button/Button'
 import { useState } from 'react';
-export default function Connection(onStart, onStop, onChange, disable){
+
+const Connection = ({onStart, onStop}) => {
     const [isConnected, setIsConnected] = useState(false);
 
     // filtro de seleção para portas USB
@@ -33,50 +34,13 @@ export default function Connection(onStart, onStop, onChange, disable){
           reader.releaseLock();
           break;
         }
-        // value is a string.
-        const numberValue = parseInt(value.replace("S",""));
-        if (!disable) {
-          switch(numberValue){
-            case 0:
-              onChange(numberValue);
-              onStart();
-              break;
-            case 1:
-              onChange(numberValue);
-              break;
-            case 2:
-              onChange(numberValue);
-              break;
-            case 3:
-              onChange(numberValue);
-              break;
-            case 4:
-              onChange(numberValue);
-              break;
-            case 5:
-              onChange(numberValue);
-              break;
-            case 6:
-              onChange(numberValue);
-              break;
-            case 7:
-              onChange(numberValue);
-              break;
-            case 8:
-              onChange(numberValue);
-              break;
-            case 9:
-              onChange(numberValue);
-              break;
-            case 10:
-              onChange(numberValue);
-              onStop();
-              break;
-            default:
-              console.log('Este evento não foi definido');
-              break;
-          }
+
+        if (value) {
+          console.log("Received data: ", value);
+          // Update the serialData state with the new value
+          setSerialData(prevData => prevData + value); // Append new data
         }
+        
       }
       // Fechar a porta após a obtenção das informações
       await port.close();
@@ -88,3 +52,5 @@ export default function Connection(onStart, onStop, onChange, disable){
         </>
     )
 }
+
+export default Connection;

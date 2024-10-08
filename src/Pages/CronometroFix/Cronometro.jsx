@@ -1,6 +1,6 @@
-import { Checkbox, ConfigProvider, Flex, Input, Select, Typography } from "antd";
+import { Checkbox, ConfigProvider, Flex, Input, Select, Typography, message } from "antd";
 import NavBar from "../../Components/NavBar";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useReducer, useRef, useState } from "react";
 import Button from "../../Components/Button";
 import api from "../../Services/api"
 import Connection from "../../Components/SerialConnection/Connection";
@@ -27,8 +27,8 @@ function Cronometro() {
     const [disableSensors, setDisableSensors] = useState(true);
     const [selectedCheckpoint, setSelectedCheckpoint] = useState([]);
     const [tentativa, setTentativa] = useState("-");
-    const intervalRef = useRef();
 
+    const [messageApi, contextHolder] = message.useMessage();
 
     // Faz o fetch das equipes no back
     const fetchTeams = async () => {
@@ -66,13 +66,6 @@ function Cronometro() {
                 setEquipe([]);
                 setRound(null);
                 break;
-            case 4:
-                filterTeams();
-                setDisableRound(true);
-                setDisableHeats(true);
-                setEquipe([]);
-                setRound(null);
-                break;
         }
     }, [categoria]);
     useEffect(() => {
@@ -85,6 +78,10 @@ function Cronometro() {
                 setHeat(null);
                 break;
             case 2:
+                setDisableHeats(true);
+                setHeat(null);
+                break;
+            case 3:
                 setDisableHeats(true);
                 setHeat(null);
                 break;
@@ -102,8 +99,6 @@ function Cronometro() {
             if (i) {
                 // Filtra os times que possuem a categoria igual a i
                 filteredTeams = fetchedTeams.filter((team) => team.categoria === i);
-            } else {
-                filteredTeams = fetchedTeams.filter((team) => team.categoria != 3);
             }
             
             // Mapeia os times filtrados para o formato esperado
@@ -158,31 +153,29 @@ function Cronometro() {
 
         // Escolhe qual fetch realizar dependendo do selecionado
         if (equipe.length != 0) {
-            switch (categoria) {
-                case 4:
-                    await fetchArrancada();
+            switch (round) {
+                case 0:
+                    await fetchClassificatoria();
                     break;
-                default:
-                    switch (round) {
-                        case 0:
-                            await fetchClassificatoria();
-                            break;
-                        case 1:
-                            await fetchRepescagem();
-                            break;
-                        case 2:
-                            await fetchFinal();
-                            break;
-                    }
+                case 1:
+                    await fetchRepescagem();
+                    break;
+                case 2:
+                    await fetchFinal();
+                    break;
+                case 3:
+                    await fetchArrancada();
                     break;
             }
         }
     }
 
+    // Toda vez que mudar a tentativa, chamar updateTentativa()
     useEffect(() => {
         updateTentativa();
     }, [fetchedTentativa]);
 
+    // Atualiza o texto de tentativa e qual tentativa esta sendo realizada
     const updateTentativa = () => {
         if (fetchedTentativa != null && fetchedTentativa != 0) {
             let tentativa;
@@ -228,17 +221,29 @@ function Cronometro() {
         fetchRound();
     }, [categoria, round, heat, equipe]);
 
+    useEffect(() => {
+        let interval;
+        if (isRunning) {
+          interval = setInterval(() => {
+            setTime((prevTime) => prevTime + 10); // Atualiza o tempo a cada 10ms
+          }, 10);
+        } else if (!isRunning && time !== 0) {
+          clearInterval(interval);
+        }
+        return () => clearInterval(interval); // Limpa o intervalo quando o componente é desmontado
+      }, [isRunning]);
+      
     // Funções para definir o comportamento do cronomêtro
     const onStart = () => {
         if (!isRunning) setIsRunning(true);
-        intervalRef.current = setInterval(() => {
-          setTime((currentTime) => currentTime + 10)
-        }, 10);
+        // intervalRef.current = setInterval(() => {
+        //   setTime((currentTime) => currentTime + 10)
+        // }, 10);
     }
 
     const onStop = () => {
         if (isRunning) setIsRunning(false);
-        clearInterval(intervalRef.current);
+        // clearInterval(intervalRef.current);
     }
 
     const onReset = () => {
@@ -276,7 +281,7 @@ function Cronometro() {
     // Registra o valor que do tempo a partir do sensor
     const handleSensors = (index) => {
         let updatedCheckpoints = [...checkpoints]; // Cria uma cópia do array
-        updatedCheckpoints[index] = time; // Atualiza o valor
+        if (updatedCheckpoints[index - 1] === 0) updatedCheckpoints[index - 1] = time; // Atualiza o valor
         setCheckpoints(updatedCheckpoints); // Define o novo array como o estado
     }
 
@@ -289,7 +294,7 @@ function Cronometro() {
                 updatedCheckpoints[i] = time; // Atualiza o valor
                 setCheckpoints(updatedCheckpoints); // Define o novo array como o estado
                 e = true;
-                if (i == 9) onStop();
+                if (i == 6) onStop();
             }
         }
     }
@@ -319,7 +324,15 @@ function Cronometro() {
         let updatedCheckpoints = [...checkpoints]; // Cria uma cópia do array
         updatedCheckpoints[selectedCheckpoint] = stringToMls(e); // Atualiza o valor
         setCheckpoints(updatedCheckpoints); // Define o novo array como o estado
-    }
+    };
+
+    //Função para achamar alertas
+    const displayMessage = (type, content) => {
+        messageApi.open({
+          type: type,
+          content: content,
+        });
+    };
 
     // Enviar checkpoints para o back
     const sendData = async () => {
@@ -360,11 +373,41 @@ function Cronometro() {
         let bateria;
 
         if (tentativa === "Tentativas realizadas") {
-            alert("Todas tentativas realizadas");
+            displayMessage("warning", "Todas as tentativas já foram realizadas");
             return;
         }
 
-        if (categoria === 4) {
+        if (round === 0) {
+            bateria = fetchedTentativa;
+            bateria.bateria[heat] = formatBateria(bateria.bateria[heat]);
+            try {
+                const response = await api.post(`/classificatorias/${equipe}`, bateria);
+                setFetchedTentativa(response.data);
+            } catch (error) {
+                console.log(error);
+                displayMessage("error", "Erro no envio da tentativa");
+            }
+        } else if (round === 1) {
+            bateria = fetchedTentativa;
+            bateria.bateria[0] = formatBateria(bateria.bateria[0]);
+            try {
+                const response = await api.post(`/repescagem/${equipe}`, bateria);
+                setFetchedTentativa(response.data);
+            } catch (error) {
+                console.log(error);
+                displayMessage("error", "Erro no envio da tentativa");
+            }
+        } else if (round === 2) {
+            bateria = fetchedTentativa;
+            bateria.bateria[0] = formatBateria(bateria.bateria[0]);
+            try {
+                const response = await api.post(`/finais/${equipe}`, bateria);
+                setFetchedTentativa(response.data);
+            } catch (error) {
+                console.log(error);
+                displayMessage("error", "Erro no envio da tentativa");
+            }
+        } else if (round === 3) {
             bateria = fetchedTentativa;
             bateria.bateria[0] = formatBateria(bateria.bateria[0]);
             try {
@@ -372,41 +415,90 @@ function Cronometro() {
                 setFetchedTentativa(response.data);
             } catch (error) {
                 console.log(error);
-            }
-        } else {
-            if (round === 0) {
-                bateria = fetchedTentativa;
-                bateria.bateria[heat] = formatBateria(bateria.bateria[heat]);
-                try {
-                    const response = await api.post(`/classificatorias/${equipe}`, bateria);
-                    setFetchedTentativa(response.data);
-                } catch (error) {
-                    console.log(error);
-                }
-            } else if (round === 1) {
-                bateria = fetchedTentativa;
-                bateria.bateria[0] = formatBateria(bateria.bateria[0]);
-                try {
-                    const response = await api.post(`/repescagem/${equipe}`, bateria);
-                    setFetchedTentativa(response.data);
-                } catch (error) {
-                    console.log(error);
-                }
-            } else if (round === 2) {
-                bateria = fetchedTentativa;
-                bateria.bateria[0] = formatBateria(bateria.bateria[0]);
-                try {
-                    const response = await api.post(`/finais/${equipe}`, bateria);
-                    setFetchedTentativa(response.data);
-                } catch (error) {
-                    console.log(error);
-                }
+                displayMessage("error", "Erro no envio da tentativa");
             }
         }
-    }
+        displayMessage("success", "Tentativa enviada");
+    };
+
+    // Sensores
+    const [serialData, setSerialData] = useState(null); // Store the serial data
+    const [connected, setConnected] = useState(false); // Track if the serial port is connected
+
+    useEffect(() => {
+        console.log(serialData);
+        if (disableSensors || serialData === null) {
+            setSerialData(null);
+            return;
+        }
+        const numberValue = parseInt(serialData.replace("S",""));
+        switch(numberValue){
+            case 0:
+                onStart();
+                break;
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+                handleSensors(numberValue);
+                break;
+            case 7:
+                handleSensors(numberValue);
+                onStop();
+                break;
+            default:
+                console.log('Este evento não foi definido');
+                break;
+        }
+        setSerialData(null);
+    }, [serialData]);
+
+    const connectSerialPort = () => {
+    navigator.serial.requestPort()
+        .then(port => {
+        // Open the serial port
+        return port.open({ baudRate: 9600 }).then(() => {
+            const decoder = new TextDecoderStream();
+            port.readable.pipeTo(decoder.writable);
+            const inputStream = decoder.readable.getReader();
+
+            setConnected(true); // Update connection status
+
+            // Read loop
+            function readLoop() {
+            inputStream.read()
+                .then(({ value, done }) => {
+                if (done) {
+                    console.log("Stream closed");
+                    return;
+                }
+                if (value) {
+                    console.log("Received data: ", value);
+                    // Update the serialData state with the new value
+                    setSerialData(e => value); // Append new data
+                    // test(value);
+
+                }
+                // Continue reading
+                readLoop();
+                })
+                .catch(error => console.error("Read error:", error));
+            }
+
+            readLoop(); // Start reading
+        });
+        })
+        .catch(error => {
+            setConnected(false);
+            console.error("Error in serial communication:", error);
+        });
+    };
         
     return(
         <>
+            {contextHolder}
             <NavBar />
             <Flex justify="center">
                 <Flex style={{maxWidth: "1440px"}} align="center" gap="large" vertical>
@@ -421,7 +513,6 @@ function Cronometro() {
                         >
                             <Select.Option value={1}>Seguidor Avançado</Select.Option>
                             <Select.Option value={2}>Seguidor Mirim</Select.Option>
-                            <Select.Option value={4}>Arrancada</Select.Option>
                         </Select>
                         <Select
                             style={{ width: 200 }}
@@ -443,6 +534,7 @@ function Cronometro() {
                             <Select.Option value={0}>Classificatória</Select.Option>
                             <Select.Option value={1} disabled={disableRepescagem}>Repescagem</Select.Option>
                             <Select.Option value={2}>Final</Select.Option>
+                            <Select.Option value={3}>Arrancada</Select.Option>
                         </Select>
                         <Select
                             style={{ width: 120 }}
@@ -456,7 +548,7 @@ function Cronometro() {
                             <Select.Option value={1}>Bateria 2</Select.Option>
                             <Select.Option disabled={disableHeat3} value={2}>Bateria 3</Select.Option>
                         </Select>
-                        <Title level={3} style={{ color: '#EDA500', marginBottom: 0 }}>{tentativa}</Title>
+                        <Title level={3} style={{ color: '#EDA500', marginBottom: 0, width: 260 }}>{tentativa}</Title>
                     </Flex>
                     <div style={{padding: 10}} />
                     {/* Cronometro */}
@@ -477,9 +569,9 @@ function Cronometro() {
                             </Flex>
                             {/* Coluna 2 */}
                             <Flex style={{height: "60%"}} justify="space-around" vertical>
-                                <Connection onStart={onStart} onStop={onStop} onChange={handleSensors} disable={disableSensors} />
+                                <Button onClick={connectSerialPort} type={connected ? "" : "Connect"} text={connected ? "Conectado" : "Conectar"} />
                                 <Checkbox
-                                    onChange={e => setDisableSensors(e.target.checked)}
+                                    onChange={e => setDisableSensors(!e.target.checked)}
                                 >Ativar Sensores</Checkbox>
                             </Flex>
                         </Flex>
@@ -501,17 +593,14 @@ function Cronometro() {
                                         <Title level={2}>Checkpoint</Title>
                                         <Title level={2}>Checkpoint</Title>
                                         <Title level={2}>Checkpoint</Title>
-                                        <Title level={2}>Checkpoint</Title>
                                     </Flex>
                                     <Flex align="center" vertical>
                                         <Title level={2}>1</Title>
                                         <Title level={2}>2</Title>
                                         <Title level={2}>3</Title>
                                         <Title level={2}>4</Title>
-                                        <Title level={2}>5</Title>
                                     </Flex>
                                     <Flex vertical>
-                                        <Title level={2}>:</Title>
                                         <Title level={2}>:</Title>
                                         <Title level={2}>:</Title>
                                         <Title level={2}>:</Title>
@@ -522,38 +611,29 @@ function Cronometro() {
                                         <Title level={2}>{formatCheckpoint(1)}</Title>
                                         <Title level={2}>{formatCheckpoint(2)}</Title>
                                         <Title level={2}>{formatCheckpoint(3)}</Title>
-                                        <Title level={2}>{formatCheckpoint(4)}</Title>
                                     </Flex>
                                 </Flex>
                                 
                                 <Flex gap="small">
-                                    <Flex vertical>
+                                    <Flex align="center" vertical>
                                         <Title level={2}>Checkpoint</Title>
                                         <Title level={2}>Checkpoint</Title>
-                                        <Title level={2}>Checkpoint</Title>
-                                        <Title level={2}>Checkpoint</Title>
-                                        <Title level={2}>Checkpoint</Title>
+                                        <Title level={2}>Chegada</Title>
                                     </Flex>
                                     <Flex align="center" vertical>
+                                        <Title level={2}>5</Title>
                                         <Title level={2}>6</Title>
-                                        <Title level={2}>7</Title>
-                                        <Title level={2}>8</Title>
-                                        <Title level={2}>9</Title>
-                                        <Title level={2}>10</Title>
+                                        <Title level={2}>:</Title>
                                     </Flex>
                                     <Flex vertical>
                                         <Title level={2}>:</Title>
                                         <Title level={2}>:</Title>
-                                        <Title level={2}>:</Title>
-                                        <Title level={2}>:</Title>
-                                        <Title level={2}>:</Title>
+                                        <Title level={2}></Title>
                                     </Flex>
                                     <Flex style={{width: 160}} align="center" vertical>
+                                        <Title level={2}>{formatCheckpoint(4)}</Title>
                                         <Title level={2}>{formatCheckpoint(5)}</Title>
                                         <Title level={2}>{formatCheckpoint(6)}</Title>
-                                        <Title level={2}>{formatCheckpoint(7)}</Title>
-                                        <Title level={2}>{formatCheckpoint(8)}</Title>
-                                        <Title level={2}>{formatCheckpoint(9)}</Title>
                                     </Flex>
                                 </Flex>
                             </Flex>

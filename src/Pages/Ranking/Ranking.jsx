@@ -352,6 +352,7 @@ const equipesComDesempenhoFinais = final.map(classificatoria => {
                     {/* Select categoria, etapa e bateria */}
                     <Flex gap="large">
                         <Select 
+                            style={{width: "180px"}}
                             defaultValue={1}
                             onChange={e => setCategoria(e)}
                         >
@@ -360,6 +361,7 @@ const equipesComDesempenhoFinais = final.map(classificatoria => {
                             <Select.Option value={3}>Sumô</Select.Option>
                         </Select>
                         <Select 
+                            style={{width: "140px"}}
                             defaultValue={0}
                             onChange={e => setRound(e)}
                         >
