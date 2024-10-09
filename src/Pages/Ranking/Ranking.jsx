@@ -48,6 +48,15 @@ export default function Ranking() {
             console.log(error);
         }
     };
+    const fetchArrancadas = async () => {
+        try {
+            const response = await api.get("/arrancada");
+
+            setClassificatorias(response.data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
 
     const fetchTeams = async () => {
@@ -252,8 +261,15 @@ const equipesComDesempenhoFinais = final.map(classificatoria => {
 });
 
     useEffect(() => {
+        let equipesFiltradas;
 
-        const equipesFiltradas = equipesComDesempenho.filter(equipe => equipe.categoria === categoria);
+        if (round === 0) { 
+            equipesFiltradas = equipesComDesempenho.filter(equipe => equipe.categoria === categoria);
+        } else {
+            equipesFiltradas = equipesComDesempenhoFinais.filter(equipe => equipe.categoria === categoria);
+        }
+
+        
         
         const tabela = equipesFiltradas.sort((a, b) => {
         // Primeiro, comparar pela quantidade de checkpoints
@@ -278,6 +294,9 @@ const equipesComDesempenhoFinais = final.map(classificatoria => {
                 break;
             case 2:
                 fetchFinais();
+                break;
+            case 3:
+                fetchArrancadas();
                 break;
         }
         }, [round]);
@@ -358,7 +377,6 @@ const equipesComDesempenhoFinais = final.map(classificatoria => {
                         >
                             <Select.Option value={1}>Seguidor Avançado</Select.Option>
                             <Select.Option value={2}>Seguidor Mirim</Select.Option>
-                            <Select.Option value={3}>Sumô</Select.Option>
                         </Select>
                         <Select 
                             style={{width: "140px"}}
@@ -368,6 +386,7 @@ const equipesComDesempenhoFinais = final.map(classificatoria => {
                             <Select.Option value={0}>Classificatória</Select.Option>
                             <Select.Option value={1} disabled={disableRepescagem}>Repescagem</Select.Option>
                             <Select.Option value={2}>Final</Select.Option>
+                            <Select.Option value={3}>Arrancada</Select.Option>
                         </Select>
                         <Select
                             defaultValue={0}

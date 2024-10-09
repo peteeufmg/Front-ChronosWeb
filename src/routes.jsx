@@ -26,7 +26,7 @@ const router = createBrowserRouter(
             <Route path="/classificacao" element={<Ranking />} />
             <Route path="/sorteio" element={<Sorteio />} />
             <Route path="/sumo" element={<Sumo />} />
-            <Route path="/cronometro" element={<Cronometro />} />
+            <Route path="/cronometro" element={<CronometroFix />} />
             <Route path="/apresentacao" element={<Apresentacao />} />
             <Route path="/test" element={<CronometroFix />} />
         </Route>
