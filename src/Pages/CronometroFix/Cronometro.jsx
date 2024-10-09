@@ -1,9 +1,10 @@
-import { Checkbox, ConfigProvider, Flex, Input, Select, Typography, message } from "antd";
+import { Checkbox, ConfigProvider, Drawer, Flex, Input, Select, Typography, message } from "antd";
 import NavBar from "../../Components/NavBar";
 import { useEffect, useReducer, useRef, useState } from "react";
 import Button from "../../Components/Button";
 import api from "../../Services/api"
 import Connection from "../../Components/SerialConnection/Connection";
+import SorteioDrawer from "../../Components/SorteioDrawer";
 
 const { Title, Text } = Typography;
 const { Search } = Input;
@@ -495,6 +496,12 @@ function Cronometro() {
             console.error("Error in serial communication:", error);
         });
     };
+
+    // Parte do Sorteio da página
+    const [abrirSorteio, setAbrirSorteio] = useState(false);
+    const abrir = () => {
+        setAbrirSorteio(!abrirSorteio);
+    };
         
     return(
         <>
@@ -654,8 +661,19 @@ function Cronometro() {
                             <Button type="Add" text="Adicionar tempo" onClick={saveTime} />
                         </Flex>
                     </Flex>
+                <Button text={"Sorteio"} onClick={abrir}/>
                 </Flex>
             </Flex>
+            <Drawer
+                title="Sorteio"
+                placement={"right"}
+                onClose={abrir}
+                open={abrirSorteio}
+                size="large"
+            >
+                <SorteioDrawer />
+            </Drawer>
+
         </>
     );
 }
