@@ -6,10 +6,6 @@ import React from "react";
 import { useState, useEffect } from 'react';
 import api from '../../Services/api';
 
-function shuffleArray(array) {
-  return array.sort(() => Math.random() - 0.5);
-}
-
 function Sorteio() {
   const [dataSource, setDataSource] = useState([]);
   const [dataView, setDataView] = useState([]);
@@ -140,6 +136,10 @@ function Sorteio() {
     }
     return pages;
   };
+
+  function shuffleArray(array) {
+    return array.sort(() => Math.random() - 0.5);
+  }
 
   const randomizeData = () => {
     const shuffledData = shuffleArray([...dataToDraw]);
