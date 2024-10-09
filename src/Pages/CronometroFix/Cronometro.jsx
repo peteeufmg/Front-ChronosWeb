@@ -661,7 +661,9 @@ function Cronometro() {
                             <Button type="Add" text="Adicionar tempo" onClick={saveTime} />
                         </Flex>
                     </Flex>
-                <Button text={"Sorteio"} onClick={abrir}/>
+                <Flex style={{width: "100%"}} justify="right">
+                    <Button text={"Sorteio"} onClick={abrir}/>
+                </Flex>
                 </Flex>
             </Flex>
             <Drawer
