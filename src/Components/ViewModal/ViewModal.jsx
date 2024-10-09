@@ -159,13 +159,13 @@ const ViewModal = ({open, close, teamData}) => {
     );
 
     //Dinamicamente preencher os checkpoints
-    const checkpoints1 = Array.from({ length: 10 }, (_, index) => {
+    const checkpoints1 = Array.from({ length: 7 }, (_, index) => {
         // Tenta obter o valor do checkpoint do array original
         const checkpoint = data.checkpoints_1[index];
         // Se o valor não existir, retorna a string '--:--:---'
         return checkpoint !== undefined ? checkpoint : '--:--:---';
     });
-    const checkpoints2 = Array.from({ length: 10 }, (_, index) => {
+    const checkpoints2 = Array.from({ length: 7 }, (_, index) => {
         // Tenta obter o valor do checkpoint do array original
         const checkpoint = data.checkpoints_2[index];
         // Se o valor não existir, retorna a string '--:--:---'

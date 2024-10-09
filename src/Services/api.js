@@ -1,5 +1,5 @@
 import axios from 'axios';
 
-const api = axios.create({ baseURL: "https://front-chronosweb-1.onrender.com"});
+const api = axios.create({ baseURL: "http://localhost:8000"});
 
 export default api; 

@@ -32,7 +32,7 @@ export default function Checkpointz(){
                     }
                 }
                 try { //Atualiza o valor dos dados existentes no banco de dado para a etapa atual
-                    const response = await fetch(`https://front-chronosweb-1.onrender.com/${etapa}`, {
+                    const response = await fetch(`http://localhost:8000/${etapa}`, {
                         method: 'GET',
                         headers: {
                             'Content-Type': 'application/json',
@@ -59,7 +59,7 @@ export default function Checkpointz(){
                 else{
                     try {
                         
-                        const response = await axios.post(`https://front-chronosweb-1.onrender.com/${etapa}`, data);
+                        const response = await axios.post(`http://localhost:8000/${etapa}`, data);
                         console.log('Dados enviados com sucesso:', response.data);
                     } catch (error) {
                         console.error('Erro ao enviar dados:', error);
