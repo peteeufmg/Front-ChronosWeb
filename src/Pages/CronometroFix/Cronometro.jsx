@@ -29,6 +29,8 @@ function Cronometro() {
     const [selectedCheckpoint, setSelectedCheckpoint] = useState([]);
     const [tentativa, setTentativa] = useState("-");
 
+    const startTimeRef = useRef(0); // Remove a tipagem explícita
+
     const [messageApi, contextHolder] = message.useMessage();
 
     // Faz o fetch das equipes no back
@@ -223,31 +225,25 @@ function Cronometro() {
     }, [categoria, round, heat, equipe]);
 
     useEffect(() => {
-        let interval;
+        let intervalId;
         if (isRunning) {
-          interval = setInterval(() => {
-            setTime((prevTime) => prevTime + 10); // Atualiza o tempo a cada 10ms
-          }, 10);
-        } else if (!isRunning && time !== 0) {
-          clearInterval(interval);
+          intervalId = setInterval(() => setTime(Date.now() - startTimeRef.current), 1);
         }
-        return () => clearInterval(interval); // Limpa o intervalo quando o componente é desmontado
+        return () => clearInterval(intervalId);
       }, [isRunning]);
       
     // Funções para definir o comportamento do cronomêtro
     const onStart = () => {
-        if (!isRunning) setIsRunning(true);
-        // intervalRef.current = setInterval(() => {
-        //   setTime((currentTime) => currentTime + 10)
-        // }, 10);
+        startTimeRef.current = Date.now();
+        setIsRunning(true);
     }
 
     const onStop = () => {
-        if (isRunning) setIsRunning(false);
-        // clearInterval(intervalRef.current);
+        setIsRunning(false);
     }
 
     const onReset = () => {
+        onStop();
         setTime(0);
         setCheckpoints([0,0,0,0,0,0,0,0,0,0]);
     }
