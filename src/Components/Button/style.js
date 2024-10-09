@@ -9,7 +9,7 @@ export const ButtonContainer = styled.button`
     gap: 10px;
     border-radius: 5px;
 
-    background-color: white;
+    background-color: #464540;
 
     &:active {
         background-color: grey;
@@ -26,7 +26,7 @@ export const ButtonContainer = styled.button`
 export const ButtonText = styled.div`
     font-size: 1.4rem;
     
-    color: #343537;
+    color: white;
     text-transform: uppercase;
     font-weight: 600;
 `;

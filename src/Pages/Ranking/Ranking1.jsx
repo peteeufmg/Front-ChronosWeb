@@ -253,8 +253,6 @@ export default function Ranking() {
             };
         });
 
-        console.log(bestAttempt);
-
         // Ordenar as equipes
         bestAttempt = bestAttempt.sort((a, b) => {
             if (b.checkpoints !== a.checkpoints) {
@@ -262,6 +260,19 @@ export default function Ranking() {
             }
             return a.tempo - b.tempo; // Em caso de empate, ordena por tempo total (menor para maior)
           });
+
+        // Função para formatar o tempo como MM:SS:MIL
+        const mlsToString = (time) => {
+            const minutes = String(Math.floor((time / 60000) % 60)).padStart(2, "0");
+            const seconds = String(Math.floor((time / 1000) % 60)).padStart(2, "0");
+            const milliseconds = String((time % 1000)).padStart(3, "0");
+            return `${minutes}:${seconds}:${milliseconds}`;
+        };
+
+        bestAttempt = bestAttempt.map(attempt => ({
+            ...attempt,
+            tempo: mlsToString(attempt.tempo),
+        }));
         
         setTableData(bestAttempt);
     }

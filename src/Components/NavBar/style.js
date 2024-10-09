@@ -11,7 +11,7 @@ export const Container = styled.div`
 
     padding: .5rem 5% 0 5%;
     
-    color: white;
+    color: black;
     text-transform: uppercase;
 `;
 export const NavTitle = styled.div`
@@ -23,5 +23,8 @@ export const NavLinks = styled.div`
     gap: 2rem;
 
     font-size: 2rem;
+    :hover {
+        color: rgb(237, 165, 0)
+    }
     
 `;

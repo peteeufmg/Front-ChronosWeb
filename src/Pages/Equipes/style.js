@@ -8,7 +8,7 @@ export const Container = styled.div`
     width: 100vw;
     height: 100vh;
 
-    color: white;
+    color: black;
     text-transform: uppercase;
     gap: 5% ;
 `;
@@ -37,7 +37,7 @@ export const StyledList = styled(List)`
     display: flex;
     flex-direction: column;
     
-    color:white; 
+    color:black; 
     font-size: 1.5rem;
 `;
 
@@ -61,7 +61,7 @@ export const Description = styled(List.Item.Meta)`
 
 export const Info = styled.p`
     font-family: 'Jura', sans-serif;
-    color:white; 
+    color:black; 
     font-weight: 400;
     font-size: 1.5rem;
     margin: 0;

@@ -12,8 +12,9 @@ export default function NavBar() {
                 </NavTitle>
                 <NavLinks>
                     <NavLink to="/cronometro">Cronômetro</NavLink>
-                    <NavLink to="/classificacao">Classificação</NavLink>
+                    <NavLink to="/classificacao">Ranking</NavLink>
                     <NavLink to="/equipes">Equipes</NavLink>
+                    <NavLink to="/sorteio">Sorteio</NavLink>
                 </NavLinks>
             </Container>
         </div>

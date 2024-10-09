@@ -25,7 +25,7 @@ export const DivLinks = styled.div`
 export const Title = styled.h1`
     
     display: flex;
-    color: #FFFFFF;
+    color: black;
     font-optical-sizing: auto;
     font-style: bold;
     text-transform: uppercase;
@@ -35,7 +35,7 @@ export const Title = styled.h1`
 
 export const Link = styled.a`
     display: flex;
-    color: #FFFFFF;
+    color: black;
     font-optical-sizing: auto;
     text-transform: uppercase;
     font-size: 3rem;
