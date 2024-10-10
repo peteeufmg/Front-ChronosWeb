@@ -23,6 +23,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
               activeBorderColor: "#373634",
               hoverBorderColor: "#373634",
               colorPrimary: "#464540"
+          },
+          Table: {
+            cellFontSize: 18
           }
       },
         token: {

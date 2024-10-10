@@ -15,14 +15,14 @@ export const Container = styled.div`
     text-transform: uppercase;
 `;
 export const NavTitle = styled.div`
-    font-size: 4rem;
+    font-size: 3rem;
 `;
 
 export const NavLinks = styled.div`
     display: flex;
-    gap: 2rem;
+    gap: 1.3rem;
 
-    font-size: 2rem;
+    font-size: 1.6rem;
     :hover {
         color: rgb(237, 165, 0)
     }

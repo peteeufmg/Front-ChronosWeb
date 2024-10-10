@@ -5,6 +5,7 @@ import Button from "../../Components/Button";
 import api from "../../Services/api"
 import Connection from "../../Components/SerialConnection/Connection";
 import SorteioDrawer from "../../Components/SorteioDrawer";
+import RankingDrawer from "../../Components/RankingDrawer";
 
 const { Title, Text } = Typography;
 const { Search } = Input;
@@ -234,6 +235,7 @@ function Cronometro() {
       
     // Funções para definir o comportamento do cronomêtro
     const onStart = () => {
+        if (isRunning) return;
         startTimeRef.current = Date.now();
         setIsRunning(true);
     }
@@ -319,7 +321,7 @@ function Cronometro() {
     // Função para atualizar o valor do checkpoint selecionado manualmente
     const updatedCheckpoint = (e) => {
         let updatedCheckpoints = [...checkpoints]; // Cria uma cópia do array
-        updatedCheckpoints[selectedCheckpoint] = stringToMls(e); // Atualiza o valor
+        updatedCheckpoints[selectedCheckpoint-1] = stringToMls(e); // Atualiza o valor
         setCheckpoints(updatedCheckpoints); // Define o novo array como o estado
     };
 
@@ -495,9 +497,14 @@ function Cronometro() {
 
     // Parte do Sorteio da página
     const [abrirSorteio, setAbrirSorteio] = useState(false);
-    const abrir = () => {
+    const handleSorteio = () => {
         setAbrirSorteio(!abrirSorteio);
     };
+
+    const [abrirRanking, setAbrirRanking] = useState(false);
+    const handleRanking = () => {
+        setAbrirRanking(!abrirRanking);
+    }
         
     return(
         <>
@@ -657,19 +664,29 @@ function Cronometro() {
                             <Button type="Add" text="Adicionar tempo" onClick={saveTime} />
                         </Flex>
                     </Flex>
-                <Flex style={{width: "100%"}} justify="right">
-                    <Button text={"Sorteio"} onClick={abrir}/>
+                <Flex style={{width: "100%"}} justify="right" gap={"middle"}>
+                    <Button text={"Sorteio"} onClick={handleSorteio}/>
+                    <Button text={"Ranking"} onClick={handleRanking}/>
                 </Flex>
                 </Flex>
             </Flex>
             <Drawer
                 title="Sorteio"
                 placement={"right"}
-                onClose={abrir}
+                onClose={handleSorteio}
                 open={abrirSorteio}
                 size="large"
             >
                 <SorteioDrawer />
+            </Drawer>
+            <Drawer
+                title="Ranking"
+                placement={"right"}
+                onClose={handleRanking}
+                open={abrirRanking}
+                size="large"
+            >
+                <RankingDrawer />
             </Drawer>
 
         </>

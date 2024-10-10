@@ -1,11 +1,8 @@
-import { ConfigProvider, Flex, message, Select, Table, Tabs, Typography } from "antd";
-import NavBar from "../../Components/NavBar" 
-import api from "../../Services/api";
+import { Flex, message, Select, Table } from "antd";
 import { useEffect, useState } from "react";
+import api from "../../Services/api";
 
-const { Title } = Typography;
-
-export default function Ranking() {
+function SorteioDrawer() {
     const [categoria, setCategoria] = useState([]);
     const [round, setRound] = useState([]);
     const [heat, setHeat] = useState([]);
@@ -320,11 +317,8 @@ export default function Ranking() {
         }
 	];
 
-    return(
-        <Flex gap={"25px"} vertical>
-            {contextHolder}
-            <NavBar />
-            <Flex align="center" gap={"25px"} vertical>
+    return (
+            <Flex align="center" gap={"10px"} vertical>
                 <Flex align="center" gap="middle">
                     <Select 
                         style={{ width: 200 }}
@@ -366,7 +360,7 @@ export default function Ranking() {
                         columns={colunas} 
                         dataSource={tableData}
                         pagination={false}
-                        style={{width: 800, fontWeight: 700}}
+                        style={{width: 700, fontWeight: 700}}
                         loading={loading}
                         rowKey={"idEquipe"}
                         scroll={{
@@ -375,6 +369,7 @@ export default function Ranking() {
                     />
                 </Flex>
             </Flex>
-        </Flex>
     )
 }
+
+export default SorteioDrawer;
