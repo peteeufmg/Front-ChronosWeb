@@ -63,7 +63,8 @@ function SorteioDrawer() {
           dataIndex: 'index',
           key: 'index',
           render: (text, record, index) => index + 1,
-          width: 50,
+          width: 100,
+          align: "center"
         },
         {
           title: 'Equipe',
@@ -155,8 +156,11 @@ function SorteioDrawer() {
                     columns={colunas} 
                     dataSource={tableData}
                     pagination={false}
-                    style={{width: 500}}
+                    style={{width: "600", fontWeight: 700}}
                     loading={loading}
+                    scroll={{
+                        y: 490
+                    }}
                 />
             </Flex>
         </Flex>

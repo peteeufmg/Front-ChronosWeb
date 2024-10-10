@@ -147,7 +147,8 @@ function Sorteio1 () {
 			dataIndex: 'index',
 			key: 'index',
 			render: (text, record, index) => index + 1,
-			width: 50,
+			width: 100,
+			align: "center"
 		},
 		{
 			title: 'Equipe',
@@ -162,10 +163,10 @@ function Sorteio1 () {
 	];
 
   return (
-	<Flex gap={"100px"} vertical>
+	<Flex gap={"25px"} vertical>
 		{contextHolder}
 		<NavBar />
-		<Flex align="center" gap={"50px"} vertical>
+		<Flex align="center" gap={"20px"} vertical>
 			<Flex justify="left" gap="middle">
 				<Select 
 					style={{ width: 200 }}
@@ -208,9 +209,12 @@ function Sorteio1 () {
 					columns={colunas} 
 					dataSource={tableData}
 					pagination={false}
-					style={{width: 500}}
+					style={{width: 800, fontWeight: 700}}
 					loading={loading}
 					rowKey={"_id"}
+					scroll={{
+						y: 450,
+					}}
 				/>
 			</Flex>
 			<Button text="Salvar" type="Salvar" onClick={handleSave} />
