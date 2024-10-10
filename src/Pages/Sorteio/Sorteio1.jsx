@@ -16,6 +16,8 @@ function Sorteio1 () {
   const [disableHeat3, setDisableHeat3] = useState(false);
 
   const [tableData, setTableData] = useState([]);
+  const [sumoData1, setSumoData1] = useState([]);
+  const [sumoData2, setSumoData2] = useState([]);
   const [loading, setLoading] = useState(false);
   const [sorteios, setSorteios] = useState([]);
 
@@ -47,6 +49,9 @@ function Sorteio1 () {
 				setDisableHeats(false);
 				setRound(null);
 				break;
+			case 3:
+				setDisableRound(true);
+				setDisableHeats(true);
 		}
     }, [categoria]);
     useEffect(() => {
@@ -104,7 +109,14 @@ function Sorteio1 () {
 	// Função sorteio
 	const handleSortear = () => {
 		const shuffledTeams = shuffleArray(teams.filter(e => e.categoria === categoria));
-		setTableData(shuffledTeams);
+		if (categoria === 3) {
+			setSumoData1([shuffledTeams[0], shuffledTeams[1]]);
+			setSumoData2([shuffledTeams[2], shuffledTeams[3]]);
+			console.log(sumoData1);
+			console.log(sumoData2);
+		} else {
+			setTableData(shuffledTeams);
+		}
 		setLoading(false);
 	};
 
@@ -161,6 +173,63 @@ function Sorteio1 () {
 			key: 'capitao',
 		},
 	];
+	const colunasSumo = [
+		{
+			title: 'Ordem',
+			dataIndex: 'index',
+			key: 'index',
+			render: (text, record, index) => index + 1,
+			width: 100,
+			align: "center"
+		},
+		{
+			title: 'Equipe',
+			dataIndex: 'nome',
+			key: 'nome',
+		},
+		{
+			title: 'Capitão(ã)',
+			dataIndex: 'capitao',
+			key: 'capitao',
+		},
+	];
+
+	const defaultTable = <Table
+		columns={colunas} 
+		dataSource={tableData}
+		pagination={false}
+		style={{width: 800, fontWeight: 700}}
+		loading={loading}
+		rowKey={"_id"}
+		scroll={{
+			y: 450,
+		}}
+	/>
+
+	const sumoTable = <Flex gap={"middle"}>
+		<Table 
+			columns={colunas} 
+			dataSource={sumoData1}
+			pagination={false}
+			style={{width: 500, fontWeight: 700}}
+			loading={loading}
+			rowKey={"_id"}
+			scroll={{
+				y: 450,
+			}}
+		/>
+		<Table 
+			columns={colunas}
+			dataSource={sumoData2}
+			pagination={false}
+			style={{width: 500, fontWeight: 700}}
+			loading={loading}
+			rowKey={"_id"}
+			scroll={{
+				y: 450,
+			}}
+		/>
+	</Flex>;
 
   return (
 	<Flex gap={"25px"} vertical>
@@ -176,6 +245,7 @@ function Sorteio1 () {
 				>
 					<Select.Option value={1}>Seguidor Avançado</Select.Option>
 					<Select.Option value={2}>Seguidor Mirim</Select.Option>
+					<Select.Option value={3}>Sumô</Select.Option>
 				</Select>
 				<Select 
 					style={{ width: 150 }}
@@ -205,17 +275,7 @@ function Sorteio1 () {
 				<Button text="Sortear" onClick={handleSortear} />
 			</Flex>
 			<Flex>
-				<Table
-					columns={colunas} 
-					dataSource={tableData}
-					pagination={false}
-					style={{width: 800, fontWeight: 700}}
-					loading={loading}
-					rowKey={"_id"}
-					scroll={{
-						y: 450,
-					}}
-				/>
+				{categoria === 3 ? sumoTable : defaultTable}
 			</Flex>
 			<Button text="Salvar" type="Salvar" onClick={handleSave} />
 		</Flex>

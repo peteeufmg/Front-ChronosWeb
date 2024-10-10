@@ -10,7 +10,7 @@ import Equipes from "./Pages/Equipes";
 import Button from "./Components/Button";
 import Test from "./Pages/Test";
 import Ranking from "./Pages/Ranking";
-import Sorteio from "./Pages/Sorteio";
+import Sorteio, { SorteioAntigo } from "./Pages/Sorteio";
 import Sumo from "./Pages/Sumo/Sumo";
 import Apresentacao from "./Pages/Apresentacao";
 import Cronometro from "./Pages/Cronometro";
@@ -28,7 +28,7 @@ const router = createBrowserRouter(
             <Route path="/sumo" element={<Sumo />} />
             <Route path="/cronometro" element={<CronometroFix />} />
             <Route path="/apresentacao" element={<Apresentacao />} />
-            <Route path="/test" element={<CronometroFix />} />
+            <Route path="/test" element={<SorteioAntigo />} />
         </Route>
     )
 );

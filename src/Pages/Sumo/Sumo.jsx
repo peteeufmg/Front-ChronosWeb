@@ -1,9 +1,9 @@
-import { Alert, ConfigProvider, Divider, Flex, Input, Select, Space, Typography } from "antd";
+import { Alert, ConfigProvider, Divider, Flex, Input, message, Select, Space, Typography } from "antd";
 import useTimer from "easytimer-react-hook";
 import NavBar from "../../Components/NavBar";
 import Button from "../../Components/Button";
 import { Container, Frame } from "./style";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import api from '../../Services/api';
 
@@ -19,6 +19,13 @@ function Sumo() {
     const [round1, setRound1] = useState([0,0,0]);
     const [round2, setRound2] = useState([0,0,0]);
     const [round3, setRound3] = useState([0,0,0]);
+
+    const [time, setTime] = useState(0); // Armazena o tempo em milissegundos
+    const [isRunning, setIsRunning] = useState(false); // Controla se o cronômetro está rodando
+
+    const startTimeRef = useRef(0);
+
+    const [messageApi, contextHolder] = message.useMessage();
     
     const secondTenths = timer.getTimeValues().secondTenths;
     const seconds = timer.getTimeValues().seconds;
@@ -27,6 +34,39 @@ function Sumo() {
     const startTimer = () => timer.start();
     const pauseTimer = () => timer.pause();
     const restartTimer = () => timer.stop();
+
+    // Código timer
+    useEffect(() => {
+        let intervalId;
+        if (isRunning) {
+          intervalId = setInterval(() => setTime(Date.now() - startTimeRef.current), 1);
+        }
+        return () => clearInterval(intervalId);
+      }, [isRunning]);
+      
+    // Funções para definir o comportamento do cronomêtro
+    const onStart = () => {
+        if (isRunning) return;
+        startTimeRef.current = Date.now();
+        setIsRunning(true);
+    }
+
+    const onStop = () => {
+        setIsRunning(false);
+    }
+
+    const onReset = () => {
+        onStop();
+        setTime(0);
+    }
+
+    // Função para formatar o tempo como MM:SS:MIL
+    const mlsToString = (time) => {
+        const minutes = String(Math.floor((time / 60000) % 60)).padStart(2, "0");
+        const seconds = String(Math.floor((time / 1000) % 60)).padStart(2, "0");
+        const milliseconds = String((time % 1000)).padStart(3, "0");
+        return `${minutes}:${seconds}:${milliseconds}`;
+    };
 
     const fetchData = async () => {
         try {
@@ -115,9 +155,13 @@ function Sumo() {
                         titleMarginBottom: 0,
                         titleMarginTop: 0
                     },
+                    Select: {
+                        fontSize: 15
+                    }
                 }
         }}>
             <Container>
+                {contextHolder}
                 <NavBar />
                 <Frame>
                     <Flex vertical gap="large">
@@ -125,25 +169,25 @@ function Sumo() {
                         <Flex gap="large" justify="center">
                             <Flex gap="middle" align="center">
                                 <Title level={2}>Etapa:</Title>
-                                <Select defaultValue={1} onChange={e => setFase(e)} options={[{ value: 1, label: 'Fase de grupos' }, { value: 2, label: 'Final' }]}></Select>
+                                <Select defaultValue={1} onChange={e => setFase(e)} options={[{ value: 1, label: 'Fase de grupos' }, { value: 2, label: 'Final' }]} style={{width: 160}}></Select>
                             </Flex>
                             <Title> | </Title>
                             <Flex gap="middle" align="center">
                                 <Title level={2}>Equipes:</Title>
-                                <Select placeholder="Selecione uma equipe" onSelect={e => handleCompetitorsSelect(e, 1)} options={teamsToDisplay.map(e => ({value: e.nome, title: e._id}))}></Select>
+                                <Select placeholder="Selecione uma equipe" style={{width: 200}} onSelect={e => handleCompetitorsSelect(e, 1)} options={teamsToDisplay.map(e => ({value: e.nome, title: e._id}))}></Select>
                                 <Title level={2}>VS</Title>
-                                <Select placeholder="Selecione uma equipe" onSelect={e => handleCompetitorsSelect(e, 2)} options={teamsToDisplay.map(e => ({value: e.nome, title: e._id}))}></Select>
+                                <Select placeholder="Selecione uma equipe" style={{width: 200}} onSelect={e => handleCompetitorsSelect(e, 2)} options={teamsToDisplay.map(e => ({value: e.nome, title: e._id}))}></Select>
                             </Flex>
                         </Flex>
                         {/* Ordem das equipes */}
                         <Flex gap={50} align="center" vertical>
                             {/* Cronometro */}
                             <Flex gap="middle" align="center" vertical>
-                                <Title>Cronomêtro: {minutes}:{seconds}:{secondTenths}</Title>
+                                <Title style={{width: 480}} >Cronomêtro: {mlsToString(time)}</Title>
                                 <Space>
-                                    <Button type="Play" text="Iniciar" onClick={startTimer} />
-                                    <Button type="Pause" text="Pause" onClick={pauseTimer} />
-                                    <Button type="Stop" text="Parar" onClick={restartTimer} />
+                                    <Button type="Play" text="Iniciar" onClick={onStart} />
+                                    <Button type="Pause" text="Pause" onClick={onStop} />
+                                    <Button type="Restart" text="Reset" onClick={onReset} />
                                 </Space>
                             </Flex>
                             {/* Inputs ganhador */}
@@ -156,7 +200,7 @@ function Sumo() {
                                             <Title level={2}>:</Title>
                                             <Input.OTP length={2} defaultValue="00" onChange={(e) => {const i = round1; i[2] = e; setRound1[i]}}></Input.OTP>
                                             <Title level={2}>:</Title>
-                                            <Input.OTP length={1} defaultValue="0" onChange={(e) => {const i = round1; i[3] = e; setRound1[i]}}></Input.OTP>
+                                            <Input.OTP length={3} defaultValue="000" onChange={(e) => {const i = round1; i[3] = e; setRound1[i]}}></Input.OTP>
                                         </Flex>
                                         <Select placeholder="Selecione o vencedor" options={competitors.map((e) => ({value: e}))} onChange={e => handleWinnerSelect(e, 1)}/>
                                     </Flex>
@@ -169,7 +213,7 @@ function Sumo() {
                                             <Title level={2}>:</Title>
                                             <Input.OTP length={2} defaultValue="00" onChange={(e) => {const i = round2; i[2] = e; setRound2[i]}}></Input.OTP>
                                             <Title level={2}>:</Title>
-                                            <Input.OTP length={1} defaultValue="0" onChange={(e) => {const i = round2; i[3] = e; setRound2[i]}}></Input.OTP>
+                                            <Input.OTP length={3} defaultValue="000" onChange={(e) => {const i = round2; i[3] = e; setRound2[i]}}></Input.OTP>
                                         </Flex>
                                         <Select placeholder="Selecione o vencedor" options={competitors.map((e) => ({value: e}))} onChange={e => handleWinnerSelect(e, 2)}/>
                                     </Flex>
@@ -182,7 +226,7 @@ function Sumo() {
                                             <Title level={2}>:</Title>
                                             <Input.OTP length={2} defaultValue="00" onChange={(e) => {const i = round3; i[2] = e; setRound2[i]}}></Input.OTP>
                                             <Title level={2}>:</Title>
-                                            <Input.OTP length={1} defaultValue="0" onChange={(e) => {const i = round3; i[3] = e; setRound2[i]}}></Input.OTP>
+                                            <Input.OTP length={3} defaultValue="000" onChange={(e) => {const i = round3; i[3] = e; setRound2[i]}}></Input.OTP>
                                         </Flex>
                                         <Select placeholder="Selecione o vencedor" options={competitors.map((e) => ({value: e}))} onChange={e => handleWinnerSelect(e, 3)}/>
                                     </Flex>
