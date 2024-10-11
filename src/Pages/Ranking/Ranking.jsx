@@ -318,11 +318,11 @@ const equipesComDesempenhoFinais = final.map(classificatoria => {
             case 2: 
                 setDisableHeats(false);
                 setDisableHeat3(true);
-                setDisableRepescagem(true);
+                setDisableRepescagem(false);
                 break;
             case 3:
                 setDisableHeats(false);
-                setDisableRepescagem(true);
+                setDisableRepescagem(false);
                 break;
         }
         fetchClassificatorias();

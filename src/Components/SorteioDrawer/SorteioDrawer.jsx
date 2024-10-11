@@ -28,7 +28,7 @@ function SorteioDrawer() {
                 setRound(null);
                 break;
             case 2:
-                setDisableRepescagem(true);
+                setDisableRepescagem(false);
                 setDisableHeat3(true);
                 setDisableRound(false);
                 setDisableHeats(false);

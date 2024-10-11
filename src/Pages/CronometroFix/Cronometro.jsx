@@ -63,7 +63,7 @@ function Cronometro() {
                 break;
             case 2:
                 filterTeams(2);
-                setDisableRepescagem(true);
+                setDisableRepescagem(false);
                 setDisableHeat3(true);
                 setDisableRound(false);
                 setDisableHeats(false);
@@ -320,8 +320,10 @@ function Cronometro() {
 
     // Função para atualizar o valor do checkpoint selecionado manualmente
     const updatedCheckpoint = (e) => {
+        let value = e;
+        if (e === "0") value = "00:00:000"
         let updatedCheckpoints = [...checkpoints]; // Cria uma cópia do array
-        updatedCheckpoints[selectedCheckpoint-1] = stringToMls(e); // Atualiza o valor
+        updatedCheckpoints[selectedCheckpoint-1] = stringToMls(value); // Atualiza o valor
         setCheckpoints(updatedCheckpoints); // Define o novo array como o estado
     };
 
@@ -417,7 +419,7 @@ function Cronometro() {
                 displayMessage("error", "Erro no envio da tentativa");
             }
         }
-        displayMessage("success", "Tentativa enviada");
+        if (categoria != null && equipe != null && round != null && heat != null) displayMessage("success", "Tentativa enviada");
     };
 
     // Sensores
