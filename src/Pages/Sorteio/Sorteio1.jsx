@@ -21,6 +21,8 @@ function Sorteio1 () {
   const [loading, setLoading] = useState(false);
   const [sorteios, setSorteios] = useState([]);
 
+  const [selectedTeams, setSelectedTeams] = useState([]);
+
   const [messageApi, contextHolder] = message.useMessage();
 
 	//Função para achamar alertas
@@ -43,7 +45,7 @@ function Sorteio1 () {
 				setRound(null);
 				break;
 			case 2:
-				setDisableRepescagem(true);
+				setDisableRepescagem(false);
 				setDisableHeat3(true);
 				setDisableRound(false);
 				setDisableHeats(false);
@@ -56,6 +58,7 @@ function Sorteio1 () {
     }, [categoria]);
     useEffect(() => {
 		setTableData([]);
+		setSelectedTeams([]);
         switch (round) {
             case 1:
                 setDisableHeats(false);
@@ -108,6 +111,11 @@ function Sorteio1 () {
 
 	// Função sorteio
 	const handleSortear = () => {
+		if (round === 2 || round === 3) {
+			const shuffledTeams = shuffleArray(teams.filter(obj => selectedTeams.includes(obj._id)));
+			setTableData(shuffledTeams);
+			return;
+		}
 		const shuffledTeams = shuffleArray(teams.filter(e => e.categoria === categoria));
 		if (categoria === 3) {
 			setSumoData1([shuffledTeams[0], shuffledTeams[1]]);
@@ -173,24 +181,12 @@ function Sorteio1 () {
 			key: 'capitao',
 		},
 	];
-	const colunasSumo = [
-		{
-			title: 'Ordem',
-			dataIndex: 'index',
-			key: 'index',
-			render: (text, record, index) => index + 1,
-			width: 100,
-			align: "center"
-		},
+
+	const colunasEquipe = [
 		{
 			title: 'Equipe',
 			dataIndex: 'nome',
 			key: 'nome',
-		},
-		{
-			title: 'Capitão(ã)',
-			dataIndex: 'capitao',
-			key: 'capitao',
 		},
 	];
 
@@ -230,6 +226,24 @@ function Sorteio1 () {
 			}}
 		/>
 	</Flex>;
+
+	const selecionarParticipantes = <Flex>
+		<Table 
+			columns={colunasEquipe} 
+			dataSource={teams.filter(e => e.categoria === categoria)}
+			pagination={false}
+			style={{width: 300, fontWeight: 700}}
+			loading={loading}
+			rowKey={"_id"}
+			scroll={{
+				y: 450,
+			}}
+			rowSelection={{
+				selectedTeams,
+				onChange: (value) => {setSelectedTeams(value);},
+			}}
+		/>
+	</Flex>
 
   return (
 	<Flex gap={"25px"} vertical>
@@ -274,8 +288,9 @@ function Sorteio1 () {
 				</Select>
 				<Button text="Sortear" onClick={handleSortear} />
 			</Flex>
-			<Flex>
-				{categoria === 3 ? sumoTable : defaultTable}
+			<Flex gap={"20px"}>
+				{categoria == 3 ? sumoTable : defaultTable}
+				{round === 2 || round === 3 ? selecionarParticipantes : <></>}
 			</Flex>
 			<Button text="Salvar" type="Salvar" onClick={handleSave} />
 		</Flex>

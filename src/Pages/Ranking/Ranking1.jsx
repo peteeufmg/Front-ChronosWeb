@@ -56,7 +56,7 @@ export default function Ranking() {
                 setRound(null);
                 break;
             case 2:
-                setDisableRepescagem(true);
+                setDisableRepescagem(false);
                 setDisableHeat3(true);
                 setDisableRound(false);
                 setDisableHeats(false);
@@ -268,15 +268,6 @@ export default function Ranking() {
             }
             return a.tempo - b.tempo; // Em caso de empate, ordena por tempo total (menor para maior)
           });
-
-
-
-        bestAttempt = bestAttempt.map(attempt => ({
-            ...attempt,
-            tempo: mlsToString(attempt.tempo),
-        }));
-
-        console.log(bestAttempt);
         
         setTableData(bestAttempt);
     }

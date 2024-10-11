@@ -156,7 +156,7 @@ function Sumo() {
                         titleMarginTop: 0
                     },
                     Select: {
-                        fontSize: 15
+                        fontSize: 13
                     }
                 }
         }}>
@@ -168,14 +168,14 @@ function Sumo() {
                         {/* Conteúdo cronometro */}
                         <Flex gap="large" justify="center">
                             <Flex gap="middle" align="center">
-                                <Title level={2}>Etapa:</Title>
+                                <Title level={3}>Etapa:</Title>
                                 <Select defaultValue={1} onChange={e => setFase(e)} options={[{ value: 1, label: 'Fase de grupos' }, { value: 2, label: 'Final' }]} style={{width: 160}}></Select>
                             </Flex>
                             <Title> | </Title>
                             <Flex gap="middle" align="center">
-                                <Title level={2}>Equipes:</Title>
+                                <Title level={3}>Equipes:</Title>
                                 <Select placeholder="Selecione uma equipe" style={{width: 200}} onSelect={e => handleCompetitorsSelect(e, 1)} options={teamsToDisplay.map(e => ({value: e.nome, title: e._id}))}></Select>
-                                <Title level={2}>VS</Title>
+                                <Title level={3}>VS</Title>
                                 <Select placeholder="Selecione uma equipe" style={{width: 200}} onSelect={e => handleCompetitorsSelect(e, 2)} options={teamsToDisplay.map(e => ({value: e.nome, title: e._id}))}></Select>
                             </Flex>
                         </Flex>
